@@ -1,0 +1,323 @@
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+
+/**@font-face
+	font-family: 'minimal-mono-regular'
+	src: url('https://befonts.com/wp-content/uploads/2017/06/minimal-mono-regular.otf') format('woff'),
+	url('https://befonts.com/wp-content/uploads/2017/06/minimal-mono-regular.otf') format('opentype'),
+	url('https://befonts.com/wp-content/uploads/2017/06/minimal-mono-regular.otf') format('truetype')
+
+
+@font-face
+  font-family: 'diamor'
+  src: url('../fonts/Diamor/Diamor.otf') format('opentype'),
+       url('../fonts/Diamor/Diamor.otf') format('truetype')
+  font-weight: normal
+  font-style: normal
+
+
+#app {
+	font-family: 'diamor', Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #d3d3d3;
+	margin: 0;
+}**/
+
+@font-face {
+  font-family: 'Santral';
+  src: url('../assets/fonts/Santral/Santral.otf');
+  src: url('../assets/fonts/Santral/Santral.otf') format('truetype')
+}
+
+// Set your colors
+//$primary: #8c67ef;
+$primary: #D7AF71;
+$primary-invert: findColorInvert($primary);
+$dark: #1B1B1B;
+$dark-invert: findColorInvert($dark);
+$twitter: #4099FF;
+$twitter-invert: findColorInvert($twitter);
+$corn: #DFEF58;
+$corn-invert: findColorInvert($corn);
+$bertel-dark: #3F3426;
+$bertel-dark-invert: findColorInvert($bertel-dark);
+$watermelon: #FF596D;
+$watermelon-invert: findColorInvert($watermelon);
+$brust: #383F51;
+$brust-invert: findColorInvert($brust);
+$error: #d9534f;
+$error-invert: findColorInvert($error);
+
+$body-size: 14px;
+
+/**.panel {
+  background: url(../assets/patterns/knitting.png);
+  //background-attachment: fixed;
+}**/
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    "white": ($white, $black),
+    "black": ($black, $white),
+    "light": ($light, $light-invert),
+    "dark": ($dark, $dark-invert),
+    "primary": ($primary, $primary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "warning": ($warning, $warning-invert),
+    "danger": ($danger, $danger-invert),
+    "twitter": ($twitter, $twitter-invert),
+    "corn": ($corn, $corn-invert),
+    "bertel-dark": ($bertel-dark, $bertel-dark-invert),
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+@import "extensions/_all";
+
+body, button, input {
+  //font-family: 'Varela Round', sans-serif;
+  font-family: Avenir,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  font-size: 0.9rem;
+}
+
+// 1 heading + 3 more (essentially 4 lines)
+.media-content .content.max-lines--one-plus-three {
+  // 6em is based on the default line-height of 1.5em
+  max-height: 6em;
+  overflow: hidden;
+  position: relative;
+}
+
+// This will fade out the last line to 'white' (the assumed background colour)
+.media-content .content.max-lines--one-plus-three::before {
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 75%);
+  content: '\00200c';
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 4.5em;
+  width: 30%;
+}
+
+.column {
+  &.menu-border {
+    border-right: 1px solid rgba(219, 219, 219, 0.3);
+  }
+}
+
+.hero {
+  .navbar {
+    box-shadow: 0 1px 0 rgba(219, 219, 219, 0.3);
+  }
+}
+
+.navbar-item {
+  a {
+    text-decoration: none;
+  }
+
+  .navbar-dropdown {
+    margin-top: 1rem;
+  }
+
+  &.app-name {
+  	font-family: Santral, Helvetica, Arial, sans-serif;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+    font-size: 2.5rem;
+  	text-align: center;
+  	margin: 0;
+
+    a {
+      color: $primary;
+    }
+  }
+}
+
+.box {
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.box-header {
+  .hero {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+}
+
+.box-content {
+  padding: 1.25rem;
+}
+
+.nav-item img {
+  max-height: 4rem;
+}
+
+.lebertel-map {
+  margin-top: 50px;
+  height: 500px;
+}
+
+.connection {
+  background: url(../assets/patterns/restaurant.png);
+  //background-attachment: fixed;
+}
+
+input, textarea {
+  box-shadow: none !important;
+}
+
+a {
+  &:hover, &:focus, &:active{
+    text-decoration: none;
+  }
+}
+
+.img-inputer, .img-inputer__preview-box, {
+  border-radius: 50% !important;
+  box-sizing: content-box;
+}
+
+/**.img-inputer__mask {
+  display: none !important;
+}**/
+
+.img-inputer--small {
+  width: 160px !important;
+  height: 160px !important;
+}
+
+.img-inputer__preview-img {
+  min-height: 100%;
+  min-width: 100%;
+}
+
+.dashboard-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.has-danger {
+  .input {
+    border-color: $error;
+  }
+  .form-control-feedback {
+    color: $error;
+  }
+}
+
+.has-success {
+  .input {
+    border-color: $primary;
+  }
+  .form-control-feedback {
+    color: $primary;
+  }
+}
+
+.form-control-feedback {
+  margin-bottom: 0.75rem;
+}
+
+.navbar-burger {
+  height: inherit;
+}
+
+.icon-margin {
+  margin-right: 0.5rem;
+}
+
+.navbar-item {
+  .media {
+    img {
+      max-height: 100%;
+    }
+  }
+}
+
+.ql-container .ql-editor {
+  min-height: 20em;
+  padding-bottom: 1em;
+  max-height: 25em;
+}
+
+.menu-title {
+  text-align: right;
+  font-size: 5rem;
+  letter-spacing: 1rem;
+}
+
+.drag-drop {
+    display: table;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 2px dashed gray;
+    border-radius: 5px;
+    background: white;
+    padding: 54px;
+    width: 100%;
+
+    .inside{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    input[type=file] {
+      height: 0.01em;
+      left: 0;
+      outline: none;
+      position: absolute;
+      top: 0;
+      width: 0.01em;
+    }
+}
+
+.file_input {
+  height: 0.01em;
+  left: 0;
+  outline: none;
+  position: absolute;
+  top: 0;
+  width: 0.01em;
+}
+
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Select some files';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
