@@ -2,8 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import Vue from 'vue'
-import Vuex from 'vuex'
-import router from '@/router/index.js'
+import { sync } from 'vuex-router-sync'
+import router from '@/router'
+import store from '@/store'
 import VueResource from 'vue-resource'
 import App from '@/components/App.vue'
 
@@ -15,7 +16,6 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import VueQuillEditor from 'vue-quill-editor'
 
-Vue.use(Vuex)
 Vue.use(Buefy)
 Vue.use(VueResource)
 Vue.use(VueQuillEditor)
@@ -52,13 +52,16 @@ Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_
 Vue.http.options.root = ''
 Vue.config.productionTip = false
 
-export default Vue
+// export default Vue
+
+/* Link store to router */
+sync(store, router)
 
 /* eslint-disable no-new */
 
 new Vue({
   el: '#app',
+  store,
   router,
-  template: '<App/>',
-  components: { App }
-})
+  render: h => h(App)
+}).$mount()

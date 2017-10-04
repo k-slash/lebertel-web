@@ -59,8 +59,8 @@ export default new Router({
         path: 'showcaseImages',
         name: 'dashboard.showcase.images',
         component: DashboardImages
-      }],
-      beforeEnter (route, redirect, next) {
+      }]
+      /** beforeEnter (route, redirect, next) {
         const authenticated = localStorage.getItem('authenticated')
         if (authenticated) {
           next()
@@ -69,7 +69,7 @@ export default new Router({
             name: 'home'
           })
         }
-      }
+      } **/
     },
     {
       path: '/register',

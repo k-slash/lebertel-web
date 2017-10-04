@@ -2,14 +2,14 @@
   <div class="dashboardProfile">
     <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
       <div class="dashboard-avatar">
-        <VueImgInputer id="avatar" name="avatar" :imgSrc="auth.user.profile.avatar" v-model="file" theme="light" size="small" bottomText="avatar" placeholder="avatar" @onChange="updateFile"></VueImgInputer>
+        <VueImgInputer id="avatar" name="avatar" :imgSrc="user.profile.avatar" v-model="file" theme="light" size="small" bottomText="avatar" placeholder="avatar" @onChange="updateFile"></VueImgInputer>
       </div>
       <br>
       <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.first_name)">
         <div class="field">
           <label class="label">Prénom</label>
           <div class="control">
-            <input id="first_name" type="text" name="first_name" class="input" required v-model="auth.user.info.first_name">
+            <input id="first_name" type="text" name="first_name" class="input" required v-model="user.info.first_name">
           </div>
           <field-messages name="first_name" show="$touched || $submitted" class="form-control-feedback">
             <div>Ok !</div>
@@ -22,7 +22,7 @@
         <div class="field">
           <label class="label">Nom</label>
           <div class="control">
-            <input id="last_name" type="text" name="last_name" class="input" required v-model="auth.user.info.last_name">
+            <input id="last_name" type="text" name="last_name" class="input" required v-model="user.info.last_name">
           </div>
           <field-messages name="last_name" show="$touched || $submitted" class="form-control-feedback">
             <div>Ok !</div>
@@ -35,7 +35,7 @@
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
-            <input id="email" type="text" name="email" class="input" required v-model="auth.user.info.email">
+            <input id="email" type="text" name="email" class="input" required v-model="user.info.email">
           </div>
           <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
             <div>Ok !</div>
@@ -48,7 +48,7 @@
       <div class="field">
         <label class="label">Téléphone</label>
         <div class="control">
-          <input id="phone" type="text" name="phone" class="input" required v-model="auth.user.profile.phone_number">
+          <input id="phone" type="text" name="phone" class="input" required v-model="user.profile.phone_number">
         </div>
       </div>
       <br>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import auth from '../../auth.js'
+import Vuex from 'vuex'
 import Vue2Leaflet from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import VueImgInputer from 'vue-img-inputer'
@@ -76,14 +76,18 @@ export default {
   },
   data () {
     return {
-      auth: auth,
       formstate: {},
       file: '',
       image: ''
     }
   },
+  computed: {
+    ...Vuex.mapGetters(['user'])
+  },
   methods: {
-
+    ...Vuex.mapActions({
+      updateProfile: 'updateProfile'
+    }),
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -95,22 +99,21 @@ export default {
         return 'has-danger'
       }
     },
-
     updateFile (file) {
       this.file = file
     },
-
     onSubmit: function () {
       var formData = new FormData()
       var formDataProfile = new FormData()
-      formData.append('first_name', auth.user.info.first_name)
-      formData.append('last_name', auth.user.info.last_name)
-      formData.append('email', auth.user.info.email)
-      formDataProfile.append('user', auth.user.info.id)
+      formData.append('first_name', this.user.info.first_name)
+      formData.append('last_name', this.user.info.last_name)
+      formData.append('email', this.user.info.email)
+      formDataProfile.append('user', this.user.info.id)
       formDataProfile.append('avatar', this.file)
-      formDataProfile.append('phone_number', auth.user.profile.phone_number)
+      formDataProfile.append('phone_number', this.user.profile.phone_number)
+      console.log(formDataProfile)
       if (this.formstate.$valid) {
-        auth.updateProfile(this, formData, formDataProfile)
+        this.updateProfile(this, formData, formDataProfile)
       }
     }
   }

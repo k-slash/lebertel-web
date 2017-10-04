@@ -32,34 +32,34 @@
             </div>
 
             <div class="navbar-end" :class="navMenuClass">
-              <span class="nav-item" v-if="!auth.user.authenticated">
+              <span class="nav-item" v-if="!this.user.authenticated">
                 <router-link :to="{ name: 'register' }" class="button is-primary">
                   <span>Créer un compte</span>
                 </router-link>
               </span>
-              <span class="nav-item" v-if="!auth.user.authenticated">
+              <span class="nav-item" v-if="!this.user.authenticated">
                 <router-link :to="{ name: 'signin' }" class="button is-primary">
                   <span>Se connecter</span>
                 </router-link>
               </span>
               <div class="navbar-item has-dropdown" :class="navMenuClass">
-                <div class="navbar-link media" v-if="auth.user.authenticated" @click="toggleMenu">
+                <div class="navbar-link media" v-if="this.user.authenticated" @click="toggleMenu">
                   <div class="media-left">
                     <figure class="image is-48x48">
-                      <div v-if="auth.user.profile.avatar.length > 0">
-                        <img :src="auth.user.profile.avatar" alt="Image" v-if="auth.user.authenticated">
+                      <div v-if="this.user.profile.avatar.length > 0">
+                        <img :src="this.user.profile.avatar" alt="Image" v-if="this.user.authenticated">
                       </div>
                       <div v-else>
-                        <img src="../assets/images/avatar.png" alt="Image" v-if="auth.user.authenticated">
+                        <img src="../assets/images/avatar.png" alt="Image" v-if="this.user.authenticated">
                       </div>
                     </figure>
                   </div>
                   <div class="media-content">
-                    <p class="title is-4">{{ auth.user.info.first_name }} {{ auth.user.info.last_name }}</p>
+                    <p class="title is-4">{{ this.user.info.first_name }} {{ this.user.info.last_name }}</p>
                     <!--<p class="subtitle is-6">@johnsmith</p>-->
                   </div>
                 </div>
-                <div id="blogDropdown" class="navbar-dropdown is-boxed" :class="navMenuClass" v-if="auth.user.authenticated">
+                <div id="blogDropdown" class="navbar-dropdown is-boxed" :class="navMenuClass" v-if="this.user.authenticated">
                   <router-link class="navbar-item" :to="{ name: 'home' }">
                     <i class="material-icons icon-margin">home</i>
                     Accueil
@@ -95,16 +95,16 @@
 </template>
 
 <script>
-import auth from '../auth.js'
+import Vuex from 'vuex'
 
 export default {
   data () {
     return {
-      auth: auth,
       isNavMenuActive: false
     }
   },
   computed: {
+    ...Vuex.mapGetters(['user']),
     navMenuClass () {
       return {
         'is-active': this.isNavMenuActive
@@ -116,12 +116,12 @@ export default {
       this.isNavMenuActive = !this.isNavMenuActive
     },
     signout () {
-      auth.signout()
+      // auth.signout()
     }
   },
   mounted: function () {
     this.$nextTick(function () {
-      auth.check()
+      // auth.check()
     })
   }
 }

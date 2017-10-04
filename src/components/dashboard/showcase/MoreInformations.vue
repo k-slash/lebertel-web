@@ -7,7 +7,7 @@
         <label class="label">Plus d'informations</label>
         <div class="quill-editor">
           <quill-editor ref="myTextEditor"
-                        v-model="auth.user.showcase.informations"
+                        v-model="this.user.showcase.informations"
                         :options="editorOption">
           </quill-editor>
         </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import auth from '../../../auth.js'
+import Vuex from 'vuex'
 
 export default {
   data () {
@@ -44,10 +44,14 @@ export default {
           ]
         }
       },
-      auth: auth,
       formstate: {}
     }
   },
+
+  computed: {
+    ...Vuex.mapGetters(['user'])
+  },
+
   methods: {
 
     fieldClassName: function (field) {
@@ -64,10 +68,10 @@ export default {
 
     onSubmit: function () {
       var formData = new FormData()
-      formData.append('user', auth.user.info.id)
-      formData.append('informations', auth.user.showcase.informations)
+      formData.append('user', this.user.info.id)
+      formData.append('informations', this.user.showcase.informations)
       if (this.formstate.$valid) {
-        auth.updateShowcase(this, formData)
+        // auth.updateShowcase(this, formData)
       }
     }
   }

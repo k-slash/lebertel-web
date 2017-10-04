@@ -25,7 +25,7 @@
                     <div class="field">
                       <label class="label">Email</label>
                       <div class="control">
-                        <input id="email" type="email" name="email" class="input" required v-model.lazy="email">
+                        <input id="email" type="email" name="email" class="input" required v-model.lazy="email" @change="setEmail">
                       </div>
                       <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
                         <div slot="required">Votre email est requis</div>
@@ -37,7 +37,7 @@
                     <div class="field">
                       <label class="label">Mot de passe</label>
                       <div class="control">
-                        <input id="password" type="password" name="password" class="input" required v-model.lazy="password">
+                        <input id="password" type="password" name="password" class="input" required v-model.lazy="password" @change="setPassword">
                       </div>
                       <field-messages auto-label name="password" show="$touched || $submitted" class="form-control-feedback">
                         <div slot="required">Votre mot de passe est requis</div>
@@ -58,19 +58,24 @@
   </div>
 </template>
 <script>
-import auth from '../auth.js'
+import Vuex from 'vuex'
 
 export default {
   data () {
     return {
       formstate: {},
-      email: null,
-      password: null,
       error: false,
       success: false
     }
   },
+  computed: {
+    ...Vuex.mapGetters(['user', 'email', 'password'])
+  },
   methods: {
+    ...Vuex.mapActions({
+      login: 'login',
+      check: 'check'
+    }),
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -82,9 +87,24 @@ export default {
         return 'has-danger'
       }
     },
+    setEmail (e) {
+      this.$store.commit('SET_EMAIL', e.target.value)
+      console.log(this.$store.state.email)
+    },
+    setPassword (e) {
+      this.$store.commit('SET_PASSWORD', e.target.value)
+    },
     signin (event) {
       event.preventDefault()
-      auth.signin(this, this.email, this.password)
+      const redirect = this.login(this)
+      if (redirect) {
+        this.$router.push({
+          name: 'dashboard.profile'
+        })
+        console.log('ok')
+      }
+      console.log(redirect)
+      // auth.signin(this, this.email, this.password)
     }
   }
 }

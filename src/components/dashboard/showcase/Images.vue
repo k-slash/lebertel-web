@@ -2,8 +2,8 @@
   <div class="dashboardShowcaseImages">
     <h1 class="title menu-title">Images</h1>
     <div class="columns is-multiline">
-      <div class="column is-3" v-model="auth.user.showcase.images"
-        v-for="item in auth.user.showcase.images"
+      <div class="column is-3" v-model="this.user.showcase.images"
+        v-for="item in this.user.showcase.images"
         v-bind:item="item"
         v-bind:key="item.id">
         <article class="media">
@@ -27,13 +27,12 @@
 </template>
 
 <script>
-import auth from '../../../auth.js'
+import Vuex from 'vuex'
 
 export default {
 
   data () {
     return {
-      auth: auth,
       formstate: {},
       files: [],
       image: '',
@@ -41,26 +40,34 @@ export default {
       nbFiles: ''
     }
   },
+
+  computed: {
+    editor () {
+      return this.$refs.myTextEditor.quill
+    },
+    ...Vuex.mapGetters(['user'])
+  },
+
   methods: {
     uploadFiles: function () {
       var files = this.$refs.file_input.files
       this.nbFiles = files.length
       for (var i = 0; i < files.length; i++) {
         var formData = new FormData()
-        formData.append('showcase', auth.user.showcase.id)
+        formData.append('showcase', this.user.showcase.id)
         formData.append('image', files[i])
         formData.append('display_order', i)
-        auth.updateShowcaseImages(this, formData)
+        // auth.updateShowcaseImages(this, formData)
       }
     },
 
     reload: function (event) {
-      auth.check
+      // auth.check
     },
 
     deleteImage: function (event) {
-      var imageID = event.currentTarget.id
-      auth.deleteShowcaseImages(this, imageID)
+      // var imageID = event.currentTarget.id
+      // auth.deleteShowcaseImages(this, imageID)
     },
 
     fieldClassName: function (field) {
@@ -73,11 +80,6 @@ export default {
       if ((field.$touched || field.$submitted) && field.$invalid) {
         return 'has-danger'
       }
-    }
-  },
-  computed: {
-    editor () {
-      return this.$refs.myTextEditor.quill
     }
   }
 }

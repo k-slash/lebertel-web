@@ -6,29 +6,29 @@
       <div class="field">
         <label class="label">Adresse</label>
         <div class="control">
-          <input id="address" type="text" name="address" class="input" v-model="auth.user.showcase.address">
+          <input id="address" type="text" name="address" class="input" v-model="this.user.showcase.address">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Code postal</label>
         <div class="control">
-          <input id="postcode" type="text" name="postcode" class="input" v-model="auth.user.showcase.postcode">
+          <input id="postcode" type="text" name="postcode" class="input" v-model="this.user.showcase.postcode">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Ville</label>
         <div class="control">
-          <input id="city" type="text" name="city" class="input" v-model="auth.user.showcase.city">
+          <input id="city" type="text" name="city" class="input" v-model="this.user.showcase.city">
         </div>
       </div>
 
       <div class="lebertel-map">
         <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
           <v-tilelayer :url="url"></v-tilelayer>
-          <div v-if="auth.user.showcase.location != undefined">
-            <v-marker :lat-lng="auth.user.showcase.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
+          <div v-if="this.user.showcase.location != undefined">
+            <v-marker :lat-lng="this.user.showcase.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
               <v-popup content="Mon atelier"></v-popup>
             </v-marker>
           </div>
@@ -50,14 +50,13 @@
 </template>
 
 <script>
-  import auth from '../../../auth.js'
+  import Vuex from 'vuex'
   import L from 'leaflet'
 
   export default {
 
     data () {
       return {
-        auth: auth,
         formstate: {},
         zoom: 10,
         center: [-21.15, 55.50],
@@ -72,9 +71,13 @@
       }
     },
 
+    computed: {
+      ...Vuex.mapGetters(['user'])
+    },
+
     methods: {
       markerMoved: function (event) {
-        auth.user.showcase.location = 'POINT(' + event.latlng.lat + ' ' + event.latlng.lng + ')'
+        this.user.showcase.location = 'POINT(' + event.latlng.lat + ' ' + event.latlng.lng + ')'
       },
 
       zoomChanged: function (event) {
@@ -84,13 +87,13 @@
       onSubmit: function () {
         if (this.formstate.$valid) {
           var formData = new FormData()
-          formData.append('user', auth.user.info.id)
-          formData.append('address', auth.user.showcase.address)
-          formData.append('city', auth.user.showcase.city)
-          formData.append('postcode', auth.user.showcase.postcode)
-          formData.append('location', auth.user.showcase.location)
+          formData.append('user', this.user.info.id)
+          formData.append('address', this.user.showcase.address)
+          formData.append('city', this.user.showcase.city)
+          formData.append('postcode', this.user.showcase.postcode)
+          formData.append('location', this.user.showcase.location)
           formData.append('country', 'RE')
-          auth.updateShowcase(this, formData)
+          // auth.updateShowcase(this, formData)
         }
       }
     }
