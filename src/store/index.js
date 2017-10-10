@@ -173,7 +173,7 @@ const actions = {
     })
   },
 
-  login (store) {
+  async login (store) {
     api.post('o/token/' + '?grant_type=password&username=' + store.state.loginEmail + '&password=' + store.state.loginPassword + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
       .then(response => {
         store.commit('SET_TOKEN', response.data.access_token)

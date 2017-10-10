@@ -97,17 +97,19 @@ export default {
     },
 
     signin (e) {
-      e.preventDefault()
-      this.login(this).then(
-        function () {
-          if (!this.$store.error) {
-            this.$router.push({
-              name: 'dashboard.profile'
-            })
-            console.log('ok')
+      if (this.formstate.$valid) {
+        e.preventDefault()
+        this.login(this).then(
+          function () {
+            if (!this.$store.error) {
+              this.$router.push({
+                name: 'dashboard.profile'
+              })
+              console.log('ok')
+            }
           }
-        }
-      )
+        )
+      }
     }
   }
 }

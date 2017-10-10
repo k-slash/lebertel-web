@@ -6,7 +6,9 @@
       </div>
 
       <div class="column">
-        <router-view></router-view>
+        <transition name="dashboard" mode="out-in">
+          <router-view></router-view>
+        </transition>
       </div>
     </div>
   </section>

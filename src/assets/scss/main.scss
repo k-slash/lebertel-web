@@ -31,6 +31,11 @@
   src: url('../assets/fonts/Santral/Santral.otf') format('truetype')
 }
 
+@font-face {
+  font-family: 'Linotte';
+  src: url('../assets/fonts/Linotte/Linotte.otf') format('truetype')
+}
+
 // Set your colors
 //$primary: #8c67ef;
 $primary: #D7AF71;
@@ -57,20 +62,36 @@ $body-size: 14px;
   //background-attachment: fixed;
 }**/
 
+// Transition
+.dashboard-enter-active, .dashboard-leave-active {
+  transition: opacity .2s ease, transform .2s;
+}
+.dashboard-enter, .dashboard-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.container-enter-active, .container-leave-active {
+  transition: opacity .2s ease, transform .2s;
+}
+.container-enter, .container-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
-    "white": ($white, $black),
-    "black": ($black, $white),
-    "light": ($light, $light-invert),
-    "dark": ($dark, $dark-invert),
-    "primary": ($primary, $primary-invert),
-    "info": ($info, $info-invert),
-    "success": ($success, $success-invert),
-    "warning": ($warning, $warning-invert),
-    "danger": ($danger, $danger-invert),
-    "twitter": ($twitter, $twitter-invert),
-    "corn": ($corn, $corn-invert),
-    "bertel-dark": ($bertel-dark, $bertel-dark-invert),
+  "white": ($white, $black),
+  "black": ($black, $white),
+  "light": ($light, $light-invert),
+  "dark": ($dark, $dark-invert),
+  "primary": ($primary, $primary-invert),
+  "info": ($info, $info-invert),
+  "success": ($success, $success-invert),
+  "warning": ($warning, $warning-invert),
+  "danger": ($danger, $danger-invert),
+  "twitter": ($twitter, $twitter-invert),
+  "corn": ($corn, $corn-invert),
+  "bertel-dark": ($bertel-dark, $bertel-dark-invert),
 );
 
 // Links
@@ -85,7 +106,7 @@ $link-focus-border: $primary;
 
 body, button, input {
   //font-family: 'Varela Round', sans-serif;
-  font-family: Avenir,Helvetica,Arial,sans-serif;
+  font-family: Linotte,Helvetica,Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
   font-size: 0.9rem;
