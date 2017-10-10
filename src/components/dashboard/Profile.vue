@@ -35,7 +35,7 @@
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
-            <input id="email" type="text" name="email" class="input" required v-model="user.info.email">
+            <input id="email" type="text" name="email" class="input" required v-model="user.info.email" @input="updateUsername">
           </div>
           <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
             <div>Ok !</div>
@@ -61,17 +61,10 @@
 
 <script>
 import Vuex from 'vuex'
-import Vue2Leaflet from 'vue2-leaflet'
-import 'leaflet/dist/leaflet.css'
 import VueImgInputer from 'vue-img-inputer'
 
 export default {
   components: {
-    'v-map': Vue2Leaflet.Map,
-    'v-tilelayer': Vue2Leaflet.TileLayer,
-    'v-marker': Vue2Leaflet.Marker,
-    'v-tooltip': Vue2Leaflet.Tooltip,
-    'v-popup': Vue2Leaflet.Popup,
     VueImgInputer
   },
   data () {
@@ -86,8 +79,10 @@ export default {
   },
   methods: {
     ...Vuex.mapActions({
-      updateProfile: 'updateProfile'
+      updateProfile: 'updateProfile',
+      check: 'check'
     }),
+
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -99,21 +94,18 @@ export default {
         return 'has-danger'
       }
     },
-    updateFile (file) {
-      this.file = file
+
+    updateUsername (e) {
+      this.$store.commit('SET_USERNAME', e.target.value)
     },
+
+    updateFile (file) {
+      this.$store.commit('SET_AVATAR', file)
+    },
+
     onSubmit: function () {
-      var formData = new FormData()
-      var formDataProfile = new FormData()
-      formData.append('first_name', this.user.info.first_name)
-      formData.append('last_name', this.user.info.last_name)
-      formData.append('email', this.user.info.email)
-      formDataProfile.append('user', this.user.info.id)
-      formDataProfile.append('avatar', this.file)
-      formDataProfile.append('phone_number', this.user.profile.phone_number)
-      console.log(formDataProfile)
       if (this.formstate.$valid) {
-        this.updateProfile(this, formData, formDataProfile)
+        this.updateProfile(this)
       }
     }
   }

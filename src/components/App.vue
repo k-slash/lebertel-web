@@ -46,7 +46,7 @@
                 <div class="navbar-link media" v-if="this.user.authenticated" @click="toggleMenu">
                   <div class="media-left">
                     <figure class="image is-48x48">
-                      <div v-if="this.user.profile.avatar.length > 0">
+                      <div v-if="!!this.user.profile.avatar">
                         <img :src="this.user.profile.avatar" alt="Image" v-if="this.user.authenticated">
                       </div>
                       <div v-else>
@@ -112,16 +112,29 @@ export default {
     }
   },
   methods: {
+    ...Vuex.mapActions({
+      logout: 'logout',
+      check: 'check'
+    }),
     toggleMenu () {
       this.isNavMenuActive = !this.isNavMenuActive
     },
-    signout () {
-      // auth.signout()
+    signout (e) {
+      e.preventDefault()
+      const redirect = this.logout(this)
+      if (redirect) {
+        this.$router.push({
+          name: 'home'
+        })
+      }
     }
   },
   mounted: function () {
     this.$nextTick(function () {
-      // auth.check()
+      this.check(this).then(
+        console.log(this.user.authenticated),
+        console.log(this.user.info)
+      )
     })
   }
 }

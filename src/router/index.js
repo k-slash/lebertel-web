@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import store from '@/store'
 import Dashboard from '@/components/Dashboard.vue'
 import Home from '@/components/Home.vue'
 import Register from '@/components/Register.vue'
@@ -15,6 +16,15 @@ import DashboardImages from '@/components/dashboard/showcase/Images.vue'
 
 Vue.use(Router)
 
+async function requireAuth (to, from, next) {
+  const authenticated = localStorage.getItem('authenticated')
+  if (authenticated === 'true') {
+    next()
+  } else {
+    next({ name: 'home' })
+  }
+}
+
 export default new Router({
   mode: 'history',
   routes: [
@@ -27,6 +37,7 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      beforeEnter: requireAuth,
       children: [{
         path: 'profile',
         name: 'dashboard.profile',
@@ -60,16 +71,6 @@ export default new Router({
         name: 'dashboard.showcase.images',
         component: DashboardImages
       }]
-      /** beforeEnter (route, redirect, next) {
-        const authenticated = localStorage.getItem('authenticated')
-        if (authenticated) {
-          next()
-        } else {
-          this.push({
-            name: 'home'
-          })
-        }
-      } **/
     },
     {
       path: '/register',

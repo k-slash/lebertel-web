@@ -10,7 +10,7 @@
                   <div class="hero-body connection">
                     <div class=" has-text-centered">
                       <h1 class="title">
-                        Bienvenue sur Le Bertel
+                        Bienvenue sur <span class="lebertel-font"> le bertel. </span>
                       </h1>
                       <h2 class="subtitle">
                         Adoptez la consom'action, en privilégiant les artisans, les producteurs et les savoir-faire réunionnais.
@@ -20,48 +20,41 @@
                 </section>
               </div>
               <div class="box-content">
-                <vue-form autocomplete="off" @submit.prevent="onSubmit" v-if="!success" :state="formstate" v-model="formstate">
+                <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate">
 
-                  <div class="alert alert-danger" v-if="error && !success">
-                    <p>Il y a eu un problème lors de l'enregistrement</p>
-                  </div>
-                  <div class="alert alert-success" v-if="success">
-                    <p>Votre compte a été créé. Vous pouvez maintenant vous authentifier.</p>
-                  </div>
-
-                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.firstName)">
+                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.registerFirstName)">
                     <div class="field">
                       <label class="label">Prénom</label>
                       <div class="control">
-                        <input id="firstName" type="text" name="firstName" class="input" required v-model.lazy="firstName">
+                        <input id="registerFirstName" type="text" name="registerFirstName" class="input" required :value="registerFirstName" @change="setFirstName">
                       </div>
-                      <field-messages name="firstName" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages name="registerFirstName" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre prénom est requis</div>
                       </field-messages>
                     </div>
                   </validate>
 
-                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.lastName)">
+                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.registerLastName)">
                     <div class="field">
                       <label class="label">Nom</label>
                       <div class="control">
-                        <input id="lastName" type="text" name="lastName" class="input" required v-model.lazy="lastName">
+                        <input id="registerLastName" type="text" name="registerLastName" class="input" required :value="registerLastName" @change="setLastName">
                       </div>
-                      <field-messages name="lastName" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages name="registerLastName" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre nom est requis</div>
                       </field-messages>
                     </div>
                   </validate>
 
-                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.email)">
+                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.registerEmail)">
                     <div class="field">
                       <label class="label">Email</label>
                       <div class="control">
-                        <input id="email" type="email" name="email" class="input" required v-model.lazy="email">
+                        <input id="registerEmail" type="email" name="registerEmail" class="input" required :value="registerEmail" @change="setEmail">
                       </div>
-                      <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages auto-label name="registerEmail" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre email est requis</div>
                         <div slot="email">L'email est invalide</div>
@@ -69,13 +62,13 @@
                     </div>
                   </validate>
 
-                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.password)">
+                  <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.registerPassword)">
                     <div class="field">
                       <label class="label">Mot de passe</label>
                       <div class="control">
-                        <input id="password" type="password" password-strength name="password" class="input" required v-model.lazy="password">
+                        <input id="registerPassword" type="password" password-strength name="registerPassword" class="input" required :value="registerPassword" @change="setPassword">
                       </div>
-                      <field-messages auto-label name="password" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages auto-label name="registerPassword" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre mot de passe est requis</div>
                         <div slot="password-strength">Votre mot de passe doit contenir des majuscules, des minuscules, des nombres ou des caractères spéciaux et contenir au moins 8 caratères</div>
@@ -87,7 +80,7 @@
                     <div class="field">
                       <label class="label">Confirmation du mot de passe</label>
                       <div class="control">
-                        <input id="confirmPassword" type="password" :matches="password" name="confirmPassword" class="input" required v-model.lazy="confirmPassword">
+                        <input id="confirmPassword" type="password" :matches="registerPassword" name="confirmPassword" class="input" required>
                       </div>
                       <field-messages auto-label name="confirmPassword" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
@@ -112,23 +105,23 @@
 </template>
 
 <script>
-import auth from '../auth.js'
+import Vuex from 'vuex'
 
 export default {
   data () {
     return {
-      formstate: {},
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
-      success: false,
-      error: false,
-      response: null
+      formstate: {}
     }
   },
+  computed: {
+    ...Vuex.mapGetters(['registerFirstName', 'registerLastName', 'registerEmail', 'registerPassword'])
+  },
   methods: {
+    ...Vuex.mapActions({
+      register: 'register',
+      check: 'check'
+    }),
+
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -140,9 +133,34 @@ export default {
         return 'has-danger'
       }
     },
+
+    setFirstName (e) {
+      this.$store.commit('SET_REGISTER_FIRSTNAME', e.target.value)
+    },
+
+    setLastName (e) {
+      this.$store.commit('SET_REGISTER_LASTNAME', e.target.value)
+    },
+
+    setEmail (e) {
+      this.$store.commit('SET_REGISTER_EMAIL', e.target.value)
+    },
+
+    setPassword (e) {
+      this.$store.commit('SET_REGISTER_PASSWORD', e.target.value)
+    },
+
     onSubmit: function () {
       if (this.formstate.$valid) {
-        auth.register(this, this.firstName, this.lastName, this.email, this.password)
+        this.register(this)
+          .then(response => {
+            console.log(this.$store.error)
+            if (!this.$store.error) {
+              this.$router.push({
+                name: 'dashboard.profile'
+              })
+            }
+          })
       }
     }
   }

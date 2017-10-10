@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from '@/store/modules/user'
+import showcase from '@/store/modules/showcase'
 import axios from 'axios'
-// import * as createPersistedState from 'vuex-persistedstate'
 import { Toast } from 'buefy'
 
 Vue.use(Vuex)
@@ -20,193 +21,224 @@ export const api = axios.create({
 })
 
 const state = {
-  user: {
-    authenticated: false,
-    info: [],
-    profile: [],
-    address: [],
-    showcase: []
-  },
+  error: null,
   token: null,
-  email: null,
-  password: null,
-  firstName: null,
-  lastName: null,
-  phone: null,
-  address: null,
-  postcode: null,
-  city: null,
-  coordinates: null,
-  showcase: {
-    id: null,
-    email: null,
-    phone: null,
-    facebook: null,
-    linkedin: null,
-    twitter: null,
-    pinterest: null,
-    image: null,
-    displayOrder: null,
-    address: null,
-    city: null,
-    postcode: null,
-    location: null,
-    country: null
-  }
+  loginEmail: null,
+  loginPassword: null,
+  registerFirstName: null,
+  registerLastName: null,
+  registerEmail: null,
+  registerPassword: null
 }
 
 const mutations = {
-  SET_USER_AUTHENTICATED: function (state, data) {
-    state.user.authenticated = data
-  },
-  SET_USER_INFO: function (state, data) {
-    state.user.info = data
-  },
-  SET_USER_PROFILE: function (state, data) {
-    state.user.profile = data
-  },
-  SET_USER_ADDRESS: function (state, data) {
-    state.user.address = data
-  },
-  SET_USER_SHOWCASE: function (state, data) {
-    state.user.showcase = data
+  SET_ERROR: function (state, data) {
+    user.state.error = data
   },
   SET_TOKEN: function (state, data) {
     state.token = data
     localStorage.setItem('id_token', data)
     api.defaults.headers.common['Authorization'] = 'Bearer ' + data
-    // Cookies.set('id_token', data)
   },
-  SET_EMAIL: function (state, data) {
-    state.email = data
+  SET_LOGIN_EMAIL: function (state, data) {
+    state.loginEmail = data
   },
-  SET_PASSWORD: function (state, data) {
-    state.password = data
+  SET_LOGIN_PASSWORD: function (state, data) {
+    state.loginPassword = data
+  },
+  SET_REGISTER_FIRSTNAME: function (state, data) {
+    state.registerFirstName = data
+  },
+  SET_REGISTER_LASTNAME: function (state, data) {
+    state.registerLastName = data
+  },
+  SET_REGISTER_EMAIL: function (state, data) {
+    state.registerEmail = data
+  },
+  SET_REGISTER_PASSWORD: function (state, data) {
+    state.registerPassword = data
   }
 }
 
 const getters = {
-  user: state => state.user,
   token: state => state.token,
-  email: state => state.email,
-  password: state => state.password
+  loginEmail: state => state.loginEmail,
+  loginPassword: state => state.loginPassword,
+  registerFirstName: state => state.registerFirstName,
+  registerLastName: state => state.registerLastName,
+  registerEmail: state => state.registerEmail,
+  registerPassword: state => state.registerPassword
 }
 
 const actions = {
   check (store) {
-    console.log(store.state.user.info.first_name)
     if (token !== null) {
-      try {
-        api.get('user/')
-          .then(response => {
-            store.commit('SET_USER_AUTHENTICATED', true)
-            store.commit('SET_USER_INFO', response.data)
-          })
-          .catch(e => {
-            store.commit('SET_USER_AUTHENTICATED', false)
-            store.commit('SET_USER_INFO', [])
-            console.log('Info: ', e)
-          })
-      } catch (e) {
-        if (e) console.log('Error: ', e)
-      }
+      console.log(token)
+      store.commit('SET_TOKEN', token)
+      api.get('user/')
+        .then(response => {
+          store.commit('SET_USER_AUTHENTICATED', true)
+          console.log(response.data)
+          store.commit('SET_USER_INFO', response.data)
+          console.log(store.state.user.user.authenticated)
+          api.get('user/location/')
+            .then(response => {
+              store.commit('SET_USER_ADDRESS', response.data)
+            }, response => {
+              console.log('no address')
+              store.commit('SET_USER_ADDRESS', [])
+            })
+
+          api.get('user/profile/')
+            .then(response => {
+              store.commit('SET_USER_PROFILE', response.data)
+            }, response => {
+              store.commit('SET_USER_PROFILE', [])
+            })
+
+          api.get('user/showcase/')
+            .then(response => {
+              store.commit('SET_USER_SHOWCASE', response.data)
+              api.get('showcases/' + store.state.user.showcase.id + '/images/')
+                .then(response => {
+                  store.commit('SET_SHOWCASE_IMAGES', response.data)
+                }, response => {
+                  store.commit('SET_SHOWCASE_IMAGES', [])
+                })
+            }, response => {
+              store.commit('SET_USER_SHOWCASE', [])
+            })
+        },
+        response => {
+          localStorage.removeItem('id_token')
+          localStorage.removeItem('authenticated')
+          store.commit('SET_USER_AUTHENTICATED', false)
+          store.commit('SET_USER_INFO', [])
+          store.commit('SET_USER_ADDRESS', [])
+          store.commit('SET_USER_SHOWCASE', [])
+        }
+      )
     }
   },
 
+  register (store) {
+    api.post('users/',
+      {
+        username: store.state.registerEmail,
+        first_name: store.state.registerFirstName,
+        last_name: store.state.registerLastName,
+        email: store.state.registerEmail,
+        password: store.state.registerPassword
+      }
+    ).then(response => {
+      let userId = response.data.id
+      console.log(userId)
+      api.post('userProfiles/',
+        {
+          user: userId,
+          avatar: null,
+          phone_number: null
+        })
+      api.post('userLocations/',
+        {
+          user: userId
+        })
+      api.post('userShowcases/',
+        {
+          user: userId
+        })
+        .then(response => {
+          Toast.open({
+            message: 'Ok ! C\'est sauvegardé',
+            type: 'is-success'
+          })
+        }, response => {
+          console.log(response)
+          Toast.open({
+            message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
+            type: 'is-danger'
+          })
+        })
+      Toast.open({
+        message: 'Votre compte a été créé. Vous pouvez maintenant vous authentifier',
+        type: 'is-success'
+      })
+      store.commit('SET_ERROR', false)
+    }, response => {
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors de la création de votre compte. Merci de vérifier les champs éronnés',
+        type: 'is-danger'
+      })
+      store.commit('SET_ERROR', true)
+    })
+  },
+
   login (store) {
-    let redirect = false
-    api.post('o/token/' + '?grant_type=password&username=' + store.state.email + '&password=' + store.state.password + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
+    api.post('o/token/' + '?grant_type=password&username=' + store.state.loginEmail + '&password=' + store.state.loginPassword + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
       .then(response => {
         store.commit('SET_TOKEN', response.data.access_token)
+        console.log(store.token)
         api.get('user/')
           .then(response => {
+            localStorage.setItem('authenticated', true)
             store.commit('SET_USER_AUTHENTICATED', true)
             store.commit('SET_USER_INFO', response.data)
-
-            api.get('user/location')
+            console.log(store.state.token)
+            api.get('user/location/')
               .then(response => {
                 store.commit('SET_USER_ADDRESS', response.data)
+                console.log('location')
               }, response => {
                 store.commit('SET_USER_ADDRESS', [])
+                console.log('nolocation')
               })
 
-            api.get('user/profile')
+            api.get('user/profile/')
               .then(response => {
                 store.commit('SET_USER_PROFILE', response.data)
+                console.log('profile')
               }, response => {
                 store.commit('SET_USER_PROFILE', [])
+                console.log('noprofile')
               })
 
-            api.get('user/showcase')
+            api.get('user/showcase/')
               .then(response => {
                 store.commit('SET_USER_SHOWCASE', response.data)
+                console.log('showcase')
               }, response => {
                 store.commit('SET_USER_SHOWCASE', [])
+                console.log('noshowcase')
               })
+            store.commit('SET_ERROR', false)
           }, response => {
             console.log('Nok')
+            store.commit('SET_ERROR', true)
             Toast.open({
               message: 'Il y a eu un problème lors du chargement de vos données',
               type: 'is-danger'
             })
           })
-        redirect = true
       }, response => {
         console.log('nok')
+        store.commit('SET_ERROR', true)
         Toast.open({
           message: 'Il y a eu un problème, vous ne pouvez vous connecter avec ces identifiants',
           type: 'is-danger'
         })
       })
-    return redirect
   },
 
-  updateProfile (context, formData, formDataProfile) {
-    console.log(context)
-    console.log(formData)
-    console.log(formDataProfile)
-    /** Vue.http.patch(
-      API_URL + 'user/', formData
-    ).then(response => {
-      if (this.user.profile.length === 0) {
-        console.log(formDataProfile)
-        Vue.http.post(
-          API_URL + 'userProfiles/', formDataProfile
-        ).then(response => {
-          this.check()
-          context.$toast.open({
-            message: 'Ok ! C\'est sauvegardé',
-            type: 'is-success'
-          })
-          context.error = false
-        }, response => {
-          context.$toast.open({
-            message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-            type: 'is-danger'
-          })
-          context.error = true
-        })
-      } else {
-        Vue.http.patch(
-          API_URL + 'user/profile/', formDataProfile
-        ).then(response => {
-          this.check()
-          context.$toast.open({
-            message: 'Ok ! C\'est sauvegardé',
-            type: 'is-success'
-          })
-          context.error = false
-        }, response => {
-          context.$toast.open({
-            message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-            type: 'is-danger'
-          })
-          context.error = true
-        })
-      }
-    }, response => {
-      context.error = true
-    }) **/
+  logout (store) {
+    localStorage.removeItem('id_token')
+    localStorage.removeItem('authenticated')
+    store.commit('SET_USER_AUTHENTICATED', false)
+    store.commit('SET_TOKEN', null)
+    store.commit('SET_USER_INFO', [])
+    store.commit('SET_USER_ADDRESS', [])
+    store.commit('SET_USER_PROFILE', [])
+    store.commit('SET_USER_SHOWCASE', [])
+    console.log(store.token)
   }
 }
 
@@ -214,7 +246,11 @@ const store = new Vuex.Store({
   state: state,
   mutations: mutations,
   getters: getters,
-  actions: actions
+  actions: actions,
+  modules: {
+    user,
+    showcase
+  }
 })
 
 export default store

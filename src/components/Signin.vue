@@ -10,7 +10,7 @@
                   <div class="hero-body connection">
                     <div class="has-text-centered">
                       <h1 class="title">
-                        Bienvenue sur Le Bertel
+                        Bienvenue sur <span class="lebertel-font"> le bertel. </span>
                       </h1>
                       <h2 class="subtitle">
                         Adoptez la consom'action, en privilégiant les artisans, les producteurs et les savoir-faire réunionnais.
@@ -25,7 +25,7 @@
                     <div class="field">
                       <label class="label">Email</label>
                       <div class="control">
-                        <input id="email" type="email" name="email" class="input" required v-model.lazy="email" @change="setEmail">
+                        <input id="email" type="email" name="email" class="input" required @change="setEmail">
                       </div>
                       <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
                         <div slot="required">Votre email est requis</div>
@@ -37,7 +37,7 @@
                     <div class="field">
                       <label class="label">Mot de passe</label>
                       <div class="control">
-                        <input id="password" type="password" name="password" class="input" required v-model.lazy="password" @change="setPassword">
+                        <input id="password" type="password" name="password" class="input" required @change="setPassword">
                       </div>
                       <field-messages auto-label name="password" show="$touched || $submitted" class="form-control-feedback">
                         <div slot="required">Votre mot de passe est requis</div>
@@ -63,19 +63,18 @@ import Vuex from 'vuex'
 export default {
   data () {
     return {
-      formstate: {},
-      error: false,
-      success: false
+      formstate: {}
     }
   },
   computed: {
-    ...Vuex.mapGetters(['user', 'email', 'password'])
+    ...Vuex.mapGetters(['user', 'loginEmail', 'loginPassword'])
   },
   methods: {
     ...Vuex.mapActions({
       login: 'login',
       check: 'check'
     }),
+
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -87,24 +86,28 @@ export default {
         return 'has-danger'
       }
     },
+
     setEmail (e) {
-      this.$store.commit('SET_EMAIL', e.target.value)
-      console.log(this.$store.state.email)
+      this.$store.commit('SET_LOGIN_EMAIL', e.target.value)
+      console.log(this.$store.state.loginEmail)
     },
+
     setPassword (e) {
-      this.$store.commit('SET_PASSWORD', e.target.value)
+      this.$store.commit('SET_LOGIN_PASSWORD', e.target.value)
     },
-    signin (event) {
-      event.preventDefault()
-      const redirect = this.login(this)
-      if (redirect) {
-        this.$router.push({
-          name: 'dashboard.profile'
-        })
-        console.log('ok')
-      }
-      console.log(redirect)
-      // auth.signin(this, this.email, this.password)
+
+    signin (e) {
+      e.preventDefault()
+      this.login(this).then(
+        function () {
+          if (!this.$store.error) {
+            this.$router.push({
+              name: 'dashboard.profile'
+            })
+            console.log('ok')
+          }
+        }
+      )
     }
   }
 }

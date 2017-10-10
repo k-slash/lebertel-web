@@ -91,6 +91,12 @@ body, button, input {
   font-size: 0.9rem;
 }
 
+.lebertel-font {
+  font-family: Santral, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 // 1 heading + 3 more (essentially 4 lines)
 .media-content .content.max-lines--one-plus-three {
   // 6em is based on the default line-height of 1.5em
@@ -242,6 +248,9 @@ a {
 }
 
 .navbar-item {
+  .image {
+    overflow: hidden;
+  }
   .media {
     img {
       max-height: 100%;

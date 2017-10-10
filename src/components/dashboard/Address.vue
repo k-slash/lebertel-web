@@ -6,29 +6,29 @@
       <div class="field">
         <label class="label">Adresse</label>
         <div class="control">
-          <input id="address" type="text" name="address" class="input" v-model="this.user.address.address">
+          <input id="address" type="text" name="address" class="input" v-model="user.address.address">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Code postal</label>
         <div class="control">
-          <input id="postcode" type="text" name="postcode" class="input" v-model="this.user.address.postcode">
+          <input id="postcode" type="text" name="postcode" class="input" v-model="user.address.postcode">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Ville</label>
         <div class="control">
-          <input id="city" type="text" name="city" class="input" v-model="this.user.address.city">
+          <input id="city" type="text" name="city" class="input" v-model="user.address.city">
         </div>
       </div>
 
       <div class="lebertel-map">
         <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
           <v-tilelayer :url="url"></v-tilelayer>
-          <div v-if="this.user.address.location != undefined">
-            <v-marker :lat-lng="this.user.address.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
+          <div v-if="user.address.location != undefined">
+            <v-marker :lat-lng="user.address.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
               <v-popup content="Mon atelier"></v-popup>
             </v-marker>
           </div>
@@ -76,8 +76,14 @@
     },
 
     methods: {
+      ...Vuex.mapActions({
+        updateProfileAddress: 'updateProfileAddress',
+        check: 'check'
+      }),
+
       markerMoved: function (event) {
-        this.user.address.location = 'POINT(' + event.latlng.lat + ' ' + event.latlng.lng + ')'
+        let point = 'POINT(' + event.latlng.lat + ' ' + event.latlng.lng + ')'
+        this.$store.commit('SET_LOCATION', point)
       },
 
       zoomChanged: function (event) {
@@ -86,14 +92,7 @@
 
       onSubmit: function () {
         if (this.formstate.$valid) {
-          var formData = new FormData()
-          formData.append('user', this.user.info.id)
-          formData.append('address', this.user.address.address)
-          formData.append('city', this.user.address.city)
-          formData.append('postcode', this.user.address.postcode)
-          formData.append('location', this.user.address.location)
-          formData.append('country', 'RE')
-          // auth.updateProfileAddress(this, formData)
+          this.updateProfileAddress(this)
         }
       }
     }
