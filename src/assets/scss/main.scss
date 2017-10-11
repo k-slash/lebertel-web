@@ -75,7 +75,7 @@ $body-size: 14px;
 }
 .container-enter, .container-leave-to {
   opacity: 0;
-  transform: translateX(20px);
+  // transform: translateX(20px);
 }
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')

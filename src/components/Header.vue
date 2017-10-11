@@ -99,6 +99,11 @@ export default {
       isNavMenuActive: false
     }
   },
+  /** beforeCreate: {
+    ...Vuex.mapActions({
+      check: 'check'
+    })
+  }, **/
   computed: {
     ...Vuex.mapGetters(['user']),
     navMenuClass () {

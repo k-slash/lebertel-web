@@ -1,16 +1,7 @@
-import axios from 'axios'
+import api from '@/store/api'
 
-const API_URL = 'http://localhost:8000/'
 const CLIENT_ID = '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U'
 const CLIENT_SECRET = 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
-const token = localStorage.getItem('id_token')
-
-export const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    Authorization: 'Bearer ' + token
-  }
-})
 
 export default {
   connectUser (email, password) {
@@ -27,5 +18,35 @@ export default {
   },
   getUserShowcase () {
     return api.get('user/showcase/')
+  },
+  initUserInfo (firstName, lastName, email, password) {
+    return api.post('users/',
+      {
+        username: email,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password: password
+      })
+  },
+  initUserProfile (userId) {
+    return api.post('userProfiles/',
+      {
+        user: userId,
+        avatar: null,
+        phone_number: null
+      })
+  },
+  initUserLocation (userId) {
+    return api.post('userLocations/',
+      {
+        user: userId
+      })
+  },
+  initUserShowcase (userId) {
+    return api.post('userShowcases/',
+      {
+        user: userId
+      })
   }
 }

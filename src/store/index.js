@@ -2,24 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
-import axios from 'axios'
 import { Toast } from 'buefy'
 import User from '@/store/api/user'
+import api from '@/store/api'
 
 Vue.use(Vuex)
-
-const API_URL = 'http://localhost:8000/'
-// const CLIENT_ID = '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U'
-// const CLIENT_SECRET = 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
-const token = localStorage.getItem('id_token')
-// const plugins = []
-
-export const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    Authorization: 'Bearer ' + token
-  }
-})
 
 const state = {
   error: null,
@@ -72,106 +59,77 @@ const getters = {
 }
 
 const actions = {
-  check (store) {
-    if (token !== null) {
-      console.log(token)
-      store.commit('SET_TOKEN', token)
-      api.get('user/')
-        .then(response => {
-          store.commit('SET_USER_AUTHENTICATED', true)
-          console.log(response.data)
-          store.commit('SET_USER_INFO', response.data)
-          console.log(store.state.user.user.authenticated)
-          api.get('user/location/')
-            .then(response => {
-              store.commit('SET_USER_ADDRESS', response.data)
-            }, response => {
-              console.log('no address')
-              store.commit('SET_USER_ADDRESS', [])
-            })
-
-          api.get('user/profile/')
-            .then(response => {
-              store.commit('SET_USER_PROFILE', response.data)
-            }, response => {
-              store.commit('SET_USER_PROFILE', [])
-            })
-
-          api.get('user/showcase/')
-            .then(response => {
-              store.commit('SET_USER_SHOWCASE', response.data)
-              api.get('showcases/' + store.state.user.showcase.id + '/images/')
-                .then(response => {
-                  store.commit('SET_SHOWCASE_IMAGES', response.data)
-                }, response => {
-                  store.commit('SET_SHOWCASE_IMAGES', [])
-                })
-            }, response => {
-              store.commit('SET_USER_SHOWCASE', [])
-            })
-        },
-        response => {
-          localStorage.removeItem('id_token')
-          localStorage.removeItem('authenticated')
-          store.commit('SET_USER_AUTHENTICATED', false)
-          store.commit('SET_USER_INFO', [])
-          store.commit('SET_USER_ADDRESS', [])
-          store.commit('SET_USER_SHOWCASE', [])
-        }
-      )
+  async check (store) {
+    const token = localStorage.getItem('id_token')
+    if (token != null) {
+      try {
+        await store.commit('SET_TOKEN', token)
+        const userInfo = await User.getUserInfo()
+        await store.commit('SET_USER_AUTHENTICATED', true)
+        await store.commit('SET_USER_INFO', userInfo.data)
+        const userProfile = await User.getUserProfile()
+        await store.commit('SET_USER_PROFILE', userProfile.data)
+        const userLocation = await User.getUserLocation()
+        await store.commit('SET_USER_ADDRESS', userLocation.data)
+        const userShowcase = await User.getUserShowcase()
+        await store.commit('SET_USER_SHOWCASE', userShowcase.data)
+        await store.commit('SET_ERROR', false)
+      } catch (e) {
+        console.log(e)
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('authenticated')
+        store.commit('SET_USER_AUTHENTICATED', false)
+        store.commit('SET_USER_INFO', [])
+        store.commit('SET_USER_ADDRESS', [])
+        store.commit('SET_USER_SHOWCASE', [])
+      }
+    } else {
+      localStorage.removeItem('id_token')
+      localStorage.removeItem('authenticated')
+      store.commit('SET_USER_AUTHENTICATED', false)
+      store.commit('SET_USER_INFO', [])
+      store.commit('SET_USER_ADDRESS', [])
+      store.commit('SET_USER_SHOWCASE', [])
+      store.commit('SET_ERROR', true)
     }
   },
 
-  register (store) {
-    api.post('users/',
-      {
-        username: store.state.registerEmail,
-        first_name: store.state.registerFirstName,
-        last_name: store.state.registerLastName,
-        email: store.state.registerEmail,
-        password: store.state.registerPassword
-      }
-    ).then(response => {
-      let userId = response.data.id
-      console.log(userId)
-      api.post('userProfiles/',
-        {
-          user: userId,
-          avatar: null,
-          phone_number: null
-        })
-      api.post('userLocations/',
-        {
-          user: userId
-        })
-      api.post('userShowcases/',
-        {
-          user: userId
-        })
-        .then(response => {
-          Toast.open({
-            message: 'Ok ! C\'est sauvegardé',
-            type: 'is-success'
-          })
-        }, response => {
-          console.log(response)
+  async register (store) {
+    try {
+      console.log(store.state.registerFirstName)
+      console.log(store.state.registerEmail)
+      const userInfo = await User.initUserInfo(store.state.registerFirstName, store.state.registerLastName, store.state.registerEmail, store.state.registerPassword)
+      console.log(userInfo)
+      let userId = userInfo.data.id
+      // connect user to get the token
+      const connect = await User.connectUser(store.state.registerEmail, store.state.registerPassword)
+      if (connect.data.access_token != null) {
+        try {
+          await store.commit('SET_TOKEN', connect.data.access_token)
+        } catch (e) {
           Toast.open({
             message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
             type: 'is-danger'
           })
-        })
+          store.commit('SET_ERROR', true)
+        }
+      }
+      await User.initUserProfile(userId)
+      await User.initUserLocation(userId)
+      await User.initUserShowcase(userId)
       Toast.open({
         message: 'Votre compte a été créé. Vous pouvez maintenant vous authentifier',
         type: 'is-success'
       })
       store.commit('SET_ERROR', false)
-    }, response => {
+    } catch (e) {
+      console.log(e)
       Toast.open({
         message: 'Oups ! Il y a eu un problème lors de la création de votre compte. Merci de vérifier les champs éronnés',
         type: 'is-danger'
       })
       store.commit('SET_ERROR', true)
-    })
+    }
   },
 
   async login (store) {
@@ -179,6 +137,7 @@ const actions = {
     if (connect.data.access_token != null) {
       try {
         await store.commit('SET_TOKEN', connect.data.access_token)
+        api.defaults.headers.common['Authorization'] = 'Bearer ' + connect.data.access_token
         const userInfo = await User.getUserInfo()
         await store.commit('SET_USER_AUTHENTICATED', true)
         await store.commit('SET_USER_INFO', userInfo.data)
@@ -205,16 +164,16 @@ const actions = {
     }
   },
 
-  logout (store) {
+  async logout (store) {
     localStorage.removeItem('id_token')
     localStorage.removeItem('authenticated')
-    store.commit('SET_USER_AUTHENTICATED', false)
-    store.commit('SET_TOKEN', null)
-    store.commit('SET_USER_INFO', [])
-    store.commit('SET_USER_ADDRESS', [])
-    store.commit('SET_USER_PROFILE', [])
-    store.commit('SET_USER_SHOWCASE', [])
-    console.log(store.token)
+    await store.commit('SET_USER_AUTHENTICATED', false)
+    await store.commit('SET_TOKEN', null)
+    await store.commit('SET_USER_INFO', [])
+    await store.commit('SET_USER_ADDRESS', [])
+    await store.commit('SET_USER_PROFILE', [])
+    await store.commit('SET_USER_SHOWCASE', [])
+    console.log(localStorage.getItem('id_token'))
   }
 }
 

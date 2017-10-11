@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from '@/store'
+import store from '@/store'
 import Dashboard from '@/components/Dashboard.vue'
 import Home from '@/components/Home.vue'
 import Register from '@/components/Register.vue'
@@ -17,8 +17,10 @@ import DashboardImages from '@/components/dashboard/showcase/Images.vue'
 Vue.use(Router)
 
 async function requireAuth (to, from, next) {
+  // await store.dispatch('check')
   const authenticated = localStorage.getItem('authenticated')
   console.log(authenticated)
+  console.log(store.state)
   if (authenticated === 'true') {
     next()
   } else {

@@ -153,6 +153,8 @@ export default {
     onSubmit: function () {
       if (this.formstate.$valid) {
         this.register(this)
+        console.log('register ok')
+        /** this.register(this)
           .then(response => {
             console.log(this.$store.error)
             if (!this.$store.error) {
@@ -160,7 +162,7 @@ export default {
                 name: 'dashboard.profile'
               })
             }
-          })
+          })**/
       }
     }
   }
