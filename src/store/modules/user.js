@@ -41,6 +41,8 @@ const state = {
 const getters = {
   user: state => state.user,
   authenticated: state => state.user.authenticated,
+  info: state => state.user.info,
+  profile: state => state.user.profile,
   id: state => state.user.info.id,
   username: state => state.user.info.username,
   firstName: state => state.user.info.first_name,
@@ -70,6 +72,7 @@ const mutations = {
     state.user.showcase = data
   },
   SET_USER_AUTHENTICATED: function (state, data) {
+    localStorage.setItem('authenticated', data)
     state.user.authenticated = data
   },
   SET_USERNAME: function (state, data) {

@@ -99,16 +99,16 @@ export default {
     signin (e) {
       if (this.formstate.$valid) {
         e.preventDefault()
-        this.login(this).then(
-          function () {
-            if (!this.$store.error) {
-              this.$router.push({
-                name: 'dashboard.profile'
-              })
-              console.log('ok')
-            }
-          }
-        )
+        this.login(this)
+        this.$router.push({
+          name: 'dashboard.profile'
+        })
+        /** if (!this.$store.state.error) {
+          this.$router.push({
+            name: 'dashboard.profile'
+          })
+          console.log('ok')
+        } **/
       }
     }
   }

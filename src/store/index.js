@@ -4,12 +4,13 @@ import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
 import axios from 'axios'
 import { Toast } from 'buefy'
+import User from '@/store/api/user'
 
 Vue.use(Vuex)
 
 const API_URL = 'http://localhost:8000/'
-const CLIENT_ID = '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U'
-const CLIENT_SECRET = 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
+// const CLIENT_ID = '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U'
+// const CLIENT_SECRET = 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
 const token = localStorage.getItem('id_token')
 // const plugins = []
 
@@ -174,59 +175,34 @@ const actions = {
   },
 
   async login (store) {
-    api.post('o/token/' + '?grant_type=password&username=' + store.state.loginEmail + '&password=' + store.state.loginPassword + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
-      .then(response => {
-        store.commit('SET_TOKEN', response.data.access_token)
-        console.log(store.token)
-        api.get('user/')
-          .then(response => {
-            localStorage.setItem('authenticated', true)
-            store.commit('SET_USER_AUTHENTICATED', true)
-            store.commit('SET_USER_INFO', response.data)
-            console.log(store.state.token)
-            api.get('user/location/')
-              .then(response => {
-                store.commit('SET_USER_ADDRESS', response.data)
-                console.log('location')
-              }, response => {
-                store.commit('SET_USER_ADDRESS', [])
-                console.log('nolocation')
-              })
-
-            api.get('user/profile/')
-              .then(response => {
-                store.commit('SET_USER_PROFILE', response.data)
-                console.log('profile')
-              }, response => {
-                store.commit('SET_USER_PROFILE', [])
-                console.log('noprofile')
-              })
-
-            api.get('user/showcase/')
-              .then(response => {
-                store.commit('SET_USER_SHOWCASE', response.data)
-                console.log('showcase')
-              }, response => {
-                store.commit('SET_USER_SHOWCASE', [])
-                console.log('noshowcase')
-              })
-            store.commit('SET_ERROR', false)
-          }, response => {
-            console.log('Nok')
-            store.commit('SET_ERROR', true)
-            Toast.open({
-              message: 'Il y a eu un problème lors du chargement de vos données',
-              type: 'is-danger'
-            })
-          })
-      }, response => {
-        console.log('nok')
-        store.commit('SET_ERROR', true)
+    const connect = await User.connectUser(store.state.loginEmail, store.state.loginPassword)
+    if (connect.data.access_token != null) {
+      try {
+        await store.commit('SET_TOKEN', connect.data.access_token)
+        const userInfo = await User.getUserInfo()
+        await store.commit('SET_USER_AUTHENTICATED', true)
+        await store.commit('SET_USER_INFO', userInfo.data)
+        const userProfile = await User.getUserProfile()
+        await store.commit('SET_USER_PROFILE', userProfile.data)
+        const userLocation = await User.getUserLocation()
+        await store.commit('SET_USER_ADDRESS', userLocation.data)
+        const userShowcase = await User.getUserShowcase()
+        await store.commit('SET_USER_SHOWCASE', userShowcase.data)
+        await store.commit('SET_ERROR', false)
+      } catch (e) {
+        console.log(e)
         Toast.open({
-          message: 'Il y a eu un problème, vous ne pouvez vous connecter avec ces identifiants',
+          message: 'Il y a eu un problème lors du chargement de vos données',
           type: 'is-danger'
         })
+      }
+    } else {
+      Toast.open({
+        message: 'Il y a eu un problème, vous ne pouvez vous connecter avec ces identifiants',
+        type: 'is-danger'
       })
+      store.commit('SET_ERROR', true)
+    }
   },
 
   logout (store) {

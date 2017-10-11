@@ -18,6 +18,7 @@ Vue.use(Router)
 
 async function requireAuth (to, from, next) {
   const authenticated = localStorage.getItem('authenticated')
+  console.log(authenticated)
   if (authenticated === 'true') {
     next()
   } else {
