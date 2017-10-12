@@ -1,15 +1,5 @@
 import { Toast } from 'buefy'
-import axios from 'axios'
-
-const API_URL = 'http://localhost:8000/'
-const token = localStorage.getItem('id_token')
-
-export const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    Authorization: 'Bearer ' + token
-  }
-})
+import User from '@/store/api/user'
 
 // state
 const state = {
@@ -68,9 +58,6 @@ const mutations = {
   SET_USER_ADDRESS: function (state, data) {
     state.user.address = data
   },
-  SET_USER_SHOWCASE: function (state, data) {
-    state.user.showcase = data
-  },
   SET_USER_AUTHENTICATED: function (state, data) {
     localStorage.setItem('authenticated', data)
     state.user.authenticated = data
@@ -107,94 +94,47 @@ const mutations = {
 
 // actions to update user profile
 const actions = {
-  updateProfile (store) {
+  async updateProfile (store) {
     var formDataProfile = new FormData()
     formDataProfile.append('user', store.state.user.info.id)
     if (store.state.avatar_changed) {
       formDataProfile.append('avatar', store.state.file)
     }
     formDataProfile.append('phone_number', store.state.user.profile.phone_number)
-    api.patch('user/', store.state.user.info)
-      .then(response => {
-        if (store.state.user.profile.length === 0) {
-          console.log(api.defaults.headers)
-          console.log(store.state.user.info.id)
-          console.log(store.state.user.profile.phone_number)
-          console.log(store.state.file)
-          console.log(formDataProfile)
-          api.post('userProfiles/', formDataProfile)
-            .then(response => {
-              Toast.open({
-                message: 'Ok ! C\'est sauvegardé',
-                type: 'is-success'
-              })
-            }, response => {
-              console.log(response)
-              Toast.open({
-                message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-                type: 'is-danger'
-              })
-            })
-        } else {
-          api.patch('user/profile/', formDataProfile)
-            .then(response => {
-              api.get('user/profile')
-                .then(response => {
-                  store.commit('SET_USER_PROFILE', response.data)
-                }, response => {
-                  store.commit('SET_USER_PROFILE', [])
-                })
-              Toast.open({
-                message: 'Ok ! C\'est sauvegardé',
-                type: 'is-success'
-              })
-            }, response => {
-              console.log(response)
-              Toast.open({
-                message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-                type: 'is-danger'
-              })
-            })
-        }
-      }, response => {
-        Toast.open({
-          message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-          type: 'is-danger'
-        })
-      }
-    )
+    await User.updateUserInfo(store.state.user.info)
+    await User.updateUserProfile(formDataProfile)
+    try {
+      const userProfile = await User.getUserProfile()
+      store.commit('SET_USER_PROFILE', userProfile.data)
+      Toast.open({
+        message: 'Ok ! C\'est sauvegardé',
+        type: 'is-success'
+      })
+    } catch (e) {
+      console.log(e)
+      store.commit('SET_USER_PROFILE', [])
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
+        type: 'is-danger'
+      })
+    }
   },
 
-  updateProfileAddress (store) {
-    if (store.state.user.address.length === 0) {
-      api.post('userLocations/', store.state.user.address)
-        .then(response => {
-          // this.check()
-          Toast.open({
-            message: 'Ok ! C\'est sauvegardé',
-            type: 'is-success'
-          })
-        }, response => {
-          Toast.open({
-            message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-            type: 'is-danger'
-          })
-        })
-    } else {
-      console.log(store.state.user.address.address)
-      api.patch('user/location/', store.state.user.address)
-        .then(response => {
-          // this.check()
-          Toast.open({
-            message: 'Ok ! C\'est sauvegardé',
-            type: 'is-success'
-          })
-        }, response => {
-          Toast.open({
-            message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-            type: 'is-danger'
-          })
-        })
+  async updateProfileAddress (store) {
+    try {
+      await User.updateUserLocation(store.state.user.address)
+      const userLocation = await User.getUserLocation()
+      store.commit('SET_USER_ADDRESS', userLocation.data)
+      Toast.open({
+        message: 'Ok ! C\'est sauvegardé',
+        type: 'is-success'
+      })
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
+        type: 'is-danger'
+      })
     }
   }
 }

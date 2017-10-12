@@ -4,6 +4,7 @@ import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
 import { Toast } from 'buefy'
 import User from '@/store/api/user'
+import Showcase from '@/store/api/showcase'
 import api from '@/store/api'
 
 Vue.use(Vuex)
@@ -73,6 +74,8 @@ const actions = {
         await store.commit('SET_USER_ADDRESS', userLocation.data)
         const userShowcase = await User.getUserShowcase()
         await store.commit('SET_USER_SHOWCASE', userShowcase.data)
+        const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.id)
+        await store.commit('SET_SHOWCASE_IMAGES', showcaseImages.data)
         await store.commit('SET_ERROR', false)
       } catch (e) {
         console.log(e)
@@ -82,6 +85,8 @@ const actions = {
         store.commit('SET_USER_INFO', [])
         store.commit('SET_USER_ADDRESS', [])
         store.commit('SET_USER_SHOWCASE', [])
+        store.commit('SET_SHOWCASE_IMAGES', [])
+        store.commit('SET_ERROR', true)
       }
     } else {
       localStorage.removeItem('id_token')
@@ -90,6 +95,7 @@ const actions = {
       store.commit('SET_USER_INFO', [])
       store.commit('SET_USER_ADDRESS', [])
       store.commit('SET_USER_SHOWCASE', [])
+      store.commit('SET_SHOWCASE_IMAGES', [])
       store.commit('SET_ERROR', true)
     }
   },
@@ -147,6 +153,8 @@ const actions = {
         await store.commit('SET_USER_ADDRESS', userLocation.data)
         const userShowcase = await User.getUserShowcase()
         await store.commit('SET_USER_SHOWCASE', userShowcase.data)
+        const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.id)
+        await store.commit('SET_SHOWCASE_IMAGES', showcaseImages.data)
         await store.commit('SET_ERROR', false)
       } catch (e) {
         console.log(e)
@@ -173,6 +181,7 @@ const actions = {
     await store.commit('SET_USER_ADDRESS', [])
     await store.commit('SET_USER_PROFILE', [])
     await store.commit('SET_USER_SHOWCASE', [])
+    await store.commit('SET_SHOWCASE_IMAGES', [])
     console.log(localStorage.getItem('id_token'))
   }
 }

@@ -2,13 +2,13 @@
   <div class="dashboardShowcasePresentation">
     <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
       <div class="dashboard-avatar">
-        <VueImgInputer id="logo" name="logo" :imgSrc="auth.user.showcase.logo" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
+        <VueImgInputer id="logo" name="logo" :imgSrc="showcase.logo" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
       </div>
       <br>
       <div class="field">
         <label class="label">Nom</label>
         <div class="control">
-          <input id="name" type="text" name="name" class="input" required v-model="auth.user.showcase.name">
+          <input id="name" type="text" name="name" class="input" required v-model="showcase.name">
         </div>
         <field-messages name="name" show="$touched || $submitted" class="form-control-feedback">
           <div>Ok !</div>
@@ -19,7 +19,7 @@
         <label class="label">Présentation</label>
         <div class="quill-editor">
           <quill-editor ref="myTextEditor"
-                        v-model="auth.user.showcase.presentation"
+                        v-model="showcase.presentation"
                         :options="editorOption">
           </quill-editor>
         </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import auth from '../../../auth.js'
+import Vuex from 'vuex'
 import VueImgInputer from 'vue-img-inputer'
 
 export default {
@@ -60,13 +60,15 @@ export default {
           ]
         }
       },
-      auth: auth,
       formstate: {},
       file: '',
       image: ''
     }
   },
   methods: {
+    ...Vuex.mapActions({
+      updateShowcasePresentation: 'updateShowcasePresentation'
+    }),
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -80,21 +82,17 @@ export default {
     },
 
     updateFile (file) {
-      this.file = file
+      this.$store.commit('SET_LOGO', file)
     },
 
     onSubmit: function () {
-      var formData = new FormData()
-      formData.append('user', auth.user.info.id)
-      formData.append('name', auth.user.showcase.name)
-      formData.append('presentation', auth.user.showcase.presentation)
-      formData.append('logo', this.file)
       if (this.formstate.$valid) {
-        auth.updateShowcase(this, formData)
+        this.updateShowcasePresentation(this)
       }
     }
   },
   computed: {
+    ...Vuex.mapGetters(['showcase']),
     editor () {
       return this.$refs.myTextEditor.quill
     }

@@ -48,5 +48,14 @@ export default {
       {
         user: userId
       })
+  },
+  updateUserInfo (userInfo) {
+    return api.patch('user/', userInfo)
+  },
+  updateUserProfile (userProfile) {
+    return api.patch('user/profile/', userProfile)
+  },
+  updateUserLocation (userLocation) {
+    return api.patch('user/location/', userLocation)
   }
 }

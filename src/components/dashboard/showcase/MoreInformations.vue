@@ -7,7 +7,7 @@
         <label class="label">Plus d'informations</label>
         <div class="quill-editor">
           <quill-editor ref="myTextEditor"
-                        v-model="this.user.showcase.informations"
+                        v-model="showcase.informations"
                         :options="editorOption">
           </quill-editor>
         </div>
@@ -49,10 +49,13 @@ export default {
   },
 
   computed: {
-    ...Vuex.mapGetters(['user'])
+    ...Vuex.mapGetters(['showcase'])
   },
 
   methods: {
+    ...Vuex.mapActions({
+      updateShowcaseMoreInfo: 'updateShowcaseMoreInfo'
+    }),
 
     fieldClassName: function (field) {
       if (!field) {
@@ -67,11 +70,8 @@ export default {
     },
 
     onSubmit: function () {
-      var formData = new FormData()
-      formData.append('user', this.user.info.id)
-      formData.append('informations', this.user.showcase.informations)
       if (this.formstate.$valid) {
-        // auth.updateShowcase(this, formData)
+        this.updateShowcaseMoreInfo(this)
       }
     }
   }

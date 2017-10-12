@@ -7,7 +7,7 @@
         <label class="label">Horaires</label>
         <div class="quill-editor">
           <quill-editor ref="myTextEditor"
-                        v-model="auth.user.showcase.timetable"
+                        v-model="showcase.timetable"
                         :options="editorOption">
           </quill-editor>
         </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import auth from '../../../auth.js'
+import Vuex from 'vuex'
 
 export default {
   data () {
@@ -44,11 +44,17 @@ export default {
           ]
         }
       },
-      auth: auth,
       formstate: {}
     }
   },
+  computed: {
+    ...Vuex.mapGetters(['showcase'])
+  },
   methods: {
+    ...Vuex.mapActions({
+      updateShowcaseTimetable: 'updateShowcaseTimetable'
+    }),
+
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -62,11 +68,8 @@ export default {
     },
 
     onSubmit: function () {
-      var formData = new FormData()
-      formData.append('user', auth.user.info.id)
-      formData.append('timetable', auth.user.showcase.timetable)
       if (this.formstate.$valid) {
-        auth.updateShowcase(this, formData)
+        this.updateShowcaseTimetable(this)
       }
     }
   }
