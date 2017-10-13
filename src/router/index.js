@@ -13,6 +13,7 @@ import DashboardContact from '@/components/dashboard/showcase/Contact.vue'
 import DashboardTimetable from '@/components/dashboard/showcase/Timetable.vue'
 import DashboardMoreInformations from '@/components/dashboard/showcase/MoreInformations.vue'
 import DashboardImages from '@/components/dashboard/showcase/Images.vue'
+import DashboardProductList from '@/components/dashboard/product/List.vue'
 
 Vue.use(Router)
 
@@ -73,6 +74,10 @@ export default new Router({
         path: 'showcaseImages',
         name: 'dashboard.showcase.images',
         component: DashboardImages
+      }, {
+        path: 'productList',
+        name: 'dashboard.product.list',
+        component: DashboardProductList
       }]
     },
     {

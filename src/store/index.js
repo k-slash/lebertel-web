@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
+import product from '@/store/modules/product'
 import { Toast } from 'buefy'
 import User from '@/store/api/user'
 import Showcase from '@/store/api/showcase'
@@ -76,6 +77,8 @@ const actions = {
         await store.commit('SET_USER_SHOWCASE', userShowcase.data)
         const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.id)
         await store.commit('SET_SHOWCASE_IMAGES', showcaseImages.data)
+        const userProducts = await User.getUserProducts()
+        await store.commit('SET_USER_PRODUCTS', userProducts.data)
         await store.commit('SET_ERROR', false)
       } catch (e) {
         console.log(e)
@@ -86,6 +89,7 @@ const actions = {
         store.commit('SET_USER_ADDRESS', [])
         store.commit('SET_USER_SHOWCASE', [])
         store.commit('SET_SHOWCASE_IMAGES', [])
+        store.commit('SET_USER_PRODUCTS', [])
         store.commit('SET_ERROR', true)
       }
     } else {
@@ -96,6 +100,7 @@ const actions = {
       store.commit('SET_USER_ADDRESS', [])
       store.commit('SET_USER_SHOWCASE', [])
       store.commit('SET_SHOWCASE_IMAGES', [])
+      store.commit('SET_USER_PRODUCTS', [])
       store.commit('SET_ERROR', true)
     }
   },
@@ -155,6 +160,8 @@ const actions = {
         await store.commit('SET_USER_SHOWCASE', userShowcase.data)
         const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.id)
         await store.commit('SET_SHOWCASE_IMAGES', showcaseImages.data)
+        const userProducts = await User.getUserProducts()
+        await store.commit('SET_USER_PRODUCTS', userProducts.data)
         await store.commit('SET_ERROR', false)
       } catch (e) {
         console.log(e)
@@ -182,6 +189,7 @@ const actions = {
     await store.commit('SET_USER_PROFILE', [])
     await store.commit('SET_USER_SHOWCASE', [])
     await store.commit('SET_SHOWCASE_IMAGES', [])
+    await store.commit('SET_USER_PRODUCTS', [])
     console.log(localStorage.getItem('id_token'))
   }
 }
@@ -193,7 +201,8 @@ const store = new Vuex.Store({
   actions: actions,
   modules: {
     user,
-    showcase
+    showcase,
+    product
   }
 })
 

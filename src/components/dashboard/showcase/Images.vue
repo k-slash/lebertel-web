@@ -22,7 +22,6 @@
       <label for="files" class="button is-primary badge" :data-badge="nbFiles">Ajouter des images</label>
       <input id="files" style="visibility:hidden;"  ref="file_input" type="file" multiple @change="uploadFiles">
     </div>
-
   </div>
 </template>
 

@@ -19,6 +19,9 @@ export default {
   getUserShowcase () {
     return api.get('user/showcase/')
   },
+  getUserProducts () {
+    return api.get('user/products/')
+  },
   initUserInfo (firstName, lastName, email, password) {
     return api.post('users/',
       {
