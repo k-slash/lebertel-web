@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store'
 import Dashboard from '@/components/Dashboard.vue'
 import Home from '@/components/Home.vue'
 import Register from '@/components/Register.vue'
@@ -14,14 +13,13 @@ import DashboardTimetable from '@/components/dashboard/showcase/Timetable.vue'
 import DashboardMoreInformations from '@/components/dashboard/showcase/MoreInformations.vue'
 import DashboardImages from '@/components/dashboard/showcase/Images.vue'
 import DashboardProductList from '@/components/dashboard/product/List.vue'
+import DashboardProductEdit from '@/components/dashboard/product/Edit.vue'
 
 Vue.use(Router)
 
 async function requireAuth (to, from, next) {
   // await store.dispatch('check')
   const authenticated = localStorage.getItem('authenticated')
-  console.log(authenticated)
-  console.log(store.state)
   if (authenticated === 'true') {
     next()
   } else {
@@ -78,6 +76,10 @@ export default new Router({
         path: 'productList',
         name: 'dashboard.product.list',
         component: DashboardProductList
+      }, {
+        path: 'product/:id(\\d+)',
+        name: 'dashboard.product.edit',
+        component: DashboardProductEdit
       }]
     },
     {

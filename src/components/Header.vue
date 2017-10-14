@@ -40,47 +40,59 @@
               <span>Se connecter</span>
             </router-link>
           </span>
-          <div class="navbar-item has-dropdown" :class="navMenuClass">
-            <div class="navbar-link media" v-if="this.user.authenticated" @click="toggleMenu">
-              <div class="media-left">
-                <figure class="image is-48x48">
-                  <div v-if="!!this.user.profile.avatar">
-                    <img :src="this.user.profile.avatar" alt="Image" v-if="this.user.authenticated">
+          <b-dropdown v-model="navigation" position="is-bottom-left">
+              <a class="navbar-item" slot="trigger">
+                <div class="navbar-link media" v-if="this.user.authenticated">
+                  <div class="media-left">
+                    <figure class="image is-48x48">
+                      <div v-if="!!this.user.profile.avatar">
+                        <img :src="this.user.profile.avatar" alt="Image" v-if="this.user.authenticated">
+                      </div>
+                      <div v-else>
+                        <img src="../assets/images/avatar.png" alt="Image" v-if="this.user.authenticated">
+                      </div>
+                    </figure>
                   </div>
-                  <div v-else>
-                    <img src="../assets/images/avatar.png" alt="Image" v-if="this.user.authenticated">
+                  <div class="media-content">
+                    <p class="title is-4">{{ this.user.info.first_name }} {{ this.user.info.last_name }}</p>
+                    <!--<p class="subtitle is-6">@johnsmith</p>-->
                   </div>
-                </figure>
-              </div>
-              <div class="media-content">
-                <p class="title is-4">{{ this.user.info.first_name }} {{ this.user.info.last_name }}</p>
-                <!--<p class="subtitle is-6">@johnsmith</p>-->
-              </div>
-            </div>
-            <div id="blogDropdown" class="navbar-dropdown is-boxed" :class="navMenuClass" v-if="this.user.authenticated">
-              <router-link class="navbar-item" :to="{ name: 'home' }">
-                <i class="material-icons icon-margin">home</i>
-                Accueil
-              </router-link>
-              <router-link class="navbar-item" :to="{ name: 'dashboard.profile' }">
-                <i class="material-icons icon-margin">account_circle</i>
-                Mon compte
-              </router-link>
-              <router-link class="navbar-item" :to="{ name: 'dashboard.profile' }">
-                <i class="material-icons icon-margin">art_track</i>
-                Ma vitrine
-              </router-link>
-              <router-link class="navbar-item" :to="{ name: 'dashboard.profile' }">
-                <i class="material-icons icon-margin">store</i>
-                Mes produits
-              </router-link>
-              <hr class="navbar-divider">
-              <a class="navbar-item" value="logout" href="javascript:void(0)" v-on:click="signout">
-                  <i class="material-icons icon-margin">exit_to_app</i>
-                  Déconnexion
+                </div>
               </a>
-            </div>
-          </div>
+
+              <b-dropdown-item has-link="true">
+                <router-link :to="{ name: 'home' }">
+                  <b-icon icon="home" class="icon-margin"></b-icon>
+                  Accueil
+                </router-link>
+              </b-dropdown-item>
+              <hr class="dropdown-divider">
+              <b-dropdown-item has-link="true">
+                <router-link :to="{ name: 'dashboard.profile' }">
+                  <b-icon icon="account_circle" class="icon-margin"></b-icon>
+                  Mon compte
+                </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item value="showcase" has-link="true">
+                <router-link :to="{ name: 'dashboard.profile' }">
+                  <b-icon icon="art_track" class="icon-margin"></b-icon>
+                  Ma vitrine
+                </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item value="products" has-link="true">
+                <router-link :to="{ name: 'dashboard.profile' }">
+                  <b-icon icon="store" class="icon-margin"></b-icon>
+                  Mes produits
+                </router-link>
+              </b-dropdown-item>
+              <hr class="dropdown-divider">
+              <b-dropdown-item value="signout" has-link="true">
+                <a class="navbar-item" value="logout" v-on:click="signout">
+                    <b-icon icon="exit_to_app" class="icon-margin"></b-icon>
+                    Déconnexion
+                </a>
+              </b-dropdown-item>
+          </b-dropdown>
         </div>
       </div>
     </nav>
@@ -99,11 +111,6 @@ export default {
       isNavMenuActive: false
     }
   },
-  /** beforeCreate: {
-    ...Vuex.mapActions({
-      check: 'check'
-    })
-  }, **/
   computed: {
     ...Vuex.mapGetters(['user']),
     navMenuClass () {
@@ -131,9 +138,6 @@ export default {
     }
   },
   mounted: function () {
-    /** this.$store.dispatch('check').then(() => {
-      console.log(this.user.authenticated)
-    }) **/
     this.$nextTick(function () {
       this.check(this).then(
         console.log(this.user.authenticated),

@@ -5,7 +5,7 @@ import Product from '@/store/api/product'
 const state = {
   products: [],
   product: {
-    owner: null,
+    id: null,
     name: null,
     price: null,
     description: null
@@ -26,12 +26,16 @@ const getters = {
 // mutations
 const mutations = {
   SET_USER_PRODUCTS: function (state, data) {
-    console.log(data)
     state.products = data
-    console.log(state.products)
   },
   ADD_PRODUCT: function (state, data) {
     state.products += data
+  },
+  SET_PRODUCT: function (state, data) {
+    state.product = data
+  },
+  SET_PRODUCT_TO_LOAD: function (state, data) {
+    state.product.id = data
   },
   SET_PRODUCT_IMAGE_ADDED: function (state, data) {
     state.productImageAdded.image = data
@@ -82,6 +86,19 @@ const actions = {
     try {
       const listProducts = await Product.getProducts()
       await store.commit('SET_PRODUCTS', listProducts.data)
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement des produits',
+        type: 'is-danger'
+      })
+    }
+  },
+
+  async getProduct (store) {
+    try {
+      const product = await Product.getProduct(store.state.product.id)
+      await store.commit('SET_PRODUCT', product.data)
     } catch (e) {
       console.log(e)
       Toast.open({

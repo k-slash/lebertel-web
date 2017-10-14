@@ -4,11 +4,11 @@ export default {
   addProduct (product) {
     return api.post('products/', product)
   },
-  updateProduct (showcase) {
-    return api.patch('product/', showcase)
+  updateProduct (product) {
+    return api.patch('product/', product)
   },
-  deleteProduct (productId) {
-    return api.delete('products/', productId)
+  getProduct (productId) {
+    return api.get('products/' + productId)
   },
   getProductImages (id) {
     return api.get('products/' + id + '/images/')

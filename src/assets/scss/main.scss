@@ -149,6 +149,22 @@ body, button, input {
   }
 }
 
+.button {
+  &.rounded {
+    border-radius: 50%;
+    height: 3.2em;
+  }
+}
+
+.on-right {
+  display: flex;
+  justify-content: flex-end;
+
+  &.space {
+    letter-spacing: 0.8em
+  }
+}
+
 .navbar-item {
   a {
     text-decoration: none;

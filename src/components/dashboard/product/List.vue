@@ -16,8 +16,24 @@
           {{ product.row.price }} €
         </b-table-column>
 
+        <b-table-column label="Date" centered>
+          {{ new Date(product.row.date_created).toLocaleDateString() }}
+        </b-table-column>
+
         <b-table-column label="Description">
           {{ product.row.description }}
+        </b-table-column>
+
+        <b-table-column label="           " class="on-right space">
+          <router-link :to="{ name: 'dashboard.product.edit', params: { id: product.row.id } }" class="button rounded is-primary">
+            <i class="material-icons">mode_edit</i>
+          </router-link>
+          <button class="button rounded is-danger" @click="confirmCustomDelete">
+            <i class="material-icons">delete_forever</i>
+          </button>
+        </b-table-column>
+        <b-table-column>
+
         </b-table-column>
       </template>
 
@@ -35,23 +51,6 @@
         </section>
       </template>
     </b-table>
-    <!-- <div class="columns is-multiline">
-      <div class="column is-3" v-model="product.products"
-        v-for="item in product.products"
-        v-bind:item="item"
-        v-bind:key="item.id">
-        <article class="media">
-          <div class="media-content">
-            <p class="image is-128">
-              <img :src="item.image">
-            </p>
-          </div>
-          <div class="media-right">
-            <button class="delete" @click="deleteImage" :id="item.id"></button>
-          </div>
-        </article>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -65,12 +64,20 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters(['product', 'products'])
+    ...Vuex.mapGetters(['products'])
   },
   methods: {
-    ...Vuex.mapActions({
-      listProduct: 'listProduct'
-    })
+    confirmCustomDelete () {
+      this.$dialog.confirm({
+        title: 'Supprimer le produit ?',
+        message: 'Êtes-vous sûr de vouloir <b>supprimer</b> le produit ? Cette action est irréversible.',
+        cancelText: 'Annuler',
+        confirmText: 'Supprimer le produit',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.$toast.open('Account deleted!')
+      })
+    }
   }
 }
 </script>
