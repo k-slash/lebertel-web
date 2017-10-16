@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <section class="hero is-corn is-medium">
+    <section class="hero is-milk-jam is-medium">
       <div class="hero-body">
         <div class="container has-text-centered">
           <h1 class="title">
@@ -81,7 +81,7 @@
         </div>
       </div>
     </section>
-    <section class="hero is-dark">
+    <section class="hero is-pinktable-brown">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-tablet-reversed">
@@ -101,7 +101,7 @@
                 Suscipit ac dolor Maecenas ac leo pellentesque.
               </h2>
               <p>
-                <button class="button is-primary is-outlined">Learn more</button>
+                <button class="button is-pinktable-dark-brown is-outlined">Learn more</button>
               </p>
             </div>
           </div>

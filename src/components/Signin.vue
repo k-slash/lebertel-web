@@ -25,7 +25,7 @@
                     <div class="field">
                       <label class="label">Email</label>
                       <div class="control">
-                        <input id="email" type="email" name="email" class="input" required @change="setEmail">
+                        <input id="email" type="email" name="email" class="input" required v-model="email">
                       </div>
                       <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
                         <div slot="required">Votre email est requis</div>
@@ -37,7 +37,7 @@
                     <div class="field">
                       <label class="label">Mot de passe</label>
                       <div class="control">
-                        <input id="password" type="password" name="password" class="input" required @change="setPassword">
+                        <input id="password" type="password" name="password" class="input" required v-model="password">
                       </div>
                       <field-messages auto-label name="password" show="$touched || $submitted" class="form-control-feedback">
                         <div slot="required">Votre mot de passe est requis</div>
@@ -63,11 +63,10 @@ import Vuex from 'vuex'
 export default {
   data () {
     return {
-      formstate: {}
+      formstate: {},
+      email: null,
+      password: null
     }
-  },
-  computed: {
-    ...Vuex.mapGetters(['user', 'loginEmail', 'loginPassword'])
   },
   methods: {
     ...Vuex.mapActions({
@@ -87,22 +86,18 @@ export default {
       }
     },
 
-    setEmail (e) {
-      this.$store.commit('SET_LOGIN_EMAIL', e.target.value)
-      console.log(this.$store.state.loginEmail)
-    },
-
-    setPassword (e) {
-      this.$store.commit('SET_LOGIN_PASSWORD', e.target.value)
-    },
-
     signin (e) {
       if (this.formstate.$valid) {
         e.preventDefault()
-        this.login(this)
-        this.$router.push({
-          name: 'dashboard.profile'
-        })
+        const data = {
+          'email': this.email,
+          'password': this.password
+        }
+        this.login(data).then(
+          this.$router.push({
+            name: 'dashboard.profile'
+          })
+        )
         /** if (!this.$store.state.error) {
           this.$router.push({
             name: 'dashboard.profile'

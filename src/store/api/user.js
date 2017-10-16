@@ -8,18 +8,23 @@ export default {
     return api.post('o/token/?grant_type=password&username=' + email + '&password=' + password + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
   },
   getUserInfo () {
+    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/')
   },
   getUserProfile () {
+    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/profile/')
   },
   getUserLocation () {
+    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/location/')
   },
   getUserShowcase () {
+    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/showcase/')
   },
   getUserProducts () {
+    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/products/')
   },
   initUserInfo (firstName, lastName, email, password) {

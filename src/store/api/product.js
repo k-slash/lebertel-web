@@ -1,14 +1,17 @@
 import api from '@/store/api'
 
 export default {
-  addProduct (product) {
+  add (product) {
     return api.post('products/', product)
   },
-  updateProduct (product) {
+  update (product) {
     return api.patch('product/', product)
   },
-  getProduct (productId) {
+  get (productId) {
     return api.get('products/' + productId)
+  },
+  delete (id) {
+    return api.delete('products/' + id)
   },
   getProductImages (id) {
     return api.get('products/' + id + '/images/')

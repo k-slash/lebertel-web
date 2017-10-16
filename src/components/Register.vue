@@ -26,9 +26,9 @@
                     <div class="field">
                       <label class="label">Prénom</label>
                       <div class="control">
-                        <input id="registerFirstName" type="text" name="registerFirstName" class="input" required :value="registerFirstName" @change="setFirstName">
+                        <input id="firstName" type="text" name="firstName" class="input" required v-model="firstName">
                       </div>
-                      <field-messages name="registerFirstName" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages name="firstName" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre prénom est requis</div>
                       </field-messages>
@@ -39,9 +39,9 @@
                     <div class="field">
                       <label class="label">Nom</label>
                       <div class="control">
-                        <input id="registerLastName" type="text" name="registerLastName" class="input" required :value="registerLastName" @change="setLastName">
+                        <input id="lastName" type="text" name="lastName" class="input" required v-model="lastName">
                       </div>
-                      <field-messages name="registerLastName" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages name="lastName" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre nom est requis</div>
                       </field-messages>
@@ -52,9 +52,9 @@
                     <div class="field">
                       <label class="label">Email</label>
                       <div class="control">
-                        <input id="registerEmail" type="email" name="registerEmail" class="input" required :value="registerEmail" @change="setEmail">
+                        <input id="email" type="email" name="email" class="input" required v-model="email">
                       </div>
-                      <field-messages auto-label name="registerEmail" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre email est requis</div>
                         <div slot="email">L'email est invalide</div>
@@ -66,9 +66,9 @@
                     <div class="field">
                       <label class="label">Mot de passe</label>
                       <div class="control">
-                        <input id="registerPassword" type="password" password-strength name="registerPassword" class="input" required :value="registerPassword" @change="setPassword">
+                        <input id="password" type="password" password-strength name="password" class="input" required v-model="password">
                       </div>
-                      <field-messages auto-label name="registerPassword" show="$touched || $submitted" class="form-control-feedback">
+                      <field-messages auto-label name="password" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre mot de passe est requis</div>
                         <div slot="password-strength">Votre mot de passe doit contenir des majuscules, des minuscules, des nombres ou des caractères spéciaux et contenir au moins 8 caratères</div>
@@ -80,7 +80,7 @@
                     <div class="field">
                       <label class="label">Confirmation du mot de passe</label>
                       <div class="control">
-                        <input id="confirmPassword" type="password" :matches="registerPassword" name="confirmPassword" class="input" required>
+                        <input id="confirmPassword" type="password" :matches="password" name="confirmPassword" class="input" required>
                       </div>
                       <field-messages auto-label name="confirmPassword" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
@@ -110,11 +110,12 @@ import Vuex from 'vuex'
 export default {
   data () {
     return {
-      formstate: {}
+      formstate: {},
+      firstName: null,
+      lastName: null,
+      email: null,
+      password: null
     }
-  },
-  computed: {
-    ...Vuex.mapGetters(['registerFirstName', 'registerLastName', 'registerEmail', 'registerPassword'])
   },
   methods: {
     ...Vuex.mapActions({
@@ -134,25 +135,15 @@ export default {
       }
     },
 
-    setFirstName (e) {
-      this.$store.commit('SET_REGISTER_FIRSTNAME', e.target.value)
-    },
-
-    setLastName (e) {
-      this.$store.commit('SET_REGISTER_LASTNAME', e.target.value)
-    },
-
-    setEmail (e) {
-      this.$store.commit('SET_REGISTER_EMAIL', e.target.value)
-    },
-
-    setPassword (e) {
-      this.$store.commit('SET_REGISTER_PASSWORD', e.target.value)
-    },
-
     onSubmit: function () {
       if (this.formstate.$valid) {
-        this.register(this)
+        const data = {
+          'firstName': this.firstName,
+          'lastName': this.lastName,
+          'email': this.email,
+          'password': this.password
+        }
+        this.register(data)
         console.log('register ok')
         /** this.register(this)
           .then(response => {

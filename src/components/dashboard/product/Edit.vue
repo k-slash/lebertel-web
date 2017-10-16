@@ -66,38 +66,13 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    // const authenticated = localStorage.getItem('authenticated')
-    // console.log(to.params.id)
-    store.commit('SET_PRODUCT_TO_LOAD', to.params.id)
-    store.dispatch('getProduct').then(res => next())
+    store.dispatch('getProduct', to.params.id).then(res => next())
   },
-  /** asyncData ({ store, route }) {
-    // return the Promise from the action
-    console.log(route.params.id)
-    store.commit('SET_PRODUCT_TO_LOAD', route.params.id)
-    store.dispatch('getProduct', route.params.id)
-  }, **/
 
   computed: {
-    // display the item from store state.
-
     ...Vuex.mapGetters(['product'])
-    /** product () {
-      return this.$store.state.items[this.$route.params.id]
-    } **/
   },
-  /** computed: {
-    function () {
-      console.log(this.$route.params.id)
-    },
-    ...Vuex.mapGetters(['product'])
-  }, **/
   methods: {
-    ...Vuex.mapActions({
-      updateProduct: 'updateProduct',
-      getProduct: 'getProduct'
-    }),
-
     fieldClassName: function (field) {
       if (!field) {
         return ''

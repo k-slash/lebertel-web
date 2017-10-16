@@ -1,30 +1,6 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
-/**@font-face
-	font-family: 'minimal-mono-regular'
-	src: url('https://befonts.com/wp-content/uploads/2017/06/minimal-mono-regular.otf') format('woff'),
-	url('https://befonts.com/wp-content/uploads/2017/06/minimal-mono-regular.otf') format('opentype'),
-	url('https://befonts.com/wp-content/uploads/2017/06/minimal-mono-regular.otf') format('truetype')
-
-
-@font-face
-  font-family: 'diamor'
-  src: url('../fonts/Diamor/Diamor.otf') format('opentype'),
-       url('../fonts/Diamor/Diamor.otf') format('truetype')
-  font-weight: normal
-  font-style: normal
-
-
-#app {
-	font-family: 'diamor', Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #d3d3d3;
-	margin: 0;
-}**/
-
 @font-face {
   font-family: 'Santral';
   src: url('../assets/fonts/Santral/Santral.otf');
@@ -42,6 +18,8 @@ $primary: #D7AF71;
 $primary-invert: findColorInvert($primary);
 $dark: #1B1B1B;
 $dark-invert: findColorInvert($dark);
+$blanc-espagne: #FEFDF0;
+$blanc-espagne-invert: findColorInvert($blanc-espagne);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
 $corn: #DFEF58;
@@ -54,29 +32,16 @@ $brust: #383F51;
 $brust-invert: findColorInvert($brust);
 $error: #d9534f;
 $error-invert: findColorInvert($error);
-
-$body-size: 14px;
-
-/**.panel {
-  background: url(../assets/patterns/knitting.png);
-  //background-attachment: fixed;
-}**/
-
-// Transition
-.dashboard-enter-active, .dashboard-leave-active {
-  transition: opacity .2s ease, transform .2s;
-}
-.dashboard-enter, .dashboard-leave-to {
-  opacity: 0;
-  transform: translateX(20px);
-}
-.container-enter-active, .container-leave-active {
-  transition: opacity .2s ease, transform .2s;
-}
-.container-enter, .container-leave-to {
-  opacity: 0;
-  // transform: translateX(20px);
-}
+$milk-jam: #FAF0E0;
+$milk-jam-invert: findColorInvert($milk-jam);
+$fruit-jam: #F6D4D6;
+$fruit-jam-invert: findColorInvert($fruit-jam);
+$kaya-jam: #EACA98;
+$kaya-jam-invert: findColorInvert($kaya-jam);
+$pinktable-brown: #B68C5C;
+$pinktable-brown-invert: findColorInvert($pinktable-brown);
+$pinktable-dark-brown: #6A5040;
+$pinktable-dark-brown-invert: findColorInvert($pinktable-dark-brown);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -92,7 +57,29 @@ $colors: (
   "twitter": ($twitter, $twitter-invert),
   "corn": ($corn, $corn-invert),
   "bertel-dark": ($bertel-dark, $bertel-dark-invert),
+  "milk-jam": ($milk-jam, $milk-jam-invert),
+  "fruit-jam": ($fruit-jam, $fruit-jam-invert),
+  "kaya-jam": ($kaya-jam, $kaya-jam-invert),
+  "pinktable-brown": ($pinktable-brown, $pinktable-brown-invert),
+  "pinktable-dark-brown": ($pinktable-dark-brown, $pinktable-dark-brown-invert)
 );
+
+/** $black: $pinktable-dark-brown;
+$black-bis: $pinktable-dark-brown;
+$black-ter: $pinktable-dark-brown;
+$grey-dark: $pinktable-dark-brown;
+$grey-darker: $pinktable-dark-brown;
+$dark: $pinktable-dark-brown;
+$text-light: $pinktable-dark-brown;
+$text-strong: $pinktable-dark-brown; **/
+
+$body-size: 14px;
+
+/** .panel {
+  background-color: $milk-jam
+  //background: url(../assets/patterns/knitting.png);
+  //background-attachment: fixed;
+} **/
 
 // Links
 $link: $primary;
@@ -103,6 +90,10 @@ $link-focus-border: $primary;
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 @import "extensions/_all";
+
+/**.menu-list a {
+  color: $pinktable-dark-brown
+}**/
 
 body, button, input {
   //font-family: 'Varela Round', sans-serif;
@@ -216,6 +207,7 @@ body, button, input {
 
 .connection {
   background: url(../assets/patterns/restaurant.png);
+  border-radius: 5px 5px 0px 0px;
   //background-attachment: fixed;
 }
 

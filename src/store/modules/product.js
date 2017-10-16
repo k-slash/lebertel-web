@@ -1,5 +1,6 @@
 import { Toast } from 'buefy'
 import Product from '@/store/api/product'
+import User from '@/store/api/User'
 
 // state
 const state = {
@@ -33,9 +34,6 @@ const mutations = {
   },
   SET_PRODUCT: function (state, data) {
     state.product = data
-  },
-  SET_PRODUCT_TO_LOAD: function (state, data) {
-    state.product.id = data
   },
   SET_PRODUCT_IMAGE_ADDED: function (state, data) {
     state.productImageAdded.image = data
@@ -82,10 +80,10 @@ const actions = {
     }
   },
 
-  async listProduct (store) {
+  async getProduct ({ commit, state }, id) {
     try {
-      const listProducts = await Product.getProducts()
-      await store.commit('SET_PRODUCTS', listProducts.data)
+      const product = await Product.get(id)
+      await commit('SET_PRODUCT', product.data)
     } catch (e) {
       console.log(e)
       Toast.open({
@@ -95,14 +93,16 @@ const actions = {
     }
   },
 
-  async getProduct (store) {
+  async deleteProduct ({ commit, state }, id) {
     try {
-      const product = await Product.getProduct(store.state.product.id)
-      await store.commit('SET_PRODUCT', product.data)
+      const product = await Product.delete(id)
+      console.log(product)
+      const listProducts = await User.getUserProducts()
+      await commit('SET_USER_PRODUCTS', listProducts.data)
     } catch (e) {
       console.log(e)
       Toast.open({
-        message: 'Oups ! Il y a eu un problème lors du chargement des produits',
+        message: 'Oups ! Il y a eu un problème lors de la suppression du produit',
         type: 'is-danger'
       })
     }

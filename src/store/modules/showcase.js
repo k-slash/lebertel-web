@@ -109,7 +109,6 @@ const actions = {
   async updateShowcasePresentation (store) {
     try {
       var formDataShowcase = new FormData()
-      console.log(store.state.showcase.name)
       formDataShowcase.append('id', store.state.showcase.id)
       formDataShowcase.append('name', store.state.showcase.name)
       formDataShowcase.append('presentation', store.state.showcase.presentation)

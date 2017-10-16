@@ -28,7 +28,7 @@
           <router-link :to="{ name: 'dashboard.product.edit', params: { id: product.row.id } }" class="button rounded is-primary">
             <i class="material-icons">mode_edit</i>
           </router-link>
-          <button class="button rounded is-danger" @click="confirmCustomDelete">
+          <button class="button rounded is-danger" @click="confirmCustomDelete(product.row.id)">
             <i class="material-icons">delete_forever</i>
           </button>
         </b-table-column>
@@ -67,7 +67,11 @@ export default {
     ...Vuex.mapGetters(['products'])
   },
   methods: {
-    confirmCustomDelete () {
+    ...Vuex.mapActions({
+      deleteProduct: 'deleteProduct'
+    }),
+
+    confirmCustomDelete (id) {
       this.$dialog.confirm({
         title: 'Supprimer le produit ?',
         message: 'Êtes-vous sûr de vouloir <b>supprimer</b> le produit ? Cette action est irréversible.',
@@ -75,7 +79,7 @@ export default {
         confirmText: 'Supprimer le produit',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: () => this.$toast.open('Account deleted!')
+        onConfirm: () => this.deleteProduct(id)
       })
     }
   }
