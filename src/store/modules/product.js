@@ -93,6 +93,24 @@ const actions = {
     }
   },
 
+  async updateProduct ({ commit, state }, id) {
+    try {
+      await Product.update(id, state.product)
+      const product = await Product.get(id)
+      await commit('SET_PRODUCT', product.data)
+      Toast.open({
+        message: 'Ok ! C\'est sauvegardé',
+        type: 'is-success'
+      })
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement des produits',
+        type: 'is-danger'
+      })
+    }
+  },
+
   async deleteProduct ({ commit, state }, id) {
     try {
       const product = await Product.delete(id)

@@ -1,7 +1,7 @@
 <template>
   <div class="dashboardProductEdit">
     <h1 class="title menu-title">Édition</h1>
-    <vue-form name="editProduct" autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
+    <vue-form name="editProduct" autocomplete="off" @submit.prevent="onSubmit(product.id)" :state="formstate" v-model="formstate" enctype="multipart/form-data">
 
       <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.name)">
         <div class="field">
@@ -73,6 +73,10 @@ export default {
     ...Vuex.mapGetters(['product'])
   },
   methods: {
+    ...Vuex.mapActions({
+      updateProduct: 'updateProduct'
+    }),
+
     fieldClassName: function (field) {
       if (!field) {
         return ''
@@ -85,9 +89,9 @@ export default {
       }
     },
 
-    onSubmit: function () {
+    onSubmit: function (id) {
       if (this.formstate.$valid) {
-        this.updateProduct(this)
+        this.updateProduct(id)
       }
     }
   }

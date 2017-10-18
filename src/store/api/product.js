@@ -4,8 +4,8 @@ export default {
   add (product) {
     return api.post('products/', product)
   },
-  update (product) {
-    return api.patch('product/', product)
+  update (id, product) {
+    return api.patch('products/' + id + '/', product)
   },
   get (productId) {
     return api.get('products/' + productId)
