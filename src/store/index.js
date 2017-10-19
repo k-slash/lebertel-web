@@ -7,6 +7,7 @@ import { Toast } from 'buefy'
 import User from '@/store/api/user'
 import Showcase from '@/store/api/showcase'
 import api from '@/store/api'
+import router from '@/router'
 
 Vue.use(Vuex)
 
@@ -130,6 +131,9 @@ const actions = {
         const userProducts = await User.getUserProducts()
         await commit('SET_USER_PRODUCTS', userProducts.data)
         await commit('SET_ERROR', false)
+        router.push({
+          name: 'dashboard.profile'
+        })
       } catch (e) {
         console.log(e)
         Toast.open({

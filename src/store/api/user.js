@@ -4,27 +4,30 @@ const CLIENT_ID = '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U'
 const CLIENT_SECRET = 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
 
 export default {
+  setToken (token) {
+    api.request({
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+  },
+
   connectUser (email, password) {
     return api.post('o/token/?grant_type=password&username=' + email + '&password=' + password + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
   },
   getUserInfo () {
-    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/')
   },
   getUserProfile () {
-    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/profile/')
   },
   getUserLocation () {
-    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/location/')
   },
   getUserShowcase () {
-    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/showcase/')
   },
   getUserProducts () {
-    console.log(api.defaults.headers.common['Authorization'])
     return api.get('user/products/')
   },
   initUserInfo (firstName, lastName, email, password) {

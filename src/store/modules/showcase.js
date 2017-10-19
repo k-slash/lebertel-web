@@ -1,5 +1,6 @@
 import { Toast } from 'buefy'
 import Showcase from '@/store/api/showcase'
+import router from '@/router'
 
 // state
 const state = {
@@ -25,7 +26,6 @@ const state = {
     image: null,
     display_order: null
   },
-  imageToDelete: null,
   logoChanged: false,
   logoFile: null
 }
@@ -94,9 +94,6 @@ const mutations = {
   },
   SET_IMAGE_ADDED_DISPLAY_ORDER: function (state, data) {
     state.imageAdded.display_order = data
-  },
-  SET_IMAGE_TO_DELETE: function (state, data) {
-    state.imageToDelete = data
   },
   INIT_IMAGE_ADDED: function (state) {
     state.imageAdded.image = null
@@ -224,20 +221,20 @@ const actions = {
     }
   },
 
-  async addShowcaseImages (store) {
+  async addShowcaseImages ({ commit, state }, id) {
     try {
       var formData = new FormData()
-      formData.append('showcase', store.state.showcase.id)
-      formData.append('image', store.state.imageAdded.image)
-      formData.append('display_order', store.state.imageAdded.display_order)
+      formData.append('showcase', id)
+      formData.append('image', state.imageAdded.image)
+      formData.append('display_order', state.imageAdded.display_order)
       await Showcase.addImage(formData)
-      const showcase = await Showcase.getShowcaseImages(store.state.showcase.id)
-      await store.commit('SET_SHOWCASE_IMAGES', showcase.data)
-      await store.commit('INIT_IMAGE_ADDED')
+      await commit('INIT_IMAGE_ADDED')
       Toast.open({
-        message: 'Ok ! C\'est sauvegardé',
+        message: 'Ok ! L\'image a été ajoutée',
         type: 'is-success'
-      })
+      }).then(
+        router.go(router.currentRoute)
+      )
     } catch (e) {
       console.log(e)
       Toast.open({
@@ -247,16 +244,15 @@ const actions = {
     }
   },
 
-  async deleteShowcaseImage (store) {
+  async deleteShowcaseImage ({ commit, state }, id) {
     try {
-      await Showcase.deleteImage(store.state.imageToDelete)
-      const showcase = await Showcase.getShowcaseImages(store.state.showcase.id)
-      await store.commit('SET_SHOWCASE_IMAGES', showcase.data)
-      await store.commit('SET_IMAGE_TO_DELETE', null)
+      await Showcase.deleteImage(id)
       Toast.open({
         message: 'Ok ! L\'image a été supprimée',
         type: 'is-success'
-      })
+      }).then(
+        router.go(router.currentRoute)
+      )
     } catch (e) {
       console.log(e)
       Toast.open({

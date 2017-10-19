@@ -13,6 +13,7 @@ import DashboardTimetable from '@/components/dashboard/showcase/Timetable.vue'
 import DashboardMoreInformations from '@/components/dashboard/showcase/MoreInformations.vue'
 import DashboardImages from '@/components/dashboard/showcase/Images.vue'
 import DashboardProductList from '@/components/dashboard/product/List.vue'
+import DashboardProductAdd from '@/components/dashboard/product/Add.vue'
 import DashboardProductEdit from '@/components/dashboard/product/Edit.vue'
 
 Vue.use(Router)
@@ -49,33 +50,37 @@ export default new Router({
         name: 'dashboard.address',
         component: DashboardAddress
       }, {
-        path: 'showcasePresentation',
+        path: 'showcase/presentation',
         name: 'dashboard.showcase.presentation',
         component: DashboardPresentation
       }, {
-        path: 'showcaseLocation',
+        path: 'showcase/location',
         name: 'dashboard.showcase.location',
         component: DashboardLocation
       }, {
-        path: 'showcaseContact',
+        path: 'showcase/contact',
         name: 'dashboard.showcase.contact',
         component: DashboardContact
       }, {
-        path: 'showcaseTimetable',
+        path: 'showcase/timetable',
         name: 'dashboard.showcase.timetable',
         component: DashboardTimetable
       }, {
-        path: 'showcaseMoreInformations',
+        path: 'showcase/informations',
         name: 'dashboard.showcase.informations',
         component: DashboardMoreInformations
       }, {
-        path: 'showcaseImages',
+        path: 'showcase/images',
         name: 'dashboard.showcase.images',
         component: DashboardImages
       }, {
-        path: 'productList',
+        path: 'product/list',
         name: 'dashboard.product.list',
         component: DashboardProductList
+      }, {
+        path: 'product/add',
+        name: 'dashboard.product.add',
+        component: DashboardProductAdd
       }, {
         path: 'product/:id(\\d+)',
         name: 'dashboard.product.edit',

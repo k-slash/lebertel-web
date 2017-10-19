@@ -51,17 +51,9 @@
         <router-link :to="{ name: 'dashboard.product.list' }" v-bind:class="{ 'is-active': $route.name == 'dashboard.product.list' }">
           Liste de produits
         </router-link>
-        <li>
-          <a>Manage Your Team</a>
-          <ul>
-            <li><a>Members</a></li>
-            <li><a>Plugins</a></li>
-            <li><a>Add a member</a></li>
-          </ul>
-        </li>
-        <li><a>Invitations</a></li>
-        <li><a>Cloud Storage Environment Settings</a></li>
-        <li><a>Authentication</a></li>
+        <router-link :to="{ name: 'dashboard.product.add' }" v-bind:class="{ 'is-active': $route.name == 'dashboard.product.add' }">
+          Ajouter un produit
+        </router-link>
       </ul>
       <p class="menu-label">
         Transactions

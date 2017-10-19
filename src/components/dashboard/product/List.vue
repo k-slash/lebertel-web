@@ -20,11 +20,7 @@
           {{ new Date(product.row.date_created).toLocaleDateString() }}
         </b-table-column>
 
-        <b-table-column label="Description">
-          {{ product.row.description }}
-        </b-table-column>
-
-        <b-table-column label="           " class="on-right space">
+        <b-table-column label="" class="on-right space">
           <router-link :to="{ name: 'dashboard.product.edit', params: { id: product.row.id } }" class="button rounded is-primary">
             <i class="material-icons">mode_edit</i>
           </router-link>
@@ -51,11 +47,15 @@
         </section>
       </template>
     </b-table>
+    <router-link :to="{ name: 'dashboard.product.add' }" class="button is-primary">
+      <span> Ajouter un produit </span>
+    </router-link>
   </div>
 </template>
 
 <script>
 import Vuex from 'vuex'
+import store from '@/store'
 
 export default {
   data () {
@@ -66,8 +66,12 @@ export default {
   computed: {
     ...Vuex.mapGetters(['products'])
   },
+  beforeRouteEnter (to, from, next) {
+    store.dispatch('getProducts', to.params.id).then(res => next())
+  },
   methods: {
     ...Vuex.mapActions({
+      getProducts: 'getProducts',
       deleteProduct: 'deleteProduct'
     }),
 

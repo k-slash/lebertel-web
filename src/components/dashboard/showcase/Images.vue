@@ -20,13 +20,14 @@
     </div>
     <div class="block">
       <label for="files" class="button is-primary badge" :data-badge="nbFiles">Ajouter des images</label>
-      <input id="files" style="visibility:hidden;"  ref="file_input" type="file" multiple @change="uploadFiles">
+      <input id="files" style="visibility:hidden;"  ref="file_input" type="file" multiple @change="uploadFiles(showcase.id)">
     </div>
   </div>
 </template>
 
 <script>
 import Vuex from 'vuex'
+import store from '@/store'
 
 export default {
 
@@ -40,14 +41,11 @@ export default {
     }
   },
 
-  computed: {
-    editor () {
-      return this.$refs.myTextEditor.quill
-    },
-    ...Vuex.mapGetters(['showcase'])
+  beforeRouteEnter (to, from, next) {
+    store.dispatch('check').then(res => next())
   },
 
-  watch: {
+  computed: {
     ...Vuex.mapGetters(['showcase'])
   },
 
@@ -58,24 +56,20 @@ export default {
       check: 'check'
     }),
 
-    uploadFiles: function () {
+    async uploadFiles (id) {
       var files = this.$refs.file_input.files
       this.nbFiles = files.length
       for (var i = 0; i < files.length; i++) {
-        this.$store.commit('SET_IMAGE_ADDED', files[i])
-        this.$store.commit('SET_IMAGE_ADDED_DISPLAY_ORDER', i)
-        this.addShowcaseImages(this)
+        console.log(files[i])
+        await store.commit('SET_IMAGE_ADDED', files[i])
+        await store.commit('SET_IMAGE_ADDED_DISPLAY_ORDER', i)
+        await this.addShowcaseImages(id)
       }
     },
 
-    reload: function (event) {
-      this.check(this)
-    },
-
-    deleteImage: function (event) {
+    async deleteImage (event) {
       var imageID = event.currentTarget.id
-      this.$store.commit('SET_IMAGE_TO_DELETE', imageID)
-      this.deleteShowcaseImage(this)
+      this.deleteShowcaseImage(imageID)
     },
 
     fieldClassName: function (field) {

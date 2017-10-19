@@ -93,11 +93,7 @@ export default {
           'email': this.email,
           'password': this.password
         }
-        this.login(data).then(
-          this.$router.push({
-            name: 'dashboard.profile'
-          })
-        )
+        this.login(data)
         /** if (!this.$store.state.error) {
           this.$router.push({
             name: 'dashboard.profile'
