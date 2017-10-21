@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="hero panel panel-default">
+  <div id="app">
     <div class="hero-head">
       <lb-header></lb-header>
     </div>

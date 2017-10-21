@@ -5,7 +5,7 @@ import router from '@/router'
 // state
 const state = {
   showcase: {
-    id: null,
+    user: null,
     logo: null,
     name: null,
     presentation: null,
@@ -37,50 +37,11 @@ const getters = {
 
 // mutations
 const mutations = {
-  SET_USER_SHOWCASE: function (state, data) {
+  SET_SHOWCASE: function (state, data) {
     state.showcase = data
-  },
-  SET_SHOWCASE_ID: function (state, data) {
-    state.showcase.id = data
-  },
-  SET_SHOWCASE_NAME: function (state, data) {
-    state.showcase.name = data
-  },
-  SET_SHOWCASE_PRESENTATION: function (state, data) {
-    state.showcase.presentation = data
-  },
-  SET_SHOWCASE_EMAIL: function (state, data) {
-    state.showcase.email = data
-  },
-  SET_SHOWCASE_PHONE: function (state, data) {
-    state.showcase.phone = data
-  },
-  SET_SHOWCASE_FACEBOOK: function (state, data) {
-    state.showcase.facebook = data
-  },
-  SET_SHOWCASE_LINKEDIN: function (state, data) {
-    state.showcase.linkedin = data
-  },
-  SET_SHOWCASE_TWITTER: function (state, data) {
-    state.showcase.twitter = data
-  },
-  SET_SHOWCASE_PINTEREST: function (state, data) {
-    state.showcase.pinterest = data
-  },
-  SET_SHOWCASE_ADDRESS: function (state, data) {
-    state.showcase.address = data
-  },
-  SET_SHOWCASE_CITY: function (state, data) {
-    state.showcase.city = data
-  },
-  SET_SHOWCASE_POSTCODE: function (state, data) {
-    state.showcase.postcode = data
   },
   SET_SHOWCASE_LOCATION: function (state, data) {
     state.showcase.location = data
-  },
-  SET_SHOWCASE_COUNTRY: function (state, data) {
-    state.showcase.country = data
   },
   SET_SHOWCASE_IMAGES: function (state, data) {
     state.showcase.images = data
@@ -103,10 +64,25 @@ const mutations = {
 
 // actions
 const actions = {
+
+  async getShowcase ({ commit, state }, id) {
+    try {
+      const s = await Showcase.get(id)
+      await commit('SET_SHOWCASE', s.data)
+      const images = await Showcase.getShowcaseImages(id)
+      await commit('SET_SHOWCASE_IMAGES', images.data)
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement de la vitrine',
+        type: 'is-danger'
+      })
+    }
+  },
+
   async updateShowcasePresentation (store) {
     try {
       var formDataShowcase = new FormData()
-      formDataShowcase.append('id', store.state.showcase.id)
       formDataShowcase.append('name', store.state.showcase.name)
       formDataShowcase.append('presentation', store.state.showcase.presentation)
       if (store.state.logoChanged) {
@@ -114,7 +90,7 @@ const actions = {
       }
       await Showcase.updateShowcase(formDataShowcase)
       const showcase = await Showcase.getShowcase()
-      store.commit('SET_USER_SHOWCASE', showcase.data)
+      store.commit('SET_SHOWCASE', showcase.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
@@ -131,7 +107,6 @@ const actions = {
   async updateShowcaseLocation (store) {
     try {
       var formDataShowcase = new FormData()
-      formDataShowcase.append('id', store.state.showcase.id)
       formDataShowcase.append('address', store.state.showcase.address)
       formDataShowcase.append('postcode', store.state.showcase.postcode)
       formDataShowcase.append('city', store.state.showcase.city)
@@ -139,7 +114,7 @@ const actions = {
       formDataShowcase.append('country', 'RE')
       await Showcase.updateShowcase(formDataShowcase)
       const showcase = await Showcase.getShowcase()
-      store.commit('SET_USER_SHOWCASE', showcase.data)
+      store.commit('SET_SHOWCASE', showcase.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
@@ -156,7 +131,6 @@ const actions = {
   async updateShowcaseContact (store) {
     try {
       var formDataShowcase = new FormData()
-      formDataShowcase.append('id', store.state.showcase.id)
       formDataShowcase.append('email', store.state.showcase.email)
       formDataShowcase.append('phone_number', store.state.showcase.phone_number)
       formDataShowcase.append('facebook', store.state.showcase.facebook)
@@ -165,7 +139,7 @@ const actions = {
       formDataShowcase.append('pinterest', store.state.showcase.pinterest)
       await Showcase.updateShowcase(formDataShowcase)
       const showcase = await Showcase.getShowcase()
-      store.commit('SET_USER_SHOWCASE', showcase.data)
+      store.commit('SET_SHOWCASE', showcase.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
@@ -182,11 +156,10 @@ const actions = {
   async updateShowcaseTimetable (store) {
     try {
       var formDataShowcase = new FormData()
-      formDataShowcase.append('id', store.state.showcase.id)
       formDataShowcase.append('timetable', store.state.showcase.timetable)
       await Showcase.updateShowcase(formDataShowcase)
       const showcase = await Showcase.getShowcase()
-      store.commit('SET_USER_SHOWCASE', showcase.data)
+      store.commit('SET_SHOWCASE', showcase.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
@@ -203,11 +176,10 @@ const actions = {
   async updateShowcaseMoreInfo (store) {
     try {
       var formDataShowcase = new FormData()
-      formDataShowcase.append('id', store.state.showcase.id)
       formDataShowcase.append('informations', store.state.showcase.informations)
       await Showcase.updateShowcase(formDataShowcase)
       const showcase = await Showcase.getShowcase()
-      store.commit('SET_USER_SHOWCASE', showcase.data)
+      store.commit('SET_SHOWCASE', showcase.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'

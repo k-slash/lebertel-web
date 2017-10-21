@@ -7,18 +7,6 @@
             le bertel.
           </router-link>
         </span>
-        <a class="navbar-item is-hidden-desktop" href="https://github.com/jgthms/bulma" target="_blank">
-          <span class="icon" style="color: #333;">
-            <i class="fa fa-github"></i>
-          </span>
-        </a>
-
-        <a class="navbar-item is-hidden-desktop" href="https://twitter.com/jgthms" target="_blank">
-          <span class="icon" style="color: #55acee;">
-            <i class="fa fa-twitter"></i>
-          </span>
-        </a>
-
         <span class="navbar-burger burger" @click="toggleMenu" :class="navMenuClass">
           <span></span>
           <span></span>
@@ -55,38 +43,37 @@
                   </div>
                   <div class="media-content">
                     <p class="title is-4">{{ this.user.info.first_name }} {{ this.user.info.last_name }}</p>
-                    <!--<p class="subtitle is-6">@johnsmith</p>-->
                   </div>
                 </div>
               </a>
 
-              <b-dropdown-item has-link="true">
+              <b-dropdown-item>
                 <router-link :to="{ name: 'home' }">
                   <b-icon icon="home" class="icon-margin"></b-icon>
                   Accueil
                 </router-link>
               </b-dropdown-item>
               <hr class="dropdown-divider">
-              <b-dropdown-item has-link="true">
+              <b-dropdown-item>
                 <router-link :to="{ name: 'dashboard.profile' }">
                   <b-icon icon="account_circle" class="icon-margin"></b-icon>
                   Mon compte
                 </router-link>
               </b-dropdown-item>
-              <b-dropdown-item value="showcase" has-link="true">
-                <router-link :to="{ name: 'dashboard.profile' }">
+              <b-dropdown-item value="showcase">
+                <router-link :to="{ name: 'showcase', params: { id: user.info.id } }">
                   <b-icon icon="art_track" class="icon-margin"></b-icon>
                   Ma vitrine
                 </router-link>
               </b-dropdown-item>
-              <b-dropdown-item value="products" has-link="true">
+              <b-dropdown-item value="products">
                 <router-link :to="{ name: 'dashboard.profile' }">
                   <b-icon icon="store" class="icon-margin"></b-icon>
                   Mes produits
                 </router-link>
               </b-dropdown-item>
               <hr class="dropdown-divider">
-              <b-dropdown-item value="signout" has-link="true">
+              <b-dropdown-item value="signout">
                 <a class="navbar-item" value="logout" v-on:click="signout">
                     <b-icon icon="exit_to_app" class="icon-margin"></b-icon>
                     Déconnexion
@@ -108,6 +95,7 @@ export default {
   },
   data () {
     return {
+      navigation: 'home',
       isNavMenuActive: false
     }
   },

@@ -41,7 +41,7 @@ export default {
       })
   },
   initUserProfile (userId) {
-    return api.post('userProfiles/',
+    return api.post('profiles/',
       {
         user: userId,
         avatar: null,
@@ -49,13 +49,13 @@ export default {
       })
   },
   initUserLocation (userId) {
-    return api.post('userLocations/',
+    return api.post('locations/',
       {
         user: userId
       })
   },
   initUserShowcase (userId) {
-    return api.post('userShowcases/',
+    return api.post('showcases/',
       {
         user: userId
       })

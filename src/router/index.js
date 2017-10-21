@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import store from '@/store'
 import Dashboard from '@/components/Dashboard.vue'
 import Home from '@/components/Home.vue'
 import Register from '@/components/Register.vue'
 import Signin from '@/components/Signin.vue'
+import Showcase from '@/components/Showcase.vue'
 import DashboardProfile from '@/components/dashboard/Profile.vue'
 import DashboardAddress from '@/components/dashboard/Address.vue'
 import DashboardPresentation from '@/components/dashboard/showcase/Presentation.vue'
@@ -26,6 +28,13 @@ async function requireAuth (to, from, next) {
   } else {
     next({ name: 'home' })
   }
+  /** const token = store.state.token
+  console.log(token)
+  if (token !== null) {
+    next()
+  } else {
+    next({ name: 'home' })
+  } **/
 }
 
 export default new Router({
@@ -35,6 +44,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/vitrine/:id(\\d+)',
+      name: 'showcase',
+      component: Showcase
     },
     {
       path: '/dashboard',

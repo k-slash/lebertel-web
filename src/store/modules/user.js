@@ -13,10 +13,12 @@ const state = {
       email: null
     },
     profile: {
+      user: null,
       phone_number: null,
       avatar: null
     },
     address: {
+      user: null,
       address: null,
       poscode: null,
       city: null,

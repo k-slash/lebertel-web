@@ -126,6 +126,20 @@ const actions = {
     }
   },
 
+  async getProductsByUser ({ commit, state }, id) {
+    try {
+      const userProducts = await Product.getByUser(id)
+      console.log(userProducts)
+      await commit('SET_USER_PRODUCTS', userProducts.data)
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement des produits',
+        type: 'is-danger'
+      })
+    }
+  },
+
   async updateProduct ({ commit, state }, id) {
     try {
       await Product.update(id, state.product)

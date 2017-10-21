@@ -1,0 +1,30 @@
+.box {
+  border-radius: 10px;
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.box-header {
+  .hero {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: none;
+  }
+}
+
+.box-content {
+  padding: 1.25rem;
+}
+
+.connection {
+  background: url(../assets/patterns/restaurant.png);
+  border-radius: 10px 10px 0px 0px;
+  //background-attachment: fixed;
+}
+
+.hero-body {
+  &.connection {
+    padding: 5.5rem 1.5rem;
+  }
+}

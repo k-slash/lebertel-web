@@ -1,0 +1,133 @@
+article {
+  &.showcase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .image {
+      img {
+        border-radius: 50%;
+        height: 200px;
+        width: 200px;
+      }
+    }
+  }
+}
+
+.section {
+  .presentation {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (min-width: 820px) {
+  .tabs-showcase {
+    margin-top: -100px;
+  }
+}
+
+.tabs-showcase {
+  font-size: 1rem;
+  nav {
+    ul {
+      font-size: 1.5rem;
+      border: none;
+    }
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+.container {
+  &.showcase {
+    display: flex;
+    align-items: center;
+    background-color: $white;
+    border-radius: 3px;
+    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+    position: relative;
+    @media (min-width: 820px) {
+      width: 800px;
+    }
+    .presentation {
+      font-size: 1rem;
+      column-count: 2;
+      @media (min-width: 820px) {
+        column-count: 3;
+      }
+      @media (max-width: 540px) {
+        column-count: 1;
+      }
+    }
+    h1 {
+      font-size: 5rem;
+    }
+  }
+
+  &.social {
+    display: flex;
+    justify-content: center;
+
+    .navbar-item {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .products {
+    display: flex;
+    justify-content: space-around;
+    .card {
+      width: 25rem;
+      border-radius: 10px;
+      img {
+        border-radius: 10px 10px 0px 0px;
+      }
+    }
+  }
+}
+
+.hero-body {
+  &.showcase {
+    padding-top: 5rem !important;
+  }
+}
+
+.photos {
+  /* Prevent vertical gaps */
+  line-height: 0px;
+  column-count: 4;
+  column-gap: 0px;
+}
+
+@media (max-width: 1200px) {
+  .photos {
+    column-count: 4;
+  }
+}
+
+@media (max-width: 1000px) {
+  .photos {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 800px) {
+  .photos {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 400px) {
+  .photos {
+    column-count: 1;
+  }
+}
+
+.photos img {
+  /* Just in case there are inline attributes */
+  width: 100% !important;
+  height: auto !important;
+}
