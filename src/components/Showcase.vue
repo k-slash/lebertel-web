@@ -33,7 +33,7 @@
                     v-for="item in showcase.images"
                     v-bind:item="item"
                     v-bind:key="item.id">
-                    <img :src="item.image">
+                    <img v-img :src="item.image">
                   </div>
                 </section>
               </section>

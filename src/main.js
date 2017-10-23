@@ -16,11 +16,13 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import VueQuillEditor from 'vue-quill-editor'
 import VueAgile from 'vue-agile'
+import VueImg from 'v-img'
 
 Vue.use(Buefy)
 Vue.use(VueResource)
 Vue.use(VueQuillEditor)
 Vue.use(VueAgile)
+Vue.use(VueImg)
 Vue.use(VueForm, {
   inputClasses: {
     valid: 'form-control-success',
