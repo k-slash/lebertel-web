@@ -84,32 +84,6 @@
                   </div>
                 </div>
               </section>
-              <section class="hero is-blanc-espagne">
-                <div class="hero-body">
-                  <div class="container social">
-                    <a class="navbar-item" :href="showcase.facebook" target="_blank">
-                      <span class="icon" style="color: #3b5998;">
-                        <i class="fa fa-facebook"></i>
-                      </span>
-                    </a>
-                    <a class="navbar-item" :href="showcase.linkedin" target="_blank">
-                      <span class="icon" style="color: #007bb6;">
-                        <i class="fa fa-linkedin"></i>
-                      </span>
-                    </a>
-                    <a class="navbar-item" :href="showcase.twitter" target="_blank">
-                      <span class="icon" style="color: #55acee;">
-                        <i class="fa fa-twitter"></i>
-                      </span>
-                    </a>
-                    <a class="navbar-item" :href="showcase.pinterest" target="_blank">
-                      <span class="icon" style="color: #BD081C;">
-                        <i class="fa fa-pinterest"></i>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </section>
             </b-tab-item>
             <b-tab-item label="Produits">
               <div class="container showcase">
@@ -117,6 +91,7 @@
                   <h2> Et voici mes produits </h2>
                 </div>
               </div>
+              <br>
               <div class="container">
                 <section class="products">
                   <div class="card"
@@ -124,10 +99,16 @@
                     v-for="p in products"
                     v-bind:item="p"
                     v-bind:key="p.id">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    <div class="card-image-test">
+                      <figure class="image">
+                        <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
+                        <!--<img :src="p.images[0].thumb_medium" :alt="p.name">-->
                       </figure>
+                      <!--<figure class="image">
+                        <agile :infinite="false">
+                            <div v-for="image in p.images" class="slide" v-bind:style="{ backgroundImage: 'url(' + image.thumb_medium + ')' }" ></div>
+                        </agile>
+                      </figure>-->
                     </div>
                     <div class="card-content">
                       <div class="media">
@@ -144,35 +125,36 @@
                     <br>
                   </div>
                 </section>
-                <section class="hero is-blanc-espagne">
-                  <div class="hero-body">
-                    <div class="container social">
-                      <a class="navbar-item" :href="showcase.facebook" target="_blank">
-                        <span class="icon" style="color: #3b5998;">
-                          <i class="fa fa-facebook"></i>
-                        </span>
-                      </a>
-                      <a class="navbar-item" :href="showcase.linkedin" target="_blank">
-                        <span class="icon" style="color: #007bb6;">
-                          <i class="fa fa-linkedin"></i>
-                        </span>
-                      </a>
-                      <a class="navbar-item" :href="showcase.twitter" target="_blank">
-                        <span class="icon" style="color: #55acee;">
-                          <i class="fa fa-twitter"></i>
-                        </span>
-                      </a>
-                      <a class="navbar-item" :href="showcase.pinterest" target="_blank">
-                        <span class="icon" style="color: #BD081C;">
-                          <i class="fa fa-pinterest"></i>
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </section>
+                <br>
               </div>
             </b-tab-item>
         </b-tabs>
+        <section class="hero is-blanc-espagne">
+          <div class="hero-body">
+            <div class="container social">
+              <a class="navbar-item" :href="showcase.facebook" target="_blank">
+                <span class="icon" style="color: #3b5998;">
+                  <i class="fa fa-facebook"></i>
+                </span>
+              </a>
+              <a class="navbar-item" :href="showcase.linkedin" target="_blank">
+                <span class="icon" style="color: #007bb6;">
+                  <i class="fa fa-linkedin"></i>
+                </span>
+              </a>
+              <a class="navbar-item" :href="showcase.twitter" target="_blank">
+                <span class="icon" style="color: #55acee;">
+                  <i class="fa fa-twitter"></i>
+                </span>
+              </a>
+              <a class="navbar-item" :href="showcase.pinterest" target="_blank">
+                <span class="icon" style="color: #BD081C;">
+                  <i class="fa fa-pinterest"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
     </section>
   </div>
 </template>
@@ -215,7 +197,8 @@ export default {
   methods: {
     ...Vuex.mapActions({
       getShowcase: 'getShowcase',
-      getProductsByUser: 'getProductsByUser'
+      getProductsByUser: 'getProductsByUser',
+      getImage: 'getImage'
     }),
 
     zoomChanged: function (event) {

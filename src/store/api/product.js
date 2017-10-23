@@ -19,6 +19,9 @@ export default {
   getProductImages (id) {
     return api.get('products/' + id + '/images/')
   },
+  getImage (id) {
+    return api.get('product/images/' + id)
+  },
   addImage (image) {
     return api.post('product/images/', image)
   },

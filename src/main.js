@@ -15,10 +15,12 @@ import Vue2Leaflet from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import VueQuillEditor from 'vue-quill-editor'
+import VueAgile from 'vue-agile'
 
 Vue.use(Buefy)
 Vue.use(VueResource)
 Vue.use(VueQuillEditor)
+Vue.use(VueAgile)
 Vue.use(VueForm, {
   inputClasses: {
     valid: 'form-control-success',
