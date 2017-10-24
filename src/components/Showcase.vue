@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="showcase">
     <section class="hero is-milk-jam is-medium">
       <div class="hero-body showcase">
         <div class="container">
@@ -7,10 +7,10 @@
             <div class="media-left">
               <figure class="image">
                 <div v-if="!!showcase.logo">
-                  <img :src="showcase.logo" alt="Image">
+                  <div class="logo" v-bind:style="{ backgroundImage: 'url(' + showcase.logo + ')' }" ></div>
                 </div>
                 <div v-else>
-                  <img src="../assets/images/avatar.png" alt="Image">
+                  <div class="logo" v-bind:style="{ backgroundImage: 'url(../assets/images/avatar.png)' }" ></div>
                 </div>
               </figure>
             </div>
@@ -29,7 +29,7 @@
               </div>
               <section class="hero is-yellow-pop">
                 <section class="photos">
-                  <div v-model="showcase.images"
+                  <div class="photo" v-model="showcase.images"
                     v-for="item in showcase.images"
                     v-bind:item="item"
                     v-bind:key="item.id">
@@ -119,7 +119,7 @@
                       </div>
 
                       <div class="content">
-                        <div v-html="p.description"></div>
+                        <div v-html="p.short_description"></div>
                       </div>
                     </div>
                     <br>

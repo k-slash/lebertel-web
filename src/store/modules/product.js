@@ -1,5 +1,6 @@
 import { Toast } from 'buefy'
 import Product from '@/store/api/product'
+import Showcase from '@/store/api/showcase'
 import User from '@/store/api/User'
 import router from '@/router'
 
@@ -30,6 +31,12 @@ const getters = {
 const mutations = {
   SET_USER_PRODUCTS: function (state, data) {
     state.products = data
+  },
+  SET_PRODUCT_OWNER_SHOWCASE: function (state, data) {
+    state.product.owner = data
+  },
+  SET_PRODUCT_OWNER_USER: function (state, data) {
+    state.product.owner.user = data
   },
   ADD_PRODUCT: function (state, data) {
     state.products += data
@@ -102,6 +109,10 @@ const actions = {
       console.log(id)
       const p = await Product.get(id)
       await commit('SET_PRODUCT', p.data)
+      const s = await Showcase.get(p.data.owner)
+      await commit('SET_PRODUCT_OWNER_SHOWCASE', s.data)
+      const u = await User.get(s.data.user)
+      await commit('SET_PRODUCT_OWNER_USER', u.data)
       const images = await Product.getProductImages(id)
       await commit('SET_PRODUCT_IMAGES', images.data)
     } catch (e) {

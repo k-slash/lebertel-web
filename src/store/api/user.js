@@ -11,7 +11,9 @@ export default {
       }
     })
   },
-
+  get (id) {
+    return api.get('users/' + id + '/')
+  },
   connectUser (email, password) {
     return api.post('o/token/?grant_type=password&username=' + email + '&password=' + password + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
   },

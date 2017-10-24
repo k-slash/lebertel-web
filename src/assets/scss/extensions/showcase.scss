@@ -44,8 +44,8 @@ article {
     display: flex;
     align-items: center;
     background-color: $white;
-    border-radius: 3px;
-    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem 1.25rem 1.5rem;
     position: relative;
     @media (min-width: 820px) {
       width: 800px;
@@ -97,8 +97,12 @@ article {
 .photos {
   /* Prevent vertical gaps */
   line-height: 0px;
-  column-count: 4;
+  column-count: 3;
   column-gap: 0px;
+
+  .photo {
+    display: inline-block
+  }
 }
 
 @media (max-width: 1200px) {
@@ -134,5 +138,15 @@ article {
 .card {
   .slide {
     border-radius: 10px 10px 0px 0px;
+  }
+}
+
+.logo {
+  width: 40vh;
+  height: 40vh;
+  border-radius: 50%;
+  background: {
+      position: center;
+      size: cover;
   }
 }

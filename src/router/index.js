@@ -6,6 +6,7 @@ import Home from '@/components/Home.vue'
 import Register from '@/components/Register.vue'
 import Signin from '@/components/Signin.vue'
 import Showcase from '@/components/Showcase.vue'
+import Product from '@/components/Product.vue'
 import DashboardProfile from '@/components/dashboard/Profile.vue'
 import DashboardAddress from '@/components/dashboard/Address.vue'
 import DashboardPresentation from '@/components/dashboard/showcase/Presentation.vue'
@@ -49,6 +50,11 @@ export default new Router({
       path: '/vitrine/:id(\\d+)',
       name: 'showcase',
       component: Showcase
+    },
+    {
+      path: '/produit/:id(\\d+)',
+      name: 'product',
+      component: Product
     },
     {
       path: '/dashboard',

@@ -19,15 +19,38 @@
                   <input id="price" type="text" name="price" class="input" required v-model="product.price">
                 </div>
               </div>
-
               <div class="field">
-                <label class="label">Description</label>
+                <label class="label">Petite description</label>
+                <div class="control">
+                  <input id="short_description" type="text" name="short_description" class="input" required v-model="product.short_description">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Description détaillée</label>
                 <div class="quill-editor">
                   <quill-editor ref="description"
                                 name="description"
                                 v-model="product.description"
                                 :options="editorOption">
                   </quill-editor>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Taille</label>
+                <div class="control">
+                  <input id="size" type="text" name="size" class="input" required v-model="product.size">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Couleurs</label>
+                <div class="control">
+                  <input id="colors" type="text" name="size" class="input" required v-model="product.colors">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Matériaux</label>
+                <div class="control">
+                  <input id="materials" type="text" name="materials" class="input" required v-model="product.materials">
                 </div>
               </div>
             </validate>
