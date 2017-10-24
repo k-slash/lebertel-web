@@ -64,17 +64,23 @@
                           {{ showcase.address }}<br>
                           {{ showcase.postcode }} {{ showcase.city }}<br>
                           La Réunion <br>
-                          <abbr title="Téléphone">P:</abbr> {{ showcase.phone_number }} <br>
-                          <abbr title="Email">P:</abbr> {{ showcase.email }}
+                          <span class="icon margin-right">
+                            <i class="fa fa-phone"></i>
+                          </span>
+                          {{ showcase.phone_number }} <br>
+                          <span class="icon margin-right">
+                            <i class="fa fa-envelope-o"></i>
+                          </span>
+                          {{ showcase.email }}
                         </address>
                         <br>
 
-                        <div class="timetable">
+                        <div class="timetable" v-if='!!showcase.timetable'>
                           <h2>Horaires</h2>
                           <div v-html="showcase.timetable"></div>
                         </div>
                         <br>
-                        <div class="moreInfos">
+                        <div class="moreInfos" v-if='!!showcase.informations'>
                           <h2>Pour info</h2>
                           <div v-html="showcase.informations"></div>
                         </div>
@@ -85,7 +91,7 @@
                 </div>
               </section>
             </b-tab-item>
-            <b-tab-item label="Produits">
+            <b-tab-item label="Produits" v-if='!!products.length > 0'>
               <div class="container showcase">
                 <div class="presentation">
                   <h2> Et voici mes produits </h2>
@@ -94,21 +100,15 @@
               <br>
               <div class="container">
                 <section class="products">
-                  <div class="card"
+                  <router-link class="card"
                     v-model="products"
                     v-for="p in products"
                     v-bind:item="p"
-                    v-bind:key="p.id">
-                    <div class="card-image-test">
+                    v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
+                    <div class="card-image">
                       <figure class="image">
                         <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
-                        <!--<img :src="p.images[0].thumb_medium" :alt="p.name">-->
                       </figure>
-                      <!--<figure class="image">
-                        <agile :infinite="false">
-                            <div v-for="image in p.images" class="slide" v-bind:style="{ backgroundImage: 'url(' + image.thumb_medium + ')' }" ></div>
-                        </agile>
-                      </figure>-->
                     </div>
                     <div class="card-content">
                       <div class="media">
@@ -117,13 +117,12 @@
                           <p class="subtitle is-6">{{ p.price }} €</p>
                         </div>
                       </div>
-
                       <div class="content">
                         <div v-html="p.short_description"></div>
                       </div>
                     </div>
                     <br>
-                  </div>
+                  </router-link>
                 </section>
                 <br>
               </div>

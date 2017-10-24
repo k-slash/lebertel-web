@@ -19,6 +19,12 @@ article {
   }
 }
 
+.icon {
+  &.margin-right {
+    margin-right: 5px;
+  }
+}
+
 @media (min-width: 820px) {
   .tabs-showcase {
     margin-top: -100px;

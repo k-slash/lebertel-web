@@ -28,22 +28,17 @@
               <span>Se connecter</span>
             </router-link>
           </span>
-          <b-dropdown v-model="navigation" position="is-bottom-left">
+          <b-dropdown v-if="user.authenticated" v-model="navigation" position="is-bottom-left">
               <a class="navbar-item" slot="trigger">
-                <div class="navbar-link media" v-if="this.user.authenticated">
-                  <div class="media-left">
-                    <figure class="image is-48x48">
-                      <div v-if="!!this.user.profile.avatar">
-                        <img :src="this.user.profile.avatar" alt="Image" v-if="this.user.authenticated">
-                      </div>
-                      <div v-else>
-                        <img src="../assets/images/avatar.png" alt="Image" v-if="this.user.authenticated">
-                      </div>
-                    </figure>
-                  </div>
-                  <div class="media-content">
-                    <p class="title is-4">{{ this.user.info.first_name }} {{ this.user.info.last_name }}</p>
-                  </div>
+                <div class="navbar media">
+                  <figure class="image is-48x48">
+                    <div v-if="!!user.profile.avatar">
+                      <div class="avatar" v-bind:style="{ backgroundImage: 'url(' + user.profile.thumb_avatar + ')' }" ></div>
+                    </div>
+                    <div v-else>
+                      <img src="../assets/images/avatar.png" alt="Image">
+                    </div>
+                  </figure>
                 </div>
               </a>
 
