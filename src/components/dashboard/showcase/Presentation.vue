@@ -2,13 +2,13 @@
   <div class="dashboardShowcasePresentation">
     <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
       <div class="dashboard-avatar">
-        <VueImgInputer id="logo" name="logo" :imgSrc="showcase.logo" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
+        <VueImgInputer id="logo" name="logo" :imgSrc="user.showcase.logo" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
       </div>
       <br>
       <div class="field">
         <label class="label">Nom</label>
         <div class="control">
-          <input id="name" type="text" name="name" class="input" required v-model="showcase.name">
+          <input id="name" type="text" name="name" class="input" required v-model="user.showcase.name">
         </div>
         <field-messages name="name" show="$touched || $submitted" class="form-control-feedback">
           <div>Ok !</div>
@@ -19,7 +19,7 @@
         <label class="label">Présentation</label>
         <div class="quill-editor">
           <quill-editor ref="myTextEditor"
-                        v-model="showcase.presentation"
+                        v-model="user.showcase.presentation"
                         :options="editorOption">
           </quill-editor>
         </div>
@@ -61,13 +61,13 @@ export default {
         }
       },
       formstate: {},
-      file: '',
+      file: null,
       image: ''
     }
   },
   methods: {
     ...Vuex.mapActions({
-      updateShowcasePresentation: 'updateShowcasePresentation'
+      updateShowcase: 'updateShowcase'
     }),
     fieldClassName: function (field) {
       if (!field) {
@@ -82,17 +82,23 @@ export default {
     },
 
     updateFile (file) {
-      this.$store.commit('SET_LOGO', file)
+      this.file = file
     },
 
     onSubmit: function () {
       if (this.formstate.$valid) {
-        this.updateShowcasePresentation(this)
+        var formData = new FormData()
+        formData.append('name', this.$store.state.user.user.showcase.name)
+        formData.append('presentation', this.$store.state.user.user.showcase.presentation)
+        if (this.file != null) {
+          formData.append('logo', this.file)
+        }
+        this.updateShowcase(formData)
       }
     }
   },
   computed: {
-    ...Vuex.mapGetters(['showcase']),
+    ...Vuex.mapGetters(['user']),
     editor () {
       return this.$refs.myTextEditor.quill
     }

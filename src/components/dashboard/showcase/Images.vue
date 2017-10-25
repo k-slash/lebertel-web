@@ -2,8 +2,8 @@
   <div class="dashboardShowcaseImages">
     <h1 class="title menu-title">Images</h1>
     <div class="columns is-multiline">
-      <div class="column is-3" v-model="showcase.images"
-        v-for="item in showcase.images"
+      <div class="column is-3" v-model="user.showcase.images"
+        v-for="item in user.showcase.images"
         v-bind:item="item"
         v-bind:key="item.id">
         <article class="media">
@@ -20,7 +20,7 @@
     </div>
     <div class="block">
       <label for="files" class="button is-primary badge" :data-badge="nbFiles">Ajouter des images</label>
-      <input id="files" style="visibility:hidden;"  ref="file_input" type="file" multiple @change="uploadFiles(showcase.user)">
+      <input id="files" style="visibility:hidden;"  ref="file_input" type="file" multiple @change="uploadFiles(user.showcase.user)">
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
   },
 
   computed: {
-    ...Vuex.mapGetters(['showcase'])
+    ...Vuex.mapGetters(['user'])
   },
 
   methods: {

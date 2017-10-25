@@ -80,112 +80,16 @@ const actions = {
     }
   },
 
-  async updateShowcasePresentation (store) {
+  async updateShowcase ({ commit, state }, form) {
     try {
-      var formDataShowcase = new FormData()
-      formDataShowcase.append('name', store.state.showcase.name)
-      formDataShowcase.append('presentation', store.state.showcase.presentation)
-      if (store.state.logoChanged) {
-        formDataShowcase.append('logo', store.state.fileLogo)
-      }
-      await Showcase.updateShowcase(formDataShowcase)
+      await Showcase.updateShowcase(form)
       const showcase = await Showcase.getShowcase()
-      store.commit('SET_SHOWCASE', showcase.data)
+      commit('SET_USER_SHOWCASE', showcase.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
       })
     } catch (e) {
-      console.log(e)
-      Toast.open({
-        message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-        type: 'is-danger'
-      })
-    }
-  },
-
-  async updateShowcaseLocation (store) {
-    try {
-      var formDataShowcase = new FormData()
-      formDataShowcase.append('address', store.state.showcase.address)
-      formDataShowcase.append('postcode', store.state.showcase.postcode)
-      formDataShowcase.append('city', store.state.showcase.city)
-      formDataShowcase.append('location', store.state.showcase.location)
-      formDataShowcase.append('country', 'RE')
-      await Showcase.updateShowcase(formDataShowcase)
-      const showcase = await Showcase.getShowcase()
-      store.commit('SET_SHOWCASE', showcase.data)
-      Toast.open({
-        message: 'Ok ! C\'est sauvegardé',
-        type: 'is-success'
-      })
-    } catch (e) {
-      console.log(e)
-      Toast.open({
-        message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-        type: 'is-danger'
-      })
-    }
-  },
-
-  async updateShowcaseContact (store) {
-    try {
-      var formDataShowcase = new FormData()
-      formDataShowcase.append('email', store.state.showcase.email)
-      formDataShowcase.append('phone_number', store.state.showcase.phone_number)
-      formDataShowcase.append('facebook', store.state.showcase.facebook)
-      formDataShowcase.append('linkedin', store.state.showcase.linkedin)
-      formDataShowcase.append('twitter', store.state.showcase.twitter)
-      formDataShowcase.append('pinterest', store.state.showcase.pinterest)
-      await Showcase.updateShowcase(formDataShowcase)
-      const showcase = await Showcase.getShowcase()
-      store.commit('SET_SHOWCASE', showcase.data)
-      Toast.open({
-        message: 'Ok ! C\'est sauvegardé',
-        type: 'is-success'
-      })
-    } catch (e) {
-      console.log(e)
-      Toast.open({
-        message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-        type: 'is-danger'
-      })
-    }
-  },
-
-  async updateShowcaseTimetable (store) {
-    try {
-      var formDataShowcase = new FormData()
-      formDataShowcase.append('timetable', store.state.showcase.timetable)
-      await Showcase.updateShowcase(formDataShowcase)
-      const showcase = await Showcase.getShowcase()
-      store.commit('SET_SHOWCASE', showcase.data)
-      Toast.open({
-        message: 'Ok ! C\'est sauvegardé',
-        type: 'is-success'
-      })
-    } catch (e) {
-      console.log(e)
-      Toast.open({
-        message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
-        type: 'is-danger'
-      })
-    }
-  },
-
-  async updateShowcaseMoreInfo (store) {
-    try {
-      var formDataShowcase = new FormData()
-      formDataShowcase.append('informations', store.state.showcase.informations)
-      await Showcase.updateShowcase(formDataShowcase)
-      const showcase = await Showcase.getShowcase()
-      store.commit('SET_SHOWCASE', showcase.data)
-      Toast.open({
-        message: 'Ok ! C\'est sauvegardé',
-        type: 'is-success'
-      })
-    } catch (e) {
-      console.log(e)
       Toast.open({
         message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
         type: 'is-danger'

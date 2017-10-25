@@ -23,7 +23,10 @@ const state = {
       poscode: null,
       city: null,
       location: null
-    }
+    },
+    showcase: null,
+    products: null,
+    product: null
   },
   avatar_changed: false,
   file: null
@@ -67,30 +70,21 @@ const mutations = {
   SET_USERNAME: function (state, data) {
     state.user.info.username = data
   },
-  SET_FIRSTNAME: function (state, data) {
-    state.user.info.first_name = data
-  },
-  SET_LASTNAME: function (state, data) {
-    state.user.info.last_name = data
-  },
-  SET_PHONE: function (state, data) {
-    state.user.profile.phone = data
-  },
   SET_AVATAR: function (state, data) {
     state.file = data
     state.avatar_changed = true
   },
-  SET_ADDRESS: function (state, data) {
-    state.user.address.address = data
-  },
-  SET_POSTCODE: function (state, data) {
-    state.user.address.postcode = data
-  },
-  SET_CITY: function (state, data) {
-    state.user.address.city = data
-  },
   SET_LOCATION: function (state, data) {
     state.user.address.location = data
+  },
+  SET_USER_SHOWCASE: function (state, data) {
+    state.user.showcase = data
+  },
+  SET_USER_SHOWCASE_LOCATION: function (state, data) {
+    state.user.showcase.location = data
+  },
+  SET_USER_SHOWCASE_IMAGES: function (state, data) {
+    state.user.showcase.images = data
   }
 }
 

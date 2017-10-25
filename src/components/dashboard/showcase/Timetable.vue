@@ -7,7 +7,7 @@
         <label class="label">Horaires</label>
         <div class="quill-editor">
           <quill-editor ref="myTextEditor"
-                        v-model="showcase.timetable"
+                        v-model="user.showcase.timetable"
                         :options="editorOption">
           </quill-editor>
         </div>
@@ -48,11 +48,11 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters(['showcase'])
+    ...Vuex.mapGetters(['user'])
   },
   methods: {
     ...Vuex.mapActions({
-      updateShowcaseTimetable: 'updateShowcaseTimetable'
+      updateShowcase: 'updateShowcase'
     }),
 
     fieldClassName: function (field) {
@@ -69,7 +69,9 @@ export default {
 
     onSubmit: function () {
       if (this.formstate.$valid) {
-        this.updateShowcaseTimetable(this)
+        var formData = new FormData()
+        formData.append('timetable', this.$store.state.user.user.showcase.timetable)
+        this.updateShowcase(formData)
       }
     }
   }

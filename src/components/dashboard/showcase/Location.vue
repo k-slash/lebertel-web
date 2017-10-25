@@ -6,29 +6,29 @@
       <div class="field">
         <label class="label">Adresse</label>
         <div class="control">
-          <input id="address" type="text" name="address" class="input" v-model="showcase.address">
+          <input id="address" type="text" name="address" class="input" v-model="user.showcase.address">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Code postal</label>
         <div class="control">
-          <input id="postcode" type="text" name="postcode" class="input" v-model="showcase.postcode">
+          <input id="postcode" type="text" name="postcode" class="input" v-model="user.showcase.postcode">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Ville</label>
         <div class="control">
-          <input id="city" type="text" name="city" class="input" v-model="showcase.city">
+          <input id="city" type="text" name="city" class="input" v-model="user.showcase.city">
         </div>
       </div>
 
       <div class="lebertel-map">
         <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
           <v-tilelayer :url="url"></v-tilelayer>
-          <div v-if="showcase.location != undefined">
-            <v-marker :lat-lng="showcase.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
+          <div v-if="user.showcase.location != undefined">
+            <v-marker :lat-lng="user.showcase.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
               <v-popup content="Mon atelier"></v-popup>
             </v-marker>
           </div>
@@ -72,17 +72,17 @@
     },
 
     computed: {
-      ...Vuex.mapGetters(['showcase'])
+      ...Vuex.mapGetters(['user'])
     },
 
     methods: {
       ...Vuex.mapActions({
-        updateShowcaseLocation: 'updateShowcaseLocation'
+        updateShowcase: 'updateShowcase'
       }),
 
       markerMoved: function (event) {
         let point = 'POINT(' + event.latlng.lat + ' ' + event.latlng.lng + ')'
-        this.$store.commit('SET_SHOWCASE_LOCATION', point)
+        this.$store.commit('SET_USER_SHOWCASE_LOCATION', point)
       },
 
       zoomChanged: function (event) {
@@ -91,18 +91,14 @@
 
       onSubmit: function () {
         if (this.formstate.$valid) {
-          this.updateShowcaseLocation(this)
-        }
-        /** if (this.formstate.$valid) {
           var formData = new FormData()
-          formData.append('user', this.user.info.id)
-          formData.append('address', this.user.showcase.address)
-          formData.append('city', this.user.showcase.city)
-          formData.append('postcode', this.user.showcase.postcode)
-          formData.append('location', this.user.showcase.location)
+          formData.append('address', this.$store.state.user.user.showcase.address)
+          formData.append('postcode', this.$store.state.user.user.showcase.postcode)
+          formData.append('city', this.$store.state.user.user.showcase.city)
+          formData.append('location', this.$store.state.user.user.showcase.location)
           formData.append('country', 'RE')
-          // auth.updateShowcase(this, formData)
-        } **/
+          this.updateShowcase(formData)
+        }
       }
     }
   }
