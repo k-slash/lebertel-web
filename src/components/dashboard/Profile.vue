@@ -70,7 +70,7 @@ export default {
   data () {
     return {
       formstate: {},
-      file: '',
+      file: null,
       image: ''
     }
   },
@@ -100,12 +100,18 @@ export default {
     },
 
     updateFile (file) {
-      this.$store.commit('SET_AVATAR', file)
+      this.file = file
+      // this.$store.commit('SET_AVATAR', file)
     },
 
     onSubmit: function () {
+      var formData = new FormData()
+      if (this.file != null) {
+        formData.append('avatar', this.file)
+      }
+      formData.append('phone_number', this.$store.state.user.user.profile.phone_number)
       if (this.formstate.$valid) {
-        this.updateProfile(this)
+        this.updateProfile(formData)
       }
     }
   }

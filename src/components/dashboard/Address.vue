@@ -92,7 +92,13 @@
 
       onSubmit: function () {
         if (this.formstate.$valid) {
-          this.updateProfileAddress(this)
+          var formData = new FormData()
+          formData.append('address', this.$store.state.user.user.address.address)
+          formData.append('postcode', this.$store.state.user.user.address.postcode)
+          formData.append('city', this.$store.state.user.user.address.city)
+          formData.append('location', this.$store.state.user.user.address.location)
+          formData.append('country', 'RE')
+          this.updateProfileAddress(formData)
         }
       }
     }

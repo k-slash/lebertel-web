@@ -90,25 +90,19 @@ const mutations = {
 
 // actions to update user profile
 const actions = {
-  async updateProfile (store) {
-    var formDataProfile = new FormData()
-    formDataProfile.append('user', store.state.user.info.id)
-    if (store.state.avatar_changed) {
-      formDataProfile.append('avatar', store.state.file)
-    }
-    formDataProfile.append('phone_number', store.state.user.profile.phone_number)
-    await User.updateUserInfo(store.state.user.info)
-    await User.updateUserProfile(formDataProfile)
+  async updateProfile ({ commit, state }, form) {
+    await User.updateUserInfo(state.user.info)
+    await User.updateUserProfile(form)
     try {
       const userProfile = await User.getUserProfile()
-      store.commit('SET_USER_PROFILE', userProfile.data)
+      commit('SET_USER_PROFILE', userProfile.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
       })
     } catch (e) {
       console.log(e)
-      store.commit('SET_USER_PROFILE', [])
+      commit('SET_USER_PROFILE', [])
       Toast.open({
         message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
         type: 'is-danger'
@@ -116,11 +110,11 @@ const actions = {
     }
   },
 
-  async updateProfileAddress (store) {
+  async updateProfileAddress ({ commit, state }, form) {
     try {
-      await User.updateUserLocation(store.state.user.address)
+      await User.updateUserLocation(form)
       const userLocation = await User.getUserLocation()
-      store.commit('SET_USER_ADDRESS', userLocation.data)
+      commit('SET_USER_ADDRESS', userLocation.data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
