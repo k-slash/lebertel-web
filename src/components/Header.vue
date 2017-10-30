@@ -42,33 +42,33 @@
                 </div>
               </a>
 
-              <b-dropdown-item>
+              <b-dropdown-item has-link>
                 <router-link :to="{ name: 'home' }">
                   <b-icon icon="home" class="icon-margin"></b-icon>
                   Accueil
                 </router-link>
               </b-dropdown-item>
               <hr class="dropdown-divider">
-              <b-dropdown-item>
+              <b-dropdown-item has-link>
                 <router-link :to="{ name: 'dashboard.profile' }">
                   <b-icon icon="account_circle" class="icon-margin"></b-icon>
                   Mon compte
                 </router-link>
               </b-dropdown-item>
-              <b-dropdown-item value="showcase">
+              <b-dropdown-item value="showcase" has-link>
                 <router-link :to="{ name: 'showcase', params: { id: user.info.id } }">
                   <b-icon icon="art_track" class="icon-margin"></b-icon>
                   Ma vitrine
                 </router-link>
               </b-dropdown-item>
-              <b-dropdown-item value="products">
+              <b-dropdown-item value="products" has-link>
                 <router-link :to="{ name: 'dashboard.profile' }">
                   <b-icon icon="store" class="icon-margin"></b-icon>
                   Mes produits
                 </router-link>
               </b-dropdown-item>
               <hr class="dropdown-divider">
-              <b-dropdown-item value="signout">
+              <b-dropdown-item value="signout" has-link>
                 <a class="navbar-item" value="logout" v-on:click="signout">
                     <b-icon icon="exit_to_app" class="icon-margin"></b-icon>
                     Déconnexion

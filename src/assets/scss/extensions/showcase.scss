@@ -45,6 +45,10 @@ article {
   }
 }
 
+.tabs-showcase:not(:last-child) {
+  margin-bottom: 0px;
+}
+
 .container {
   &.showcase {
     display: flex;
@@ -82,10 +86,14 @@ article {
   }
 
   .products {
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+  	grid-template-columns: 1fr 1fr 1fr;
+  	grid-gap: 6rem;
+  	gap: 6rem;
+    // display: flex;
+    // justify-content: space-around;
     .card {
-      width: 25rem;
+      // width: 25rem;
       border-radius: 10px;
       img {
         border-radius: 10px 10px 0px 0px;

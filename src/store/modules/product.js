@@ -9,10 +9,14 @@ const state = {
   products: [],
   product: {
     id: null,
+    owner: null,
     name: null,
     price: null,
+    short_description: null,
     description: null,
-    owner: null,
+    size: null,
+    colors: null,
+    materials: null,
     images: []
   },
   productImageAdded: {
@@ -62,26 +66,27 @@ const mutations = {
     state.product.owner = null
     state.product.name = null
     state.product.price = null
+    state.product.short_description = null
     state.product.description = null
+    state.product.size = null
+    state.product.colors = null
+    state.product.materials = null
   }
 }
 
 // actions
 const actions = {
-  async addProduct ({ commit, state }, id) {
+  async addProduct ({ commit, state }, form) {
     try {
-      var formData = new FormData()
-      console.log(state.product)
-      console.log(id)
-      formData.append('owner', id)
-      formData.append('name', state.product.name)
-      formData.append('price', state.product.price)
-      formData.append('description', state.product.description)
-      console.log(formData)
-      await Product.add(formData)
+      const p = await Product.add(form)
+      console.log(p)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
+      })
+      router.push({
+        name: 'dashboard.product.edit',
+        params: { id: p.data.id }
       })
     } catch (e) {
       console.log(e)

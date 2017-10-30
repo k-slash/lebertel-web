@@ -22,11 +22,12 @@
       </div>
     </section>
     <section>
-        <b-tabs position="is-centered" class="tabs-showcase">
+        <b-tabs position="is-centered" class="tabs-showcase" v-model="activeTab">
             <b-tab-item label="Présentation">
               <div class="container showcase">
                 <div class="presentation" v-html="showcase.presentation"></div>
               </div>
+
               <section class="hero is-yellow-pop">
                 <section class="photos">
                   <div class="photo" v-model="showcase.images"
@@ -37,59 +38,7 @@
                   </div>
                 </section>
               </section>
-              <section class="hero is-light">
-                <div class="hero-body">
-                  <div class="container">
-                    <div class="columns">
-                      <div class="column is-half">
-                        <div class="lebertel-map" v-if="!!showcase.location">
-                          <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
-                            <v-tilelayer :url="url"></v-tilelayer>
-                            <div v-if="showcase.location != undefined">
-                              <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
-                                <v-popup :content="showcase.address"></v-popup>
-                              </v-marker>
-                            </div>
-                            <div v-else>
-                              <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
-                                <v-popup content="Mon atelier"></v-popup>
-                              </v-marker>
-                            </div>
-                          </v-map>
-                        </div>
-                      </div>
-                      <div class="column is-one-third is-offset-1">
-                        <address>
-                          <h2>{{ showcase.name }}</h2>
-                          {{ showcase.address }}<br>
-                          {{ showcase.postcode }} {{ showcase.city }}<br>
-                          La Réunion <br>
-                          <span class="icon margin-right">
-                            <i class="fa fa-phone"></i>
-                          </span>
-                          {{ showcase.phone_number }} <br>
-                          <span class="icon margin-right">
-                            <i class="fa fa-envelope-o"></i>
-                          </span>
-                          {{ showcase.email }}
-                        </address>
-                        <br>
 
-                        <div class="timetable" v-if='!!showcase.timetable'>
-                          <h2>Horaires</h2>
-                          <div v-html="showcase.timetable"></div>
-                        </div>
-                        <br>
-                        <div class="moreInfos" v-if='!!showcase.informations'>
-                          <h2>Pour info</h2>
-                          <div v-html="showcase.informations"></div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
             </b-tab-item>
             <b-tab-item label="Produits" v-if='!!products.length > 0'>
               <div class="container showcase">
@@ -106,7 +55,7 @@
                     v-bind:item="p"
                     v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
                     <div class="card-image">
-                      <figure class="image">
+                      <figure class="image" v-if="p.images[0]">
                         <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
                       </figure>
                     </div>
@@ -128,6 +77,59 @@
               </div>
             </b-tab-item>
         </b-tabs>
+        <section class="hero is-light" v-show="this.showMap">
+          <div class="hero-body">
+            <div class="container">
+              <div class="columns">
+                <div class="column is-half">
+                  <div class="lebertel-map" v-if="!!showcase.location">
+                    <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+                      <v-tilelayer :url="url"></v-tilelayer>
+                      <div v-if="showcase.location != undefined">
+                        <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
+                          <v-popup :content="showcase.address"></v-popup>
+                        </v-marker>
+                      </div>
+                      <div v-else>
+                        <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
+                          <v-popup content="Mon atelier"></v-popup>
+                        </v-marker>
+                      </div>
+                    </v-map>
+                  </div>
+                </div>
+                <div class="column is-one-third is-offset-1">
+                  <address>
+                    <h2>{{ showcase.name }}</h2>
+                    {{ showcase.address }}<br>
+                    {{ showcase.postcode }} {{ showcase.city }}<br>
+                    La Réunion <br>
+                    <span class="icon margin-right">
+                      <i class="fa fa-phone"></i>
+                    </span>
+                    {{ showcase.phone_number }} <br>
+                    <span class="icon margin-right">
+                      <i class="fa fa-envelope-o"></i>
+                    </span>
+                    {{ showcase.email }}
+                  </address>
+                  <br>
+
+                  <div class="timetable" v-if='!!showcase.timetable'>
+                    <h2>Horaires</h2>
+                    <div v-html="showcase.timetable"></div>
+                  </div>
+                  <br>
+                  <div class="moreInfos" v-if='!!showcase.informations'>
+                    <h2>Pour info</h2>
+                    <div v-html="showcase.informations"></div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <section class="hero is-blanc-espagne">
           <div class="hero-body">
             <div class="container social">
@@ -170,6 +172,8 @@ export default {
   },
   data () {
     return {
+      activeTab: 0,
+      showMap: true,
       formstate: {},
       file: '',
       image: '',
@@ -187,6 +191,15 @@ export default {
   },
   computed: {
     ...Vuex.mapGetters(['showcase', 'products'])
+  },
+  watch: {
+    activeTab (value) {
+      if (value === 0) {
+        this.showMap = true
+      } else {
+        this.showMap = false
+      }
+    }
   },
   beforeRouteEnter (to, from, next) {
     store.dispatch('getShowcase', to.params.id).then(

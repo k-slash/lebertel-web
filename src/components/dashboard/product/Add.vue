@@ -114,7 +114,16 @@ export default {
 
     onSubmit: function (id) {
       if (this.formstate.$valid) {
-        this.addProduct(id)
+        var formData = new FormData()
+        formData.append('owner', id)
+        formData.append('name', this.$store.state.product.product.name)
+        formData.append('price', this.$store.state.product.product.price)
+        formData.append('short_description', this.$store.state.product.product.short_description)
+        formData.append('description', this.$store.state.product.product.description)
+        formData.append('size', this.$store.state.product.product.size)
+        formData.append('colors', this.$store.state.product.product.colors)
+        formData.append('materials', this.$store.state.product.product.materials)
+        this.addProduct(formData)
       }
     }
   }
