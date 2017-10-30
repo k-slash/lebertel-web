@@ -14,7 +14,7 @@
         </agile>
       </div>
       <div class="column product-detail">
-        <!--<div class="product-detail-item product-detail--top">…</div>-->
+        <!--<div class="product-detail-item product-detail--top"></div>-->
         <div class="product-detail-item product-detail--center">
           <h4>Intro</h4>
           <div class="product-description" v-if="!!product.description" v-html="product.description"></div>
@@ -43,6 +43,12 @@
           </div>
         </div>
         <div class="product-detail-item product-detail--bottom">
+          <!--<button v-on:click="goBack">Back</button>-->
+          <div class="go-back">
+            <a class="navbar-item" v-on:click="goBack">
+              <b-icon icon="arrow_back"></b-icon>
+            </a>
+          </div>
           <social-sharing class="social" :url="url"
             :title="title"
             :description="product.description"
@@ -77,19 +83,6 @@
 
       </div>
     </div>
-    <!--<section class="hero is-milk-jam is-medium">
-      <div class="hero-body showcase">
-        <div class="container">
-          <article class="media showcase">
-            <div class="media-left">
-            </div>
-            <div class="media-right">
-              <h1 class="title menu-title">{{ product.name }}</h1>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>-->
   </div>
 </template>
 
@@ -113,7 +106,11 @@ export default {
   methods: {
     ...Vuex.mapActions({
       getProduct: 'getProduct'
-    })
+    }),
+
+    goBack () {
+      this.$router.go(-1)
+    }
   }
 }
 </script>

@@ -113,6 +113,7 @@ const actions = {
     try {
       console.log(id)
       const p = await Product.get(id)
+      console.log(p.data)
       await commit('SET_PRODUCT', p.data)
       const s = await Showcase.get(p.data.owner)
       await commit('SET_PRODUCT_OWNER_SHOWCASE', s.data)

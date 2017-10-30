@@ -164,3 +164,17 @@ article {
       size: cover;
   }
 }
+
+.showcase-address {
+  h2 {
+    font-size: 1.8rem;
+  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .on-right {
+    display: flex;
+    flex-direction: column;
+  }
+}

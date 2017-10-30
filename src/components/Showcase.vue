@@ -99,19 +99,27 @@
                   </div>
                 </div>
                 <div class="column is-one-third is-offset-1">
-                  <address>
-                    <h2>{{ showcase.name }}</h2>
-                    {{ showcase.address }}<br>
-                    {{ showcase.postcode }} {{ showcase.city }}<br>
-                    La Réunion <br>
-                    <span class="icon margin-right">
-                      <i class="fa fa-phone"></i>
-                    </span>
-                    {{ showcase.phone_number }} <br>
-                    <span class="icon margin-right">
-                      <i class="fa fa-envelope-o"></i>
-                    </span>
-                    {{ showcase.email }}
+                  <address class="showcase-address">
+                    <div class="on-left">
+                      <h2>{{ showcase.name }}</h2>
+                      {{ showcase.address }}<br>
+                      {{ showcase.postcode }} {{ showcase.city }}<br>
+                      La Réunion <br>
+                    </div>
+                    <div class="on-right">
+                      <div class="phone">
+                        <span class="icon margin-right">
+                          <i class="fa fa-phone"></i>
+                        </span>
+                        {{ showcase.phone_number }}
+                      </div>
+                      <div class="email">
+                        <span class="icon margin-right">
+                          <i class="fa fa-envelope-o"></i>
+                        </span>
+                        {{ showcase.email }}
+                      </div>
+                    </div>
                   </address>
                   <br>
 
