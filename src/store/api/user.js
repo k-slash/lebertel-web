@@ -42,24 +42,25 @@ export default {
         password: password
       })
   },
-  initUserProfile (userId) {
+  initUserProfile (userId, pro) {
     return api.post('profiles/',
       {
         user: userId,
-        avatar: null,
-        phone_number: null
+        pro: pro
       })
   },
   initUserLocation (userId) {
+    // console.log(api.defaults.headers.common['Authorization'])
     return api.post('locations/',
       {
         user: userId
       })
   },
-  initUserShowcase (userId) {
+  initUserShowcase (userId, name) {
     return api.post('showcases/',
       {
-        user: userId
+        user: userId,
+        name: name
       })
   },
   updateUserInfo (userInfo) {
@@ -70,5 +71,8 @@ export default {
   },
   updateUserLocation (userLocation) {
     return api.patch('user/location/', userLocation)
+  },
+  updateUserShowcase (userShowcase) {
+    return api.patch('user/showcase/', userShowcase)
   }
 }

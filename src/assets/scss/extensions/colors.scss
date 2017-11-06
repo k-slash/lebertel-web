@@ -31,7 +31,8 @@ $pinktable-dark-brown: #6A5040;
 $pinktable-dark-brown-invert: findColorInvert($pinktable-dark-brown);
 $grey-mouse: #47abb5;
 $grey-mouse-invert: findColorInvert($grey-mouse);
-
+$tsilaosa: #f9ed96;
+$tsilaosa-invert: findColorInvert($tsilaosa);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -54,6 +55,7 @@ $colors: (
   "pinktable-brown": ($pinktable-brown, $pinktable-brown-invert),
   "pinktable-dark-brown": ($pinktable-dark-brown, $pinktable-dark-brown-invert),
   "grey-mouse": ($grey-mouse, $grey-mouse-invert),
+  "tsilaosa": ($tsilaosa, $tsilaosa-invert),
 );
 
 // Links

@@ -12,10 +12,10 @@
           Adresse
         </router-link>
       </ul>
-      <p class="menu-label">
+      <p class="menu-label" v-if="!!user.profile.pro">
         Ma vitrine
       </p>
-      <ul class="menu-list">
+      <ul class="menu-list" v-if="!!user.profile.pro">
         <router-link :to="{ name: 'dashboard.showcase.presentation' }" v-bind:class="{ 'is-active': $route.name == 'dashboard.showcase.presentation' }">
           Présentation
         </router-link>
@@ -44,10 +44,10 @@
           </router-link>
         </li>
       </ul>
-      <p class="menu-label">
+      <p class="menu-label" v-if="!!user.profile.pro">
         Produits
       </p>
-      <ul class="menu-list">
+      <ul class="menu-list" v-if="!!user.profile.pro">
         <router-link :to="{ name: 'dashboard.product.list' }" v-bind:class="{ 'is-active': $route.name == 'dashboard.product.list' }">
           Liste de produits
         </router-link>
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import Vuex from 'vuex'
+
 export default {
   name: 'dashboardMenu',
   components: {
@@ -75,6 +77,9 @@ export default {
   data () {
     return {
     }
+  },
+  computed: {
+    ...Vuex.mapGetters(['user'])
   }
 }
 </script>

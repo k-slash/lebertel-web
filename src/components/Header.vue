@@ -18,12 +18,12 @@
         </div>
 
         <div class="navbar-end" :class="navMenuClass">
-          <span class="nav-item" v-if="!this.user.authenticated">
+          <span class="nav-item" v-if="!user.authenticated">
             <router-link :to="{ name: 'register' }" class="button is-primary">
               <span>Créer un compte</span>
             </router-link>
           </span>
-          <span class="nav-item" v-if="!this.user.authenticated">
+          <span class="nav-item" v-if="!user.authenticated">
             <router-link :to="{ name: 'signin' }" class="button is-primary">
               <span>Se connecter</span>
             </router-link>
@@ -122,9 +122,7 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
-      this.check(this).then(
-        console.log(this.user.authenticated),
-      )
+      this.check(this)
     })
   }
 }

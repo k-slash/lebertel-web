@@ -21,7 +21,21 @@
               </div>
               <div class="box-content">
                 <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate">
+                  <b-field class="is-centered">
+                    <b-radio-button v-model="pro"
+                      :native-value="false"
+                      type="is-primary">
+                      <b-icon icon="face"></b-icon>
+                      <span>Utilisateur</span>
+                    </b-radio-button>
 
+                    <b-radio-button v-model="pro"
+                      :native-value="true"
+                      type="is-primary">
+                      <b-icon icon="work"></b-icon>
+                      <span>Professionnel</span>
+                    </b-radio-button>
+                  </b-field>
                   <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.registerFirstName)">
                     <div class="field">
                       <label class="label">Prénom</label>
@@ -44,6 +58,19 @@
                       <field-messages name="lastName" show="$touched || $submitted" class="form-control-feedback">
                         <div>Ok !</div>
                         <div slot="required">Votre nom est requis</div>
+                      </field-messages>
+                    </div>
+                  </validate>
+
+                  <validate v-if="pro" auto-label class="form-group required-field" :class="fieldClassName(formstate.name)">
+                    <div class="field">
+                      <label class="label">Nom de votre vitrine ( Nom commercial )</label>
+                      <div class="control">
+                        <input id="name" type="text" name="name" class="input" required v-model="name">
+                      </div>
+                      <field-messages name="name" show="$touched || $submitted" class="form-control-feedback">
+                        <div>Ok !</div>
+                        <div slot="required">Le nom de votre vitrine est requis</div>
                       </field-messages>
                     </div>
                   </validate>
@@ -89,7 +116,7 @@
                       </field-messages>
                     </div>
                   </validate>
-
+                  <br>
                   <div class="py-2 text-center">
                     <button class="button is-medium is-primary is-fullwidth" type="submit">Créer votre compte</button>
                   </div>
@@ -111,16 +138,17 @@ export default {
   data () {
     return {
       formstate: {},
+      pro: false,
       firstName: null,
       lastName: null,
+      name: null,
       email: null,
       password: null
     }
   },
   methods: {
     ...Vuex.mapActions({
-      register: 'register',
-      check: 'check'
+      register: 'register'
     }),
 
     fieldClassName: function (field) {
@@ -141,19 +169,12 @@ export default {
           'firstName': this.firstName,
           'lastName': this.lastName,
           'email': this.email,
-          'password': this.password
+          'password': this.password,
+          'pro': this.pro,
+          'name': this.name
         }
-        this.register(data)
-        console.log('register ok')
-        /** this.register(this)
-          .then(response => {
-            console.log(this.$store.error)
-            if (!this.$store.error) {
-              this.$router.push({
-                name: 'dashboard.profile'
-              })
-            }
-          })**/
+        console.log(data)
+        // this.register(data)
       }
     }
   }

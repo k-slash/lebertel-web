@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import Vuex from 'vuex'
 import 'leaflet/dist/leaflet.css'
 import LbDashboardMenu from './dashboard/Menu'
 
@@ -27,6 +28,19 @@ export default {
   data () {
     return {
     }
+  },
+  methods: {
+    ...Vuex.mapActions({
+      check: 'check'
+    })
+  },
+  computed: {
+    ...Vuex.mapGetters(['user'])
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      this.check(this)
+    })
   }
 }
 </script>

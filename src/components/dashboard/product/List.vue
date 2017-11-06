@@ -7,7 +7,7 @@
       :per-page="10"
       :pagination-simple="false">
 
-      <template scope="product">
+      <template slot-scope="product">
         <b-table-column label="Nom">
           {{ product.row.name }}
         </b-table-column>

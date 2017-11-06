@@ -4,8 +4,8 @@ import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
 import product from '@/store/modules/product'
 import { Toast } from 'buefy'
-import User from '@/store/api/user'
-import Showcase from '@/store/api/showcase'
+import UserApi from '@/store/api/user'
+import ShowcaseApi from '@/store/api/showcase'
 import api from '@/store/api'
 import router from '@/router'
 
@@ -18,7 +18,7 @@ const state = {
 
 const mutations = {
   SET_ERROR: function (state, data) {
-    user.state.error = data
+    state.error = data
   },
   SET_TOKEN: function (state, data) {
     state.token = data
@@ -34,21 +34,22 @@ const getters = {
 const actions = {
   async check (store) {
     const token = localStorage.getItem('id_token')
+    console.log(token)
     if (token != null) {
       try {
         await store.commit('SET_TOKEN', token)
-        const userInfo = await User.getUserInfo()
+        const userInfo = await UserApi.getUserInfo()
         await store.commit('SET_USER_AUTHENTICATED', true)
         await store.commit('SET_USER_INFO', userInfo.data)
-        const userProfile = await User.getUserProfile()
+        const userProfile = await UserApi.getUserProfile()
         await store.commit('SET_USER_PROFILE', userProfile.data)
-        const userLocation = await User.getUserLocation()
+        const userLocation = await UserApi.getUserLocation()
         await store.commit('SET_USER_ADDRESS', userLocation.data)
-        const userShowcase = await User.getUserShowcase()
+        const userShowcase = await UserApi.getUserShowcase()
         await store.commit('SET_USER_SHOWCASE', userShowcase.data)
-        const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
+        const showcaseImages = await ShowcaseApi.getShowcaseImages(userShowcase.data.user)
         await store.commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
-        const userProducts = await User.getUserProducts()
+        const userProducts = await UserApi.getUserProducts()
         await store.commit('SET_USER_PRODUCTS', userProducts.data)
         await store.commit('SET_ERROR', false)
       } catch (e) {
@@ -76,17 +77,24 @@ const actions = {
     }
   },
 
-  async register ({ commit, state }, data) {
+  async register ({ dispatch, commit, state }, data) {
     try {
-      const userInfo = await User.initUserInfo(data['firstName'], data['lastName'], data['email'], data['password'])
-      console.log(userInfo)
+      const userInfo = await UserApi.initUserInfo(data['firstName'], data['lastName'], data['email'], data['password'])
       let userId = userInfo.data.id
       // connect user to get the token
-      const connect = await User.connectUser(data['email'], data['password'])
+      const connect = await UserApi.connectUser(data['email'], data['password'])
       if (connect.data.access_token != null) {
         try {
           await commit('SET_TOKEN', connect.data.access_token)
+          console.log(api.defaults.headers.common['Authorization'])
+          if (state.token === connect.data.access_token) {
+            await UserApi.initUserProfile(userId, data['pro'])
+            await UserApi.initUserLocation(userId)
+            await UserApi.initUserShowcase(userId, data['name'])
+            dispatch('login', data)
+          }
         } catch (e) {
+          console.log(e)
           Toast.open({
             message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
             type: 'is-danger'
@@ -94,46 +102,39 @@ const actions = {
           commit('SET_ERROR', true)
         }
       }
-      await User.initUserProfile(userId)
-      await User.initUserLocation(userId)
-      await User.initUserShowcase(userId)
-      Toast.open({
-        message: 'Votre compte a été créé. Vous pouvez maintenant vous authentifier',
-        type: 'is-success'
-      })
-      commit('SET_ERROR', false)
     } catch (e) {
       console.log(e)
       Toast.open({
         message: 'Oups ! Il y a eu un problème lors de la création de votre compte. Merci de vérifier les champs éronnés',
         type: 'is-danger'
       })
-      commit('SET_ERROR', true)
     }
   },
 
-  async login ({ commit, state }, data) {
+  async login ({ dispatch, commit, state }, data) {
     console.log(data)
-    const connect = await User.connectUser(data['email'], data['password'])
+    const connect = await UserApi.connectUser(data['email'], data['password'])
     console.log(connect.data.access_token)
     if (connect.data.access_token != null) {
       try {
         await commit('SET_TOKEN', connect.data.access_token)
-        await User.setToken(connect.data.access_token)
-        const userInfo = await User.getUserInfo()
-        await commit('SET_USER_AUTHENTICATED', true)
-        await commit('SET_USER_INFO', userInfo.data)
-        const userProfile = await User.getUserProfile()
-        await commit('SET_USER_PROFILE', userProfile.data)
-        const userLocation = await User.getUserLocation()
-        await commit('SET_USER_ADDRESS', userLocation.data)
-        const userShowcase = await User.getUserShowcase()
-        await commit('SET_USER_SHOWCASE', userShowcase.data)
-        const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
-        await commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
-        const userProducts = await User.getUserProducts()
-        await commit('SET_USER_PRODUCTS', userProducts.data)
-        await commit('SET_ERROR', false)
+        await UserApi.setToken(connect.data.access_token)
+        if (state.token === connect.data.access_token) {
+          const userInfo = await UserApi.getUserInfo()
+          await commit('SET_USER_AUTHENTICATED', true)
+          await commit('SET_USER_INFO', userInfo.data)
+          const userProfile = await UserApi.getUserProfile()
+          await commit('SET_USER_PROFILE', userProfile.data)
+          const userLocation = await UserApi.getUserLocation()
+          await commit('SET_USER_ADDRESS', userLocation.data)
+          const userShowcase = await UserApi.getUserShowcase()
+          await commit('SET_USER_SHOWCASE', userShowcase.data)
+          const showcaseImages = await ShowcaseApi.getShowcaseImages(userShowcase.data.user)
+          await commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
+          const userProducts = await UserApi.getUserProducts()
+          await commit('SET_USER_PRODUCTS', userProducts.data)
+          await commit('SET_ERROR', false)
+        }
         router.push({
           name: 'dashboard.profile'
         })

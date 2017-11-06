@@ -1,0 +1,33 @@
+.field {
+  &.is-centered {
+    &.has-addons {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.b-radio {
+  .icon {
+    margin-left: 2px;
+    margin-right: 5px;
+  }
+  .icon:first-child:not(:last-child) {
+    margin-left: 0px;
+    margin-right: 5px;
+  }
+}
+
+.field.has-addons .control:first-child .button {
+  border-bottom-left-radius: 120px;
+  border-top-left-radius: 120px;
+}
+
+.field.has-addons .control:last-child .button {
+  border-bottom-right-radius: 120px;
+  border-top-right-radius: 120px;
+
+  span:nth-child(2) {
+    margin-right: 2px;
+  }
+}

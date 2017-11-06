@@ -153,3 +153,13 @@
     </section>
   </div>
 </template>
+
+<script>
+  export default {
+    data () {
+      return {
+        // isSwitched: false
+      }
+    }
+  }
+</script>

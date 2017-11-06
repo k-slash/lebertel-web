@@ -8,6 +8,8 @@ import store from '@/store'
 import VueResource from 'vue-resource'
 import App from '@/components/App.vue'
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import VueForm from 'vue-form'
@@ -19,6 +21,7 @@ import VueAgile from 'vue-agile'
 import VueImg from 'v-img'
 import SocialSharing from 'vue-social-sharing'
 
+Vue.use(ElementUI)
 Vue.use(Buefy)
 Vue.use(VueResource)
 Vue.use(VueQuillEditor)
@@ -50,8 +53,8 @@ delete L.Icon.Default.prototype._getIconUrl
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require('./assets/images/marker.png'),
-  iconUrl: require('./assets/images/marker.png')
-  // shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+  iconUrl: require('./assets/images/marker.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
 Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token')
