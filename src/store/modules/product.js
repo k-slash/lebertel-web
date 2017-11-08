@@ -1,7 +1,7 @@
 import { Toast } from 'buefy'
 import Product from '@/store/api/product'
 import Showcase from '@/store/api/showcase'
-import User from '@/store/api/User'
+import User from '@/store/api/user'
 import router from '@/router'
 
 // state
