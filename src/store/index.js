@@ -37,8 +37,8 @@ const getters = {
 
 const actions = {
   async check (store) {
-    const token = Cookies.get('csrftoken')
-    // const token = localStorage.getItem('id_token')
+    // const token = Cookies.get('csrftoken')
+    const token = localStorage.getItem('id_token')
     console.log(token)
     if (token != null) {
       try {
