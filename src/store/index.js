@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
+import * as Cookies from 'js-cookie'
 import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
 import product from '@/store/modules/product'
 import { Toast } from 'buefy'
-import UserApi from '@/store/api/user'
-import ShowcaseApi from '@/store/api/showcase'
+import User from '@/store/api/user'
+import Showcase from '@/store/api/showcase'
 import api from '@/store/api'
 import router from '@/router'
 
@@ -23,7 +25,9 @@ const mutations = {
   SET_TOKEN: function (state, data) {
     state.token = data
     localStorage.setItem('id_token', data)
+    Cookies.set('csrftoken', data, { expires: 3, secure: true })
     api.defaults.headers.common['Authorization'] = 'Bearer ' + data
+    // api.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer ' + data
   }
 }
 
@@ -33,23 +37,24 @@ const getters = {
 
 const actions = {
   async check (store) {
-    const token = localStorage.getItem('id_token')
+    const token = Cookies.get('csrftoken')
+    // const token = localStorage.getItem('id_token')
     console.log(token)
     if (token != null) {
       try {
         await store.commit('SET_TOKEN', token)
-        const userInfo = await UserApi.getUserInfo()
+        const userInfo = await User.getUserInfo()
         await store.commit('SET_USER_AUTHENTICATED', true)
         await store.commit('SET_USER_INFO', userInfo.data)
-        const userProfile = await UserApi.getUserProfile()
+        const userProfile = await User.getUserProfile()
         await store.commit('SET_USER_PROFILE', userProfile.data)
-        const userLocation = await UserApi.getUserLocation()
+        const userLocation = await User.getUserLocation()
         await store.commit('SET_USER_ADDRESS', userLocation.data)
-        const userShowcase = await UserApi.getUserShowcase()
+        const userShowcase = await User.getUserShowcase()
         await store.commit('SET_USER_SHOWCASE', userShowcase.data)
-        const showcaseImages = await ShowcaseApi.getShowcaseImages(userShowcase.data.user)
+        const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
         await store.commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
-        const userProducts = await UserApi.getUserProducts()
+        const userProducts = await User.getUserProducts()
         await store.commit('SET_USER_PRODUCTS', userProducts.data)
         await store.commit('SET_ERROR', false)
       } catch (e) {
@@ -65,6 +70,7 @@ const actions = {
         store.commit('SET_ERROR', true)
       }
     } else {
+      Cookies.remove('csrftoken')
       localStorage.removeItem('id_token')
       localStorage.removeItem('authenticated')
       store.commit('SET_USER_AUTHENTICATED', false)
@@ -79,18 +85,18 @@ const actions = {
 
   async register ({ dispatch, commit, state }, data) {
     try {
-      const userInfo = await UserApi.initUserInfo(data['firstName'], data['lastName'], data['email'], data['password'])
+      const userInfo = await User.initUserInfo(data['firstName'], data['lastName'], data['email'], data['password'])
       let userId = userInfo.data.id
       // connect user to get the token
-      const connect = await UserApi.connectUser(data['email'], data['password'])
+      const connect = await User.connectUser(data['email'], data['password'])
       if (connect.data.access_token != null) {
         try {
           await commit('SET_TOKEN', connect.data.access_token)
           console.log(api.defaults.headers.common['Authorization'])
           if (state.token === connect.data.access_token) {
-            await UserApi.initUserProfile(userId, data['pro'])
-            await UserApi.initUserLocation(userId)
-            await UserApi.initUserShowcase(userId, data['name'])
+            await User.initUserProfile(userId, data['pro'])
+            await User.initUserLocation(userId)
+            await User.initUserShowcase(userId, data['name'])
             dispatch('login', data)
           }
         } catch (e) {
@@ -113,25 +119,25 @@ const actions = {
 
   async login ({ dispatch, commit, state }, data) {
     console.log(data)
-    const connect = await UserApi.connectUser(data['email'], data['password'])
+    const connect = await User.connectUser(data['email'], data['password'])
     console.log(connect.data.access_token)
     if (connect.data.access_token != null) {
       try {
         await commit('SET_TOKEN', connect.data.access_token)
-        await UserApi.setToken(connect.data.access_token)
+        await User.setToken(connect.data.access_token)
         if (state.token === connect.data.access_token) {
-          const userInfo = await UserApi.getUserInfo()
+          const userInfo = await User.getUserInfo()
           await commit('SET_USER_AUTHENTICATED', true)
           await commit('SET_USER_INFO', userInfo.data)
-          const userProfile = await UserApi.getUserProfile()
+          const userProfile = await User.getUserProfile()
           await commit('SET_USER_PROFILE', userProfile.data)
-          const userLocation = await UserApi.getUserLocation()
+          const userLocation = await User.getUserLocation()
           await commit('SET_USER_ADDRESS', userLocation.data)
-          const userShowcase = await UserApi.getUserShowcase()
+          const userShowcase = await User.getUserShowcase()
           await commit('SET_USER_SHOWCASE', userShowcase.data)
-          const showcaseImages = await ShowcaseApi.getShowcaseImages(userShowcase.data.user)
+          const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
           await commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
-          const userProducts = await UserApi.getUserProducts()
+          const userProducts = await User.getUserProducts()
           await commit('SET_USER_PRODUCTS', userProducts.data)
           await commit('SET_ERROR', false)
         }
@@ -155,6 +161,7 @@ const actions = {
   },
 
   async logout (store) {
+    Cookies.remove('csrftoken')
     localStorage.removeItem('id_token')
     localStorage.removeItem('authenticated')
     await store.commit('SET_USER_AUTHENTICATED', false)
@@ -178,7 +185,14 @@ const store = new Vuex.Store({
     user,
     showcase,
     product
-  }
+  },
+  plugins: [createPersistedState({
+    storage: {
+      getItem: key => Cookies.get(key),
+      setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
+      removeItem: key => Cookies.remove(key)
+    }
+  })]
 })
 
 export default store

@@ -19,7 +19,7 @@
     "buefy": "^0.5.4",
     "element-ui": "^2.0.3",
     "jquery": "^3.2.1",
-    "js-cookie": "^2.1.4",
+    "js-cookie": "^2.2.0",
     "popper.js": "^1.12.6",
     "v-img": "^0.1.4",
     "vue": "^2.5.3",
@@ -34,7 +34,7 @@
     "vue-social-sharing": "^2.2.10",
     "vue2-leaflet": "0.0.53",
     "vuex": "^2.5.0",
-    "vuex-persistedstate": "^2.0.0",
+    "vuex-persistedstate": "^2.3.1",
     "vuex-router-sync": "^4.3.2"
   },
   "devDependencies": {

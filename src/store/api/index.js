@@ -1,4 +1,6 @@
 import axios from 'axios'
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
+axios.defaults.xsrfCookieName = 'csrftoken'
 
 const API_URL = 'http://localhost:8000/'
 const token = localStorage.getItem('id_token')
