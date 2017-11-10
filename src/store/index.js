@@ -70,7 +70,7 @@ const actions = {
         store.commit('SET_ERROR', true)
       }
     } else {
-      Cookies.remove('csrftoken')
+      // Cookies.remove('csrftoken')
       localStorage.removeItem('id_token')
       localStorage.removeItem('authenticated')
       store.commit('SET_USER_AUTHENTICATED', false)
@@ -161,7 +161,7 @@ const actions = {
   },
 
   async logout (store) {
-    Cookies.remove('csrftoken')
+    // Cookies.remove('csrftoken')
     localStorage.removeItem('id_token')
     localStorage.removeItem('authenticated')
     await store.commit('SET_USER_AUTHENTICATED', false)
