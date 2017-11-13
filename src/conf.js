@@ -1,0 +1,13 @@
+var conf = {
+  API_URL: 'http://37.59.125.147:8000/',
+  CLIENT_ID: '4ebJUREouFZvFghuBFtNPAZDAPd7HH5PINvASwYs',
+  CLIENT_SECRET: '8XkghLoEmbk1pib8uvcaL4XJFTWLkFSxRCWc9cqIBUImRbjrr1MZZV20Kz6qP5Sqwc8n5M8GgDBQBUNqqJLZrMG47WKiOmvkAah7Ey7AXzBcWw7uRWPOGsUTND4qXBi3'
+}
+
+/** var conf = {
+  API_URL: 'http://localhost:8000/',
+  CLIENT_ID: '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U',
+  CLIENT_SECRET: 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
+} **/
+
+export default conf

@@ -1,9 +1,9 @@
 import axios from 'axios'
+import conf from '@/conf'
 
-const API_URL = 'http://localhost:8000/'
 const token = localStorage.getItem('id_token')
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: conf.API_URL,
   headers: {
     Authorization: 'Bearer ' + token
   }

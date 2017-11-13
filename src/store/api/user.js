@@ -1,7 +1,5 @@
 import api from '@/store/api'
-
-const CLIENT_ID = '3WoLnGo8YKjrNwZmJpQjDKYJJTRAamMLbpQnBl5U'
-const CLIENT_SECRET = 'x98x6lzSoI6zQRoDnbDKKGup6whNpCIGNb87z5FvLAUDXjAaYzz4PRkW6c4agP58HuajVnmSK49I3ADcBCaoPsm3cWs25LJZtEDWicePIsLPOGxae2F5tC2IfGTh9BWl'
+import conf from '@/conf'
 
 export default {
   setToken (token) {
@@ -15,7 +13,7 @@ export default {
     return api.get('users/' + id + '/')
   },
   connectUser (email, password) {
-    return api.post('o/token/?grant_type=password&username=' + email + '&password=' + password + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET)
+    return api.post('o/token/?grant_type=password&username=' + email + '&password=' + password + '&client_id=' + conf.CLIENT_ID + '&client_secret=' + conf.CLIENT_SECRET)
   },
   getUserInfo () {
     return api.get('user/')
