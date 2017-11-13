@@ -9,7 +9,7 @@
         <article class="media">
           <div class="media-content">
             <p class="image is-128">
-              <img :src="item.image">
+              <img :src="item.thumb_medium">
             </p>
           </div>
           <div class="media-right">

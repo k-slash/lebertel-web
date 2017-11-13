@@ -7,7 +7,7 @@
             <div class="media-left">
               <figure class="image">
                 <div v-if="!!showcase.logo">
-                  <div class="logo" v-bind:style="{ backgroundImage: 'url(' + showcase.logo + ')' }" ></div>
+                  <div class="logo" v-bind:style="{ backgroundImage: 'url(' + showcase.logo_medium + ')' }" ></div>
                 </div>
                 <div v-else>
                   <div class="logo" v-bind:style="{ backgroundImage: 'url(../assets/images/avatar.png)' }" ></div>
@@ -34,7 +34,7 @@
                     v-for="item in showcase.images"
                     v-bind:item="item"
                     v-bind:key="item.id">
-                    <img v-img :src="item.image">
+                    <img v-img="{src: item.thumb_big}" :src="item.thumb_medium">
                   </div>
                 </section>
               </section>

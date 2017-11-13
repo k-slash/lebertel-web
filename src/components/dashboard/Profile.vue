@@ -2,7 +2,7 @@
   <div class="dashboardProfile">
     <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
       <div class="dashboard-avatar">
-        <VueImgInputer id="avatar" name="avatar" :imgSrc="user.profile.avatar" v-model="file" theme="light" size="small" bottomText="avatar" placeholder="avatar" @onChange="updateFile"></VueImgInputer>
+        <VueImgInputer id="avatar" name="avatar" :imgSrc="user.profile.thumb_medium" v-model="file" theme="light" size="small" bottomText="avatar" placeholder="avatar" @onChange="updateFile"></VueImgInputer>
       </div>
       <br>
       <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.first_name)">

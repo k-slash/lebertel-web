@@ -2,7 +2,7 @@
   <div class="dashboardShowcasePresentation">
     <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
       <div class="dashboard-avatar">
-        <VueImgInputer id="logo" name="logo" :imgSrc="user.showcase.logo" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
+        <VueImgInputer id="logo" name="logo" :imgSrc="user.showcase.logo_medium" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
       </div>
       <br>
       <div class="field">
