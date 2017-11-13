@@ -49,6 +49,19 @@ article {
   margin-bottom: 0px;
 }
 
+.card {
+  &.showcase {
+    box-shadow: 0 1px 1px rgba(10, 10, 10, 0.1), 0 0 1px 0 rgba(10, 10, 10, 0.1);
+    // box-shadow: none;
+  }
+}
+
+.panel-body {
+  .showcase-content {
+    background-color: $white;
+  }
+}
+
 .container {
   &.showcase {
     display: flex;
@@ -165,16 +178,21 @@ article {
   }
 }
 
-.showcase-address {
+.showcase-content {
   h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
+}
+
+.showcase-address {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  font-style: normal;
+  //justify-content: space-between;
 
   .on-right {
     display: flex;
     flex-direction: column;
+    margin-left: 2rem;
   }
 }

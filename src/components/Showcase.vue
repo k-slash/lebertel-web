@@ -1,144 +1,144 @@
 <template>
-  <div class="showcase">
-    <section class="hero is-milk-jam is-medium">
-      <div class="hero-body showcase">
-        <div class="container">
-          <article class="media showcase">
-            <div class="media-left">
-              <figure class="image">
-                <div v-if="!!showcase.logo">
-                  <div class="logo" v-bind:style="{ backgroundImage: 'url(' + showcase.logo_medium + ')' }" ></div>
-                </div>
-                <div v-else>
-                  <div class="logo" v-bind:style="{ backgroundImage: 'url(../assets/images/avatar.png)' }" ></div>
-                </div>
-              </figure>
-            </div>
-            <div class="media-right">
-              <h1 class="title menu-title">{{ showcase.name }}</h1>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+  <div class="showcase-content">
     <section>
-        <b-tabs position="is-centered" class="tabs-showcase" v-model="activeTab">
-            <b-tab-item label="Présentation">
-              <div class="container showcase">
-                <div class="presentation" v-html="showcase.presentation"></div>
-              </div>
-
-              <section class="hero is-yellow-pop">
-                <section class="photos">
-                  <div class="photo" v-model="showcase.images"
-                    v-for="item in showcase.images"
-                    v-bind:item="item"
-                    v-bind:key="item.id">
-                    <img v-img="{src: item.thumb_big}" :src="item.thumb_medium">
+      <section class="hero is-milk-jam is-medium">
+        <div class="hero-body showcase">
+          <div class="container">
+            <article class="media showcase">
+              <div class="media-left">
+                <figure class="image">
+                  <div v-if="!!showcase.logo">
+                    <div class="logo" v-bind:style="{ backgroundImage: 'url(' + showcase.logo_medium + ')' }" ></div>
                   </div>
-                </section>
+                  <div v-else>
+                    <div class="logo" v-bind:style="{ backgroundImage: 'url(../assets/images/avatar.png)' }" ></div>
+                  </div>
+                </figure>
+              </div>
+              <div class="media-right">
+                <h1 class="title menu-title">{{ showcase.name }}</h1>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <b-tabs position="is-centered" class="tabs-showcase" v-model="activeTab">
+          <b-tab-item label="Présentation">
+            <div class="container showcase">
+              <div class="presentation" v-html="showcase.presentation"></div>
+            </div>
+
+            <section class="hero is-tsilaosa">
+              <section class="photos">
+                <div class="photo" v-model="showcase.images"
+                  v-for="item in showcase.images"
+                  v-bind:item="item"
+                  v-bind:key="item.id">
+                  <img v-img="{src: item.thumb_big}" :src="item.thumb_medium">
+                </div>
               </section>
+            </section>
 
-            </b-tab-item>
-            <b-tab-item label="Produits" v-if='!!products.length > 0'>
-              <div class="container showcase">
-                <div class="presentation">
-                  <h2> Et voici mes produits </h2>
-                </div>
+          </b-tab-item>
+          <b-tab-item label="Produits" v-if='!!products.length > 0'>
+            <div class="container showcase">
+              <div class="presentation">
+                <h2> Et voici mes produits </h2>
               </div>
-              <br>
-              <div class="container">
-                <section class="products">
-                  <router-link class="card"
-                    v-model="products"
-                    v-for="p in products"
-                    v-bind:item="p"
-                    v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
-                    <div class="card-image">
-                      <figure class="image" v-if="p.images[0]">
-                        <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-content">
-                          <p class="title is-4">{{ p.name }}</p>
-                          <p class="subtitle is-6">{{ p.price }} €</p>
-                        </div>
-                      </div>
-                      <div class="content">
-                        <div v-html="p.short_description"></div>
-                      </div>
-                    </div>
-                    <br>
-                  </router-link>
-                </section>
-                <br>
-              </div>
-            </b-tab-item>
-        </b-tabs>
-        <section class="hero is-light" v-show="this.showMap">
-          <div class="hero-body">
+            </div>
+            <br>
             <div class="container">
-              <div class="columns">
-                <div class="column is-half">
-                  <div class="lebertel-map" v-if="!!showcase.location">
-                    <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
-                      <v-tilelayer :url="url"></v-tilelayer>
-                      <div v-if="showcase.location != undefined">
-                        <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
-                          <v-popup :content="showcase.address"></v-popup>
-                        </v-marker>
-                      </div>
-                      <div v-else>
-                        <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
-                          <v-popup content="Mon atelier"></v-popup>
-                        </v-marker>
-                      </div>
-                    </v-map>
+              <section class="products">
+                <router-link class="card showcase"
+                  v-model="products"
+                  v-for="p in products"
+                  v-bind:item="p"
+                  v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
+                  <div class="card-image">
+                    <figure class="image" v-if="p.images[0]">
+                      <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
+                    </figure>
                   </div>
-                </div>
-                <div class="column is-one-third is-offset-1">
-                  <address class="showcase-address">
-                    <div class="on-left">
-                      <h2>{{ showcase.name }}</h2>
-                      {{ showcase.address }}<br>
-                      {{ showcase.postcode }} {{ showcase.city }}<br>
-                      La Réunion <br>
-                    </div>
-                    <div class="on-right">
-                      <div class="phone">
-                        <span class="icon margin-right">
-                          <i class="fa fa-phone"></i>
-                        </span>
-                        {{ showcase.phone_number }}
-                      </div>
-                      <div class="email">
-                        <span class="icon margin-right">
-                          <i class="fa fa-envelope-o"></i>
-                        </span>
-                        {{ showcase.email }}
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">{{ p.name }}</p>
+                        <p class="subtitle is-6">{{ p.price }} €</p>
                       </div>
                     </div>
-                  </address>
-                  <br>
-
-                  <div class="timetable" v-if='!!showcase.timetable'>
-                    <h2>Horaires</h2>
-                    <div v-html="showcase.timetable"></div>
+                    <div class="content">
+                      <div v-html="p.short_description"></div>
+                    </div>
                   </div>
                   <br>
-                  <div class="moreInfos" v-if='!!showcase.informations'>
-                    <h2>Pour info</h2>
-                    <div v-html="showcase.informations"></div>
-                  </div>
-
+                </router-link>
+              </section>
+              <br>
+            </div>
+          </b-tab-item>
+      </b-tabs>
+      <section class="hero is-light" v-show="this.showMap">
+        <div class="hero-body">
+          <div class="container">
+            <div class="columns">
+              <div class="column is-half">
+                <div class="lebertel-map" v-if="!!showcase.location">
+                  <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+                    <v-tilelayer :url="url"></v-tilelayer>
+                    <div v-if="showcase.location != undefined">
+                      <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
+                        <v-popup :content="showcase.address"></v-popup>
+                      </v-marker>
+                    </div>
+                    <div v-else>
+                      <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
+                        <v-popup content="Mon atelier"></v-popup>
+                      </v-marker>
+                    </div>
+                  </v-map>
                 </div>
+              </div>
+              <div class="column is-one-third is-offset-1">
+                <address class="showcase-address">
+                  <div class="on-left">
+                    <h2>{{ showcase.name }}</h2>
+                    {{ showcase.address }}<br>
+                    {{ showcase.postcode }} {{ showcase.city }}<br>
+                    La Réunion <br>
+                  </div>
+                  <div class="on-right">
+                    <div class="phone">
+                      <span class="icon margin-right">
+                        <i class="fa fa-phone"></i>
+                      </span>
+                      {{ showcase.phone_number }}
+                    </div>
+                    <div class="email">
+                      <span class="icon margin-right">
+                        <i class="fa fa-envelope-o"></i>
+                      </span>
+                      {{ showcase.email }}
+                    </div>
+                  </div>
+                </address>
+                <br>
+
+                <div class="timetable" v-if='!!showcase.timetable'>
+                  <h2>Horaires</h2>
+                  <div v-html="showcase.timetable"></div>
+                </div>
+                <br>
+                <div class="moreInfos" v-if='!!showcase.informations'>
+                  <h2>Pour info</h2>
+                  <div v-html="showcase.informations"></div>
+                </div>
+
               </div>
             </div>
           </div>
-        </section>
-        <section class="hero is-blanc-espagne">
+        </div>
+      </section>
+      <section class="hero is-blanc-espagne">
           <div class="hero-body">
             <div class="container social">
               <a class="navbar-item" :href="showcase.facebook" target="_blank">

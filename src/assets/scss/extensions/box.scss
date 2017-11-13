@@ -1,5 +1,6 @@
 .box {
   border-radius: 10px;
+  box-shadow: 0 1px 1px rgba(10, 10, 10, 0.1), 0 0 1px 0 rgba(10, 10, 10, 0.1);
   &.no-padding {
     padding: 0;
   }
@@ -15,6 +16,7 @@
 
 .box-content {
   padding: 1.25rem;
+  padding-bottom: 2rem;
 }
 
 .connection {

@@ -3,6 +3,8 @@ $primary: #D7AF71;
 $primary-invert: findColorInvert($primary);
 $dark: #1B1B1B;
 $dark-invert: findColorInvert($dark);
+$light: #F9F9F9;
+$light-invert: findColorInvert($light);
 $blanc-espagne: #FEFDF0;
 $blanc-espagne-invert: findColorInvert($blanc-espagne);
 $twitter: #4099FF;
@@ -31,8 +33,12 @@ $pinktable-dark-brown: #6A5040;
 $pinktable-dark-brown-invert: findColorInvert($pinktable-dark-brown);
 $grey-mouse: #47abb5;
 $grey-mouse-invert: findColorInvert($grey-mouse);
-$tsilaosa: #f9ed96;
+$tsilaosa: #F9ED96;
 $tsilaosa-invert: findColorInvert($tsilaosa);
+$blue-obelix: #8EC1EE;
+$blue-obelix-invert: findColorInvert($blue-obelix);
+$blue-mapbox: #73B6E6;
+$blue-mapbox-invert: findColorInvert($blue-mapbox);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -56,6 +62,8 @@ $colors: (
   "pinktable-dark-brown": ($pinktable-dark-brown, $pinktable-dark-brown-invert),
   "grey-mouse": ($grey-mouse, $grey-mouse-invert),
   "tsilaosa": ($tsilaosa, $tsilaosa-invert),
+  "blue-obelix": ($blue-obelix, $blue-obelix-invert),
+  "blue-mapbox": ($blue-mapbox, $blue-mapbox-invert),
 );
 
 // Links
