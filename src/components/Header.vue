@@ -19,7 +19,7 @@
 
         <div class="navbar-end" :class="navMenuClass">
           <span class="nav-item" v-if="!user.authenticated">
-            <router-link :to="{ name: 'register' }" class="button is-primary">
+            <router-link :to="{ name: 'register' }" class="register">
               <span>Créer un compte</span>
             </router-link>
           </span>
