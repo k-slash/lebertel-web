@@ -121,18 +121,32 @@ article {
   }
 }
 
-.photos {
-  /* Prevent vertical gaps */
-  line-height: 0px;
-  column-count: 4;
-  column-gap: 0px;
-
-  .photo {
-    display: inline-block
+.hero {
+  &.showcase-images {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
-@media (max-width: 1200px) {
+.photos {
+  /* Prevent vertical gaps */
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  /** line-height: 0px;
+  column-count: 4;
+  column-gap: 0px; **/
+
+  .photo {
+    width: 25rem;
+    line-height: 0;
+    margin: 2rem;
+    padding: 0;
+    // display: inline-block
+  }
+}
+
+/** @media (max-width: 1200px) {
   .photos {
     column-count: 4;
   }
@@ -154,7 +168,7 @@ article {
   .photos {
     column-count: 1;
   }
-}
+} **/
 
 .photos img {
   /* Just in case there are inline attributes */

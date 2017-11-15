@@ -28,7 +28,7 @@
               <div class="presentation" v-html="showcase.presentation"></div>
             </div>
 
-            <section class="hero is-tsilaosa">
+            <section class="hero is-tsilaosa showcase-images">
               <section class="photos">
                 <div class="photo" v-model="showcase.images"
                   v-for="item in showcase.images"
