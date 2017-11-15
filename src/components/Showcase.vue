@@ -34,7 +34,7 @@
                   v-for="item in showcase.images"
                   v-bind:item="item"
                   v-bind:key="item.id">
-                  <img v-img="{src: item.thumb_big}" :src="item.thumb_medium">
+                  <img v-img="{src: item.thumb_big}" :src="item.url">
                 </div>
               </section>
             </section>
