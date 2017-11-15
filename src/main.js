@@ -57,8 +57,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
-Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token')
-Vue.http.options.root = ''
 Vue.config.productionTip = false
 
 // export default Vue

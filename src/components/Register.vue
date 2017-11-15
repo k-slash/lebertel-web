@@ -173,8 +173,7 @@ export default {
           'pro': this.pro,
           'name': this.name
         }
-        console.log(data)
-        // this.register(data)
+        this.register(data)
       }
     }
   }

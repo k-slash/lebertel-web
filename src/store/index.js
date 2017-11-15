@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
-import * as Cookies from 'js-cookie'
 import user from '@/store/modules/user'
 import showcase from '@/store/modules/showcase'
 import product from '@/store/modules/product'
@@ -25,7 +23,7 @@ const mutations = {
   SET_TOKEN: function (state, data) {
     state.token = data
     localStorage.setItem('id_token', data)
-    Cookies.set('csrftoken', data, { expires: 3, secure: true })
+    // Cookies.set('csrftoken', data, { expires: 3, secure: true })
     api.defaults.headers.common['Authorization'] = 'Bearer ' + data
     // api.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer ' + data
   }
@@ -70,7 +68,6 @@ const actions = {
         store.commit('SET_ERROR', true)
       }
     } else {
-      // Cookies.remove('csrftoken')
       localStorage.removeItem('id_token')
       localStorage.removeItem('authenticated')
       store.commit('SET_USER_AUTHENTICATED', false)
@@ -92,12 +89,17 @@ const actions = {
       if (connect.data.access_token != null) {
         try {
           await commit('SET_TOKEN', connect.data.access_token)
+          await commit('SET_USER_AUTHENTICATED', true)
           console.log(api.defaults.headers.common['Authorization'])
           if (state.token === connect.data.access_token) {
             await User.initUserProfile(userId, data['pro'])
             await User.initUserLocation(userId)
-            await User.initUserShowcase(userId, data['name'])
-            dispatch('login', data)
+            if (data['pro']) {
+              await User.initUserShowcase(userId, data['name'])
+            }
+            router.push({
+              name: 'dashboard.profile'
+            })
           }
         } catch (e) {
           console.log(e)
@@ -118,29 +120,13 @@ const actions = {
   },
 
   async login ({ dispatch, commit, state }, data) {
-    console.log(data)
     const connect = await User.connectUser(data['email'], data['password'])
-    console.log(connect.data.access_token)
+    console.log(api.defaults.headers.common['Authorization'])
+    console.log(connect)
     if (connect.data.access_token != null) {
       try {
         await commit('SET_TOKEN', connect.data.access_token)
-        await User.setToken(connect.data.access_token)
-        if (state.token === connect.data.access_token) {
-          const userInfo = await User.getUserInfo()
-          await commit('SET_USER_AUTHENTICATED', true)
-          await commit('SET_USER_INFO', userInfo.data)
-          const userProfile = await User.getUserProfile()
-          await commit('SET_USER_PROFILE', userProfile.data)
-          const userLocation = await User.getUserLocation()
-          await commit('SET_USER_ADDRESS', userLocation.data)
-          const userShowcase = await User.getUserShowcase()
-          await commit('SET_USER_SHOWCASE', userShowcase.data)
-          const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
-          await commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
-          const userProducts = await User.getUserProducts()
-          await commit('SET_USER_PRODUCTS', userProducts.data)
-          await commit('SET_ERROR', false)
-        }
+        await commit('SET_USER_AUTHENTICATED', true)
         router.push({
           name: 'dashboard.profile'
         })
@@ -152,6 +138,7 @@ const actions = {
         })
       }
     } else {
+      console.log('connect token null')
       Toast.open({
         message: 'Il y a eu un problème, vous ne pouvez vous connecter avec ces identifiants',
         type: 'is-danger'
@@ -161,7 +148,6 @@ const actions = {
   },
 
   async logout (store) {
-    // Cookies.remove('csrftoken')
     localStorage.removeItem('id_token')
     localStorage.removeItem('authenticated')
     await store.commit('SET_USER_AUTHENTICATED', false)
@@ -185,14 +171,7 @@ const store = new Vuex.Store({
     user,
     showcase,
     product
-  },
-  plugins: [createPersistedState({
-    storage: {
-      getItem: key => Cookies.get(key),
-      setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
-      removeItem: key => Cookies.remove(key)
-    }
-  })]
+  }
 })
 
 export default store
