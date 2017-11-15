@@ -63,40 +63,40 @@
       </b-tab-item>
       <b-tab-item label="Images" icon="photo_library">
         <br>
-        <div class="columns is-multiline">
-          <div class="column is-3" v-model="product.images"
-            v-for="item in product.images"
-            v-bind:item="item"
-            v-bind:key="item.id">
-            <article class="media">
-              <div class="media-content">
-                <p class="image is-128">
-                  <img :src="item.thumb_medium">
-                </p>
-              </div>
-              <div class="media-right">
-                <button class="delete" @click="deleteImage" :id="item.id"></button>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div class="block">
-          <label for="files" class="button is-primary badge" :data-badge="nbFiles">Ajouter des images</label>
-          <input id="files" style="visibility:hidden;"  ref="file_input" type="file" multiple @change="uploadFiles(product.id)">
-        </div>
+        <el-upload
+          :action="url"
+          :headers="headers"
+          :data="data"
+          :before-upload="getFile"
+          list-type="picture-card"
+          :multiple="multiple"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+          :file-list=product.images>
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible" size="tiny">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </b-tab-item>
     </b-tabs>
-
   </div>
 </template>
 
 <script>
 import Vuex from 'vuex'
 import store from '@/store'
+import conf from '@/conf'
+
+const token = localStorage.getItem('id_token')
 
 export default {
   data () {
     return {
+      url: conf.API_URL + 'product/images/',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      },
       name: 'description',
       content: '',
       editorOption: {
@@ -117,15 +117,18 @@ export default {
       },
       formstate: {},
       files: [],
+      data: {},
       image: '',
       imageSrc: '',
-      nbFiles: ''
+      nbFiles: '',
+      multiple: true,
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   beforeRouteEnter (to, from, next) {
     store.dispatch('getProduct', to.params.id).then(res => next())
   },
-
   computed: {
     ...Vuex.mapGetters(['product'])
   },
@@ -135,24 +138,17 @@ export default {
       addProductImages: 'addProductImages',
       deleteProductImage: 'deleteProductImage'
     }),
-
-    async uploadFiles (id) {
-      console.log(id)
-      var files = this.$refs.file_input.files
-      this.nbFiles = files.length
-      for (var i = 0; i < files.length; i++) {
-        console.log(files[i])
-        await store.commit('SET_PRODUCT_IMAGE_ADDED', files[i])
-        await store.commit('SET_PRODUCT_IMAGE_ADDED_DISPLAY_ORDER', i)
-        await this.addProductImages(id)
-      }
+    handleRemove (file, fileList) {
+      this.deleteProductImage(file.id)
     },
-
-    async deleteImage (event) {
-      var imageID = event.currentTarget.id
-      this.deleteProductImage(imageID)
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.thumb_big
+      this.dialogVisible = true
     },
-
+    getFile (file) {
+      this.data.product = this.product.id
+      this.data.image = file
+    },
     fieldClassName: function (field) {
       if (!field) {
         return ''

@@ -22,20 +22,12 @@ import DashboardProductEdit from '@/components/dashboard/product/Edit.vue'
 Vue.use(Router)
 
 async function requireAuth (to, from, next) {
-  // await store.dispatch('check')
   const authenticated = localStorage.getItem('authenticated')
   if (authenticated === 'true') {
     next()
   } else {
     next({ name: 'home' })
   }
-  /** const token = store.state.token
-  console.log(token)
-  if (token !== null) {
-    next()
-  } else {
-    next({ name: 'home' })
-  } **/
 }
 
 export default new Router({

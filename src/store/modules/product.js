@@ -2,7 +2,6 @@ import { Toast } from 'buefy'
 import Product from '@/store/api/product'
 import Showcase from '@/store/api/showcase'
 import User from '@/store/api/user'
-import router from '@/router'
 
 // state
 const state = {
@@ -83,10 +82,6 @@ const actions = {
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
-      })
-      router.push({
-        name: 'dashboard.product.edit',
-        params: { id: p.data.id }
       })
     } catch (e) {
       console.log(e)
@@ -189,18 +184,12 @@ const actions = {
 
   async addProductImages ({ commit, state }, id) {
     try {
-      var formData = new FormData()
-      formData.append('product', id)
-      formData.append('image', state.productImageAdded.image)
-      formData.append('display_order', state.productImageAdded.display_order)
-      await Product.addImage(formData)
-      await commit('INIT_PRODUCT_IMAGE_ADDED')
-      Toast.open({
+      const images = await Product.getProductImages(id)
+      await commit('SET_PRODUCT_IMAGES', images.data)
+      /** Toast.open({
         message: 'Ok ! L\'image a été ajoutée',
         type: 'is-success'
-      }).then(
-        router.go(router.currentRoute)
-      )
+      }) **/
     } catch (e) {
       console.log(e)
       Toast.open({
@@ -216,9 +205,7 @@ const actions = {
       Toast.open({
         message: 'Ok ! L\'image a été supprimée',
         type: 'is-success'
-      }).then(
-        router.go(router.currentRoute)
-      )
+      })
     } catch (e) {
       console.log(e)
       Toast.open({
