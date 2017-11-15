@@ -94,12 +94,6 @@ export default {
           'password': this.password
         }
         this.login(data)
-        /** if (!this.$store.state.error) {
-          this.$router.push({
-            name: 'dashboard.profile'
-          })
-          console.log('ok')
-        } **/
       }
     }
   }

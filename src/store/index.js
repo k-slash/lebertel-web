@@ -23,9 +23,7 @@ const mutations = {
   SET_TOKEN: function (state, data) {
     state.token = data
     localStorage.setItem('id_token', data)
-    // Cookies.set('csrftoken', data, { expires: 3, secure: true })
     api.defaults.headers.common['Authorization'] = 'Bearer ' + data
-    // api.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer ' + data
   }
 }
 
@@ -35,7 +33,6 @@ const getters = {
 
 const actions = {
   async check (store) {
-    // const token = Cookies.get('csrftoken')
     const token = localStorage.getItem('id_token')
     console.log(token)
     if (token != null) {

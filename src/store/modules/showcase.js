@@ -1,6 +1,5 @@
 import { Toast } from 'buefy'
 import Showcase from '@/store/api/showcase'
-import router from '@/router'
 
 // state
 const state = {
@@ -99,18 +98,12 @@ const actions = {
 
   async addShowcaseImages ({ commit, state }, id) {
     try {
-      var formData = new FormData()
-      formData.append('showcase', id)
-      formData.append('image', state.imageAdded.image)
-      formData.append('display_order', state.imageAdded.display_order)
-      await Showcase.addImage(formData)
-      await commit('INIT_IMAGE_ADDED')
-      Toast.open({
+      const images = await Showcase.getShowcaseImages(id)
+      await commit('SET_USER_SHOWCASE_IMAGES', images.data)
+      /** Toast.open({
         message: 'Ok ! L\'image a été ajoutée',
         type: 'is-success'
-      }).then(
-        router.go(router.currentRoute)
-      )
+      }) **/
     } catch (e) {
       console.log(e)
       Toast.open({
@@ -120,15 +113,15 @@ const actions = {
     }
   },
 
-  async deleteShowcaseImage ({ commit, state }, id) {
+  async deleteShowcaseImage ({ commit, state }, data) {
     try {
-      await Showcase.deleteImage(id)
+      await Showcase.deleteImage(data.id)
+      const images = await Showcase.getShowcaseImages(data.showcaseId)
+      await commit('SET_USER_SHOWCASE_IMAGES', images.data)
       Toast.open({
         message: 'Ok ! L\'image a été supprimée',
         type: 'is-success'
-      }).then(
-        router.go(router.currentRoute)
-      )
+      })
     } catch (e) {
       console.log(e)
       Toast.open({
