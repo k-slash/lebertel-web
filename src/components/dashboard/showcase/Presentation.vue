@@ -25,7 +25,7 @@
         </el-radio-group>
       </div>
       <div class="field" v-if="user.showcase.showcase_type=='craftsman'">
-        <label class="label">Type d'activité</label>
+        <label class="label">Domaine d'activité</label>
         <el-select v-model="user.showcase.category" placeholder="Select" @change="loadProfessions">
           <el-option
             v-for="item in activities"
@@ -175,9 +175,6 @@ export default {
         value: 'craftsman_tabletterie',
         label: 'Tabletterie'
       }, {
-        value: 'craftsman_earth',
-        label: 'Terre'
-      }, {
         value: 'craftsman_textile',
         label: 'Textile'
       }, {
@@ -227,6 +224,8 @@ export default {
         formData.append('name', this.$store.state.user.user.showcase.name)
         formData.append('presentation', this.$store.state.user.user.showcase.presentation)
         formData.append('showcase_type', this.$store.state.user.user.showcase.showcase_type)
+        formData.append('category', this.$store.state.user.user.showcase.category)
+        formData.append('profession', this.$store.state.user.user.showcase.profession)
         if (this.file != null) {
           formData.append('logo', this.file)
         }
@@ -238,6 +237,17 @@ export default {
     ...Vuex.mapGetters(['user']),
     editor () {
       return this.$refs.myTextEditor.quill
+    },
+    function () {
+      if (this.user.showcase.showcase_type === 'craftsman') {
+        console.log(this.user.showcase.category)
+        this.loadProfessions(this.user.showcase.category)
+      }
+    }
+  },
+  mounted: function () {
+    if (this.user.showcase.showcase_type === 'craftsman') {
+      this.loadProfessions(this.user.showcase.category)
     }
   }
 }

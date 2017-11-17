@@ -21,24 +21,24 @@
           <section class="list-element">
             <router-link class="card home showcase"
               v-model="showcases"
-              v-for="p in showcases"
-              v-if="showShowcase(p)"
-              v-bind:item="p"
-              v-bind:key="p.user" :to="{ name: 'showcase', params: { id: p.user } }">
+              v-for="s in showcases"
+              v-if="showShowcase(s)"
+              v-bind:item="s"
+              v-bind:key="s.user" :to="{ name: 'showcase', params: { id: s.user } }">
               <div class="card-image">
-                <figure class="image" v-if="p.logo_medium">
-                  <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.logo_medium + ')' }" ></div>
+                <figure class="image" v-if="s.logo_medium">
+                  <div class="slide" v-bind:style="{ backgroundImage: 'url(' + s.logo_medium + ')' }" ></div>
                 </figure>
               </div>
               <div class="card-content">
                 <div class="media">
                   <div class="media-content">
-                    <p class="title is-4">{{ p.name }}</p>
-                    <p class="subtitle is-6">{{ p.city }}</p>
+                    <p class="title is-4">{{ s.name }}</p>
+                    <p class="subtitle is-6">{{ s.city }}</p>
                   </div>
                 </div>
                 <div class="content">
-                  <div>{{ p.phone_number}} <br> {{ p.email }}</div>
+                  <div>{{ s.showcase_type_lbl}} <br> {{ s.category_lbl }} <br> {{ s.profession }}</div>
                 </div>
               </div>
               <br>
