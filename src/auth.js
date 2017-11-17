@@ -48,7 +48,7 @@ export default {
         ).then(response => {
           this.user.showcase = response.data
           Vue.http.get(
-            API_URL + 'showcases/' + this.user.showcase.id + '/images/',
+            API_URL + 'showcases/' + this.user.showcase.user + '/images/',
           ).then(response => {
             this.user.showcase.images = response.data
             console.log(this.user.showcase.images)

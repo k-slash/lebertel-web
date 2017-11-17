@@ -36,7 +36,7 @@
                       <div class="avatar" v-bind:style="{ backgroundImage: 'url(' + user.profile.thumb_avatar + ')' }" ></div>
                     </div>
                     <div v-else>
-                      <img src="../assets/images/avatar.png" alt="Image">
+                      <img class="avatar" src="../assets/images/avatar.png">
                     </div>
                   </figure>
                 </div>

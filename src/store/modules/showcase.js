@@ -3,6 +3,7 @@ import Showcase from '@/store/api/showcase'
 
 // state
 const state = {
+  showcases: [],
   showcase: {
     user: null,
     logo: null,
@@ -31,11 +32,15 @@ const state = {
 
 // getters
 const getters = {
+  showcases: state => state.showcases,
   showcase: state => state.showcase
 }
 
 // mutations
 const mutations = {
+  SET_SHOWCASES: function (state, data) {
+    state.showcases = data
+  },
   SET_SHOWCASE: function (state, data) {
     state.showcase = data
   },
@@ -63,6 +68,20 @@ const mutations = {
 
 // actions
 const actions = {
+
+  async getListShowcases ({ commit, state }) {
+    try {
+      const s = await Showcase.getListShowcases()
+      await commit('SET_SHOWCASES', s.data)
+      console.log(state.showcases)
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement des vitrines',
+        type: 'is-danger'
+      })
+    }
+  },
 
   async getShowcase ({ commit, state }, id) {
     try {

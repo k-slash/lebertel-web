@@ -4,162 +4,165 @@
       <div class="hero-body">
         <div class="container has-text-centered">
           <h1 class="title">
-            Awesome new social site
+            Bienvenue sur <span class="lebertel-font"> le bertel. </span>
           </h1>
           <h2 class="subtitle">
-            where people can be social on a site
+            Le site des artisans, des commercants et services près de chez vous.
           </h2>
         </div>
       </div>
     </section>
-    <section class="section">
+    <section class="section hero is-light">
       <div class="container">
-        <div class="columns is-multiline">
-          <div class="column is-one-third has-text-centered">
-            <div class="content">
-              <p>
-                <div class="image is-16by9">
-                  <img src="https://placehold.it/160x90" />
+        <p class="title">
+          Les nouveaux arrivés.
+        </p>
+        <div class="container">
+          <section class="list-element">
+            <router-link class="card home showcase"
+              v-model="showcases"
+              v-for="p in showcases"
+              v-if="showShowcase(p)"
+              v-bind:item="p"
+              v-bind:key="p.user" :to="{ name: 'showcase', params: { id: p.user } }">
+              <div class="card-image">
+                <figure class="image" v-if="p.logo_medium">
+                  <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.logo_medium + ')' }" ></div>
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-4">{{ p.name }}</p>
+                    <p class="subtitle is-6">{{ p.city }}</p>
+                  </div>
                 </div>
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nisi non diam convallis laoreet.
-              </p>
-            </div>
-          </div>
-          <div class="column is-one-third has-text-centered">
-            <div class="content">
-              <p>
-                <div class="image is-16by9">
-                  <img src="https://placehold.it/160x90" />
+                <div class="content">
+                  <div>{{ p.phone_number}} <br> {{ p.email }}</div>
                 </div>
-              </p>
-              <p>
-                Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas vitae finibus risus.
-              </p>
-            </div>
-          </div>
-          <div class="column is-one-third has-text-centered">
-            <div class="content">
-              <p>
-                <div class="image is-16by9">
-                  <img src="https://placehold.it/160x90" />
-                </div>
-              </p>
-              <p>
-                Donec euismod lacus ac ipsum placerat pretium ac sed felis. Donec et mauris id augue convallis efficitur in nec purus.
-              </p>
-            </div>
-          </div>
+              </div>
+              <br>
+            </router-link>
+          </section>
+          <br>
         </div>
       </div>
     </section>
-    <section class="hero is-light">
+    <section class="hero is-tsilaosa">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
-            <div class="column is-half">
-              <div class="image is-2by1">
-                <img src="https://placehold.it/160x80" />
-              </div>
-            </div>
-            <div class="column is-one-third is-offset-1">
-              <h1 class="title">
-                Aenean neque tellus
-              </h1>
-              <h2 class="subtitle">
-                Maecenas ac leo ac dolor suscipit pellentesque.
-                Aenean massa sem, scelerisque vitae odio sed, scelerisque auctor odio.
-                Pellentesque tristique metus ac sollicitudin sagittis.
-                Maecenas ut leo in nisl tincidunt fermentum ut at odio.
-              </h2>
-              <p>
-                <button class="button is-primary">Get started</button>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="hero is-pinktable-brown">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-tablet-reversed">
-            <div class="column is-half is-offset-2">
-              <div class="image is-2by1">
-                <img src="https://placehold.it/160x80" />
-              </div>
-            </div>
-            <div class="column is-one-third">
-              <h1 class="title">
-                Aenean neque tellus
-              </h1>
-              <h2 class="subtitle">
-                Ac sollicitudin sagittis pellentesque tristique metus.
-                Tincidunt fermentum ut at odio maecenas ut leo in nisl.
-                Odio odio aenean sed, scelerisque auctor massa sem, scelerisque vitae.
-                Suscipit ac dolor Maecenas ac leo pellentesque.
-              </h2>
-              <p>
-                <button class="button is-pinktable-dark-brown is-outlined">Learn more</button>
-              </p>
-            </div>
+          <p class="title">
+            Les nouveaux produits.
+          </p>
+          <div class="container">
+            <section class="products">
+              <router-link class="card showcase"
+                v-model="homeProducts"
+                v-for="p in homeProducts"
+                v-if="showProduct(p)"
+                v-bind:item="p"
+                v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
+                <div class="card-image">
+                  <figure class="image" v-if="p.images[0]">
+                    <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-4">{{ p.name }}</p>
+                      <p class="subtitle is-6">{{ p.price }} €</p>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <div v-html="p.short_description"></div>
+                  </div>
+                </div>
+                <br>
+              </router-link>
+            </section>
+            <br>
           </div>
         </div>
       </div>
     </section>
     <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-multiline is-mobile">
-            <div class="column is-half-mobile">
-              <div class="image is-16by9">
-                <img src="https://placehold.it/160x90" />
-              </div>
+      <div class="columns is-multiline is-mobile">
+        <div class="lebertel-map">
+          <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+            <v-tilelayer :url="url"></v-tilelayer>
+            <div v-for="showcase in showcases" v-if="showcase.location != undefined">
+              <v-marker :lat-lng="showcase.location.coordinates" :draggable="false">
+                <v-popup :content="showcase.name"></v-popup>
+              </v-marker>
             </div>
-            <div class="column is-half-mobile">
-              <div class="image is-16by9">
-                <img src="https://placehold.it/160x90" />
-              </div>
-            </div>
-            <div class="column is-half-mobile">
-              <div class="image is-16by9">
-                <img src="https://placehold.it/160x90" />
-              </div>
-            </div>
-            <div class="column is-half-mobile">
-              <div class="image is-16by9">
-                <img src="https://placehold.it/160x90" />
-              </div>
-            </div>
+          </v-map>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-blanc-espagne">
+        <div class="hero-body">
+          <div class="container social">
+            CGV - CGU
           </div>
         </div>
-      </div>
-    </section>
-    <section class="hero is-primary is-medium">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 class="title">
-            Try it now
-          </h1>
-          <h2 class="subtitle">
-            Unlock awesomeness
-          </h2>
-          <!--<router-link :to="{ name: 'profile', params: { profileId: 'me' } }" class="button is-primary is-medium is-inverted">
-            Get started
-          </router-link>-->
-        </div>
-      </div>
-    </section>
+      </section>
   </div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        // isSwitched: false
+import Vuex from 'vuex'
+import store from '@/store'
+import router from '@/router'
+import L from 'leaflet'
+
+export default {
+  data () {
+    return {
+      zoom: 10,
+      center: [-21.15, 55.50],
+      marker: L.latLng(-20.8821, 55.4507),
+      minZoom: 10,
+      maxZoom: 40,
+      opacity: 0.6,
+      // url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      url: 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGViZXJ0ZWwiLCJhIjoiY2o5ZWlrbWo3MjE3bTMycXFjYXJrbTFjdSJ9.lNxTnbWuChJx4UeArFLsXg',
+      options: {
+        scrollWheelZoom: false
       }
     }
+  },
+  computed: {
+    ...Vuex.mapGetters(['showcases', 'homeProducts'])
+  },
+  methods: {
+    ...Vuex.mapActions({
+      getListShowcases: 'getListShowcases',
+      getHomeProducts: 'getHomeProducts'
+    }),
+
+    showShowcase: function (s) {
+      return s.name && s.logo
+    },
+
+    showProduct: function (p) {
+      return p.name && p.images.length
+    },
+
+    goto: function (id) {
+      router.push({
+        name: 'showcase',
+        params: { id: id }
+      })
+    },
+
+    zoomChanged: function (event) {
+      this.zoom = event.target.getZoom()
+    }
+  },
+  mounted: function () {
+    store.dispatch('getListShowcases')
+    store.dispatch('getHomeProducts')
   }
+}
 </script>

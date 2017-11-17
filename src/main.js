@@ -10,6 +10,8 @@ import App from '@/components/App.vue'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import lang from 'element-ui/lib/locale/lang/fr'
+import locale from 'element-ui/lib/locale'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import VueForm from 'vue-form'
@@ -48,6 +50,8 @@ Vue.component('v-tilelayer', Vue2Leaflet.TileLayer)
 Vue.component('v-marker', Vue2Leaflet.Marker)
 Vue.component('v-tooltip', Vue2Leaflet.Tooltip)
 Vue.component('v-popup', Vue2Leaflet.Popup)
+
+locale.use(lang)
 
 delete L.Icon.Default.prototype._getIconUrl
 

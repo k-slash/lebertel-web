@@ -21,17 +21,22 @@ const state = {
   productImageAdded: {
     image: null,
     display_order: null
-  }
+  },
+  homeProducts: []
 }
 
 // getters
 const getters = {
   product: state => state.product,
-  products: state => state.products
+  products: state => state.products,
+  homeProducts: state => state.homeProducts
 }
 
 // mutations
 const mutations = {
+  SET_HOME_PRODUCTS: function (state, data) {
+    state.homeProducts = data
+  },
   SET_USER_PRODUCTS: function (state, data) {
     state.products = data
   },
@@ -129,6 +134,19 @@ const actions = {
     try {
       const userProducts = await User.getUserProducts()
       await commit('SET_USER_PRODUCTS', userProducts.data)
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement des produits',
+        type: 'is-danger'
+      })
+    }
+  },
+
+  async getHomeProducts ({ commit, state }) {
+    try {
+      const products = await Product.getList()
+      await commit('SET_HOME_PRODUCTS', products.data)
     } catch (e) {
       console.log(e)
       Toast.open({
