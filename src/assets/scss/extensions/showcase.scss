@@ -117,6 +117,28 @@ article {
     }
   }
 
+  .list-title {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+
+    .pagination {
+      small {
+        display: none;
+      }
+    }
+
+    .pagination-previous {
+      border-radius: 120px 0px 0px 120px;
+      margin: 0;
+    }
+
+    .pagination-next {
+      border-radius: 0px 120px 120px 0px;
+      margin: 0;
+    }
+  }
+
   .list-element {
     display: flex;
     justify-content: space-around;
@@ -141,7 +163,14 @@ article {
           }
         }
         .card-content {
+          max-width: 12rem;
           padding-right: 2rem;
+          .media, .content {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
         }
 
         &:hover {
@@ -155,6 +184,16 @@ article {
 .hero-body {
   &.showcase {
     padding-top: 5rem !important;
+  }
+
+  &.no-padding {
+    padding: 0;
+    margin: 0;
+
+    .container {
+      padding-left: 0;
+      margin-left: 0;
+    }
   }
 }
 
@@ -204,6 +243,10 @@ article {
 .showcase-content {
   h2 {
     font-size: 1.5rem;
+  }
+
+  .showcase-address-info {
+    padding: 3rem;
   }
 }
 

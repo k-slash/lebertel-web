@@ -14,9 +14,19 @@
     </section>
     <section class="section hero is-light">
       <div class="container">
-        <p class="title">
-          Les nouveaux arrivés.
-        </p>
+        <div class="list-title">
+          <p class="title">
+            Les nouveaux arrivés.
+          </p>
+          <b-pagination
+              :total="total"
+              :current.sync="current"
+              :order="order"
+              :size="size"
+              :simple="isSimple"
+              :per-page="perPage">
+          </b-pagination>
+        </div>
         <div class="container">
           <section class="list-element">
             <router-link class="card home showcase"
@@ -38,7 +48,7 @@
                   </div>
                 </div>
                 <div class="content">
-                  <div>{{ s.showcase_type_lbl}} <br> {{ s.category_lbl }} <br> {{ s.profession }}</div>
+                  {{ s.showcase_type_lbl}} <br> {{ s.category_lbl }} <br> {{ s.profession }}
                 </div>
               </div>
               <br>
@@ -51,9 +61,19 @@
     <section class="hero is-tsilaosa">
       <div class="hero-body">
         <div class="container">
-          <p class="title">
-            Les nouveaux produits.
-          </p>
+          <div class="list-title">
+            <p class="title">
+              Les nouveaux produits.
+            </p>
+            <b-pagination
+                :total="total"
+                :current.sync="current"
+                :order="order"
+                :size="size"
+                :simple="isSimple"
+                :per-page="perPage">
+            </b-pagination>
+          </div>
           <div class="container">
             <section class="products">
               <router-link class="card showcase"
@@ -129,7 +149,13 @@ export default {
       url: 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGViZXJ0ZWwiLCJhIjoiY2o5ZWlrbWo3MjE3bTMycXFjYXJrbTFjdSJ9.lNxTnbWuChJx4UeArFLsXg',
       options: {
         scrollWheelZoom: false
-      }
+      },
+      total: 200,
+      current: 1,
+      perPage: 20,
+      order: '',
+      size: '',
+      isSimple: true
     }
   },
   computed: {

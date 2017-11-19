@@ -77,11 +77,11 @@
             </div>
           </b-tab-item>
       </b-tabs>
-      <section class="hero is-light" v-show="this.showMap">
-        <div class="hero-body">
+      <section class="hero is-blue-mapbox" v-show="this.showMap">
+        <div class="hero-body no-padding">
           <div class="container">
             <div class="columns">
-              <div class="column is-half">
+              <div class="column is-three-fifths">
                 <div class="lebertel-map" v-if="!!showcase.location">
                   <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
                     <v-tilelayer :url="url"></v-tilelayer>
@@ -98,7 +98,7 @@
                   </v-map>
                 </div>
               </div>
-              <div class="column is-one-third is-offset-1">
+              <div class="column is-one-third is-offset-1 showcase-address-info">
                 <address class="showcase-address">
                   <div class="on-left">
                     <h2>{{ showcase.name }}</h2>
