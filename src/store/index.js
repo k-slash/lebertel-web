@@ -50,7 +50,7 @@ const actions = {
         const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
         await store.commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
         const userProducts = await User.getUserProducts()
-        await store.commit('SET_USER_PRODUCTS', userProducts.data)
+        await store.commit('SET_USER_PRODUCTS', userProducts.data.results)
         await store.commit('SET_ERROR', false)
       } catch (e) {
         console.log(e)

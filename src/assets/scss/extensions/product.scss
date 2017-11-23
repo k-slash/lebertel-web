@@ -61,14 +61,19 @@
 .slide {
   &.product {
     height: 91vh;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .product-infos {
     color: $blanc-espagne;
+    width: 100%;
     float: left;
     margin-top: 72vh;
     padding-left: 2rem;
-    text-shadow: 0.5px 0 0 $bertel-dark, 0 0.5px 0 $bertel-dark, 0 -0.5px 0 $bertel-dark, -0.5px 0 0 $bertel-dark, 0.5px 0.5px 0 $bertel-dark, 0.5px -0.5px 0 $bertel-dark, -0.5px 0.5px 0 $bertel-dark, -0.5px -0.5px 0 $bertel-dark;
+    --color-stop: $dark;
+    background: linear-gradient(transparent, var(--color-stop));
+    //text-shadow: 0.5px 0 0 $bertel-dark, 0 0.5px 0 $bertel-dark, 0 -0.5px 0 $bertel-dark, -0.5px 0 0 $bertel-dark, 0.5px 0.5px 0 $bertel-dark, 0.5px -0.5px 0 $bertel-dark, -0.5px 0.5px 0 $bertel-dark, -0.5px -0.5px 0 $bertel-dark;
     //text-shadow: $bertel-dark 0.2px 0.2px, $bertel-dark -0.2px 0.2px, $bertel-dark -0.2px -0.2px, $bertel-dark 0.2px -0.2px;
     .product-name {
       font-size: 3rem;

@@ -22,20 +22,25 @@ const state = {
     image: null,
     display_order: null
   },
-  homeProducts: []
+  homeProducts: [],
+  homeProductsCount: null
 }
 
 // getters
 const getters = {
   product: state => state.product,
   products: state => state.products,
-  homeProducts: state => state.homeProducts
+  homeProducts: state => state.homeProducts,
+  homeProductsCount: state => state.homeProductsCount
 }
 
 // mutations
 const mutations = {
   SET_HOME_PRODUCTS: function (state, data) {
     state.homeProducts = data
+  },
+  SET_HOME_PRODUCTS_COUNT: function (state, data) {
+    state.homeProductsCount = data
   },
   SET_USER_PRODUCTS: function (state, data) {
     state.products = data
@@ -133,7 +138,7 @@ const actions = {
   async getProducts ({ commit, state }) {
     try {
       const userProducts = await User.getUserProducts()
-      await commit('SET_USER_PRODUCTS', userProducts.data)
+      await commit('SET_USER_PRODUCTS', userProducts.data.results)
     } catch (e) {
       console.log(e)
       Toast.open({
@@ -143,10 +148,16 @@ const actions = {
     }
   },
 
-  async getHomeProducts ({ commit, state }) {
+  async getHomeProducts ({ commit, state }, p) {
     try {
-      const products = await Product.getList()
-      await commit('SET_HOME_PRODUCTS', products.data)
+      let products = null
+      if (p != null) {
+        products = await Product.getList(p)
+      } else {
+        products = await Product.getList()
+      }
+      await commit('SET_HOME_PRODUCTS', products.data.results)
+      await commit('SET_HOME_PRODUCTS_COUNT', products.data.count)
     } catch (e) {
       console.log(e)
       Toast.open({
@@ -160,7 +171,7 @@ const actions = {
     try {
       const userProducts = await Product.getByUser(id)
       console.log(userProducts)
-      await commit('SET_USER_PRODUCTS', userProducts.data)
+      await commit('SET_USER_PRODUCTS', userProducts.data.results)
     } catch (e) {
       console.log(e)
       Toast.open({

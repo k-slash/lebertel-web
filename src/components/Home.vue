@@ -7,7 +7,7 @@
             Bienvenue sur <span class="lebertel-font"> le bertel. </span>
           </h1>
           <h2 class="subtitle">
-            Le site des artisans, des commercants et services près de chez vous.
+            Le site des artisans, commercants, services et associations près de chez vous.
           </h2>
         </div>
       </div>
@@ -19,12 +19,13 @@
             Les nouveaux arrivés.
           </p>
           <b-pagination
-              :total="total"
+              :total="this.showcasesCount"
               :current.sync="current"
               :order="order"
               :size="size"
               :simple="isSimple"
-              :per-page="perPage">
+              :per-page="perPage"
+              @change="nextShowcases">
           </b-pagination>
         </div>
         <div class="container">
@@ -66,12 +67,13 @@
               Les nouveaux produits.
             </p>
             <b-pagination
-                :total="total"
-                :current.sync="current"
-                :order="order"
-                :size="size"
+                :total="this.homeProductsCount"
+                :current.sync="currentProduct"
+                :order="orderProduct"
+                :size="sizeProduct"
                 :simple="isSimple"
-                :per-page="perPage">
+                :per-page="perPageProduct"
+                @change="nextProducts">
             </b-pagination>
           </div>
           <div class="container">
@@ -111,7 +113,7 @@
         <div class="lebertel-map">
           <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
             <v-tilelayer :url="url"></v-tilelayer>
-            <div v-for="showcase in showcases" v-if="showcase.location != undefined">
+            <div v-for="showcase in allShowcases" v-if="showcase.location != undefined">
               <v-marker :lat-lng="showcase.location.coordinates" :draggable="false">
                 <v-popup :content="showcase.name"></v-popup>
               </v-marker>
@@ -150,25 +152,37 @@ export default {
       options: {
         scrollWheelZoom: false
       },
-      total: 200,
       current: 1,
-      perPage: 20,
+      perPage: 4,
       order: '',
       size: '',
+      currentProduct: 1,
+      perPageProduct: 4,
+      orderProduct: '',
+      sizeProduct: '',
       isSimple: true
     }
   },
   computed: {
-    ...Vuex.mapGetters(['showcases', 'homeProducts'])
+    ...Vuex.mapGetters(['allShowcases', 'showcases', 'showcasesCount', 'homeProducts', 'homeProductsCount'])
   },
   methods: {
     ...Vuex.mapActions({
+      getAllShowcases: 'getAllShowcases',
       getListShowcases: 'getListShowcases',
       getHomeProducts: 'getHomeProducts'
     }),
 
+    nextShowcases: function (page) {
+      this.getListShowcases(page)
+    },
+
     showShowcase: function (s) {
       return s.name && s.logo
+    },
+
+    nextProducts: function (page) {
+      this.getHomeProducts(page)
     },
 
     showProduct: function (p) {
@@ -187,8 +201,10 @@ export default {
     }
   },
   mounted: function () {
-    store.dispatch('getListShowcases')
-    store.dispatch('getHomeProducts')
+    const page = 1
+    store.dispatch('getAllShowcases')
+    store.dispatch('getListShowcases', page)
+    store.dispatch('getHomeProducts', page)
   }
 }
 </script>

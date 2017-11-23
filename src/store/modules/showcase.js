@@ -4,6 +4,7 @@ import Showcase from '@/store/api/showcase'
 // state
 const state = {
   showcases: [],
+  allShowcases: [],
   showcase: {
     user: null,
     logo: null,
@@ -27,12 +28,15 @@ const state = {
     display_order: null
   },
   logoChanged: false,
-  logoFile: null
+  logoFile: null,
+  showcasesCount: null
 }
 
 // getters
 const getters = {
   showcases: state => state.showcases,
+  allShowcases: state => state.allShowcases,
+  showcasesCount: state => state.showcasesCount,
   showcase: state => state.showcase
 }
 
@@ -40,6 +44,12 @@ const getters = {
 const mutations = {
   SET_SHOWCASES: function (state, data) {
     state.showcases = data
+  },
+  SET_SHOWCASES_COUNT: function (state, data) {
+    state.showcasesCount = data
+  },
+  SET_ALL_SHOWCASES: function (state, data) {
+    state.allShowcases = data
   },
   SET_SHOWCASE: function (state, data) {
     state.showcase = data
@@ -68,12 +78,29 @@ const mutations = {
 
 // actions
 const actions = {
-
-  async getListShowcases ({ commit, state }) {
+  async getAllShowcases ({ commit, state }) {
     try {
-      const s = await Showcase.getListShowcases()
-      await commit('SET_SHOWCASES', s.data)
-      console.log(state.showcases)
+      const s = await Showcase.getAllShowcases()
+      await commit('SET_ALL_SHOWCASES', s.data)
+    } catch (e) {
+      console.log(e)
+      Toast.open({
+        message: 'Oups ! Il y a eu un problème lors du chargement des vitrines',
+        type: 'is-danger'
+      })
+    }
+  },
+
+  async getListShowcases ({ commit, state }, p) {
+    try {
+      let s = null
+      if (p != null) {
+        s = await Showcase.getListShowcases(p)
+      } else {
+        s = await Showcase.getListShowcases()
+      }
+      await commit('SET_SHOWCASES', s.data.results)
+      await commit('SET_SHOWCASES_COUNT', s.data.count)
     } catch (e) {
       console.log(e)
       Toast.open({

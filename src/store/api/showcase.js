@@ -1,8 +1,13 @@
 import api from '@/store/api'
 
 export default {
-  getListShowcases () {
-    return api.get('showcases/')
+  getListShowcases (page) {
+    return api.get('showcases/?page=' + page)
+    // return api.get('showcases/?limit=' + limit + '&offset=' + offset)
+  },
+  getAllShowcases () {
+    return api.get('allShowcases/')
+    // return api.get('showcases/?limit=' + limit + '&offset=' + offset)
   },
   getShowcase () {
     return api.get('user/showcase/')
