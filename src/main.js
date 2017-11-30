@@ -9,9 +9,8 @@ import VueResource from 'vue-resource'
 import App from '@/components/App.vue'
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import lang from 'element-ui/lib/locale/lang/fr'
-import locale from 'element-ui/lib/locale'
+// import 'element-ui/lib/theme-chalk/index.css'
+import '@/assets/element-theme/index.css'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import VueForm from 'vue-form'
@@ -22,9 +21,11 @@ import VueQuillEditor from 'vue-quill-editor'
 import VueAgile from 'vue-agile'
 import VueImg from 'v-img'
 import SocialSharing from 'vue-social-sharing'
+import lang from 'element-ui/lib/locale/lang/fr'
+import locale from 'element-ui/lib/locale'
 
-Vue.use(ElementUI)
 Vue.use(Buefy)
+Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.use(VueQuillEditor)
 Vue.use(VueAgile)

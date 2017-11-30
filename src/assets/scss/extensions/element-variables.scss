@@ -1,0 +1,13 @@
+$--color-primary: red !default;
+
+.el-form-item {
+  margin-bottom: 1rem;
+}
+
+.el-form-item__label {
+  padding: 0;
+}
+
+.el-form--label-top .el-form-item__label {
+  padding: 0;
+}
