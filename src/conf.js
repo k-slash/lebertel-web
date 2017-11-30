@@ -1,7 +1,7 @@
 var conf = {
-  API_URL: 'http://37.59.125.147:8000/',
-  CLIENT_ID: '4ebJUREouFZvFghuBFtNPAZDAPd7HH5PINvASwYs',
-  CLIENT_SECRET: '8XkghLoEmbk1pib8uvcaL4XJFTWLkFSxRCWc9cqIBUImRbjrr1MZZV20Kz6qP5Sqwc8n5M8GgDBQBUNqqJLZrMG47WKiOmvkAah7Ey7AXzBcWw7uRWPOGsUTND4qXBi3'
+  API_URL: 'https://api.lebertel.com/',
+  CLIENT_ID: 'OLmPkzYh7BURiPBDtMWc7sb7wqWgK6rGkaKmDmID',
+  CLIENT_SECRET: 'AOth4pOhTCeyWqN5cXKggxHoH8bMIVsgvQsmzyuRfcHI7gNQCuPVIStii7ZlExsqIbjKoLGW0qJQcDFMSkIguFziZtdOTAUIFctsfOC84vbfQbprKYXsGGuHtMNz9ZgR'
 }
 
 /** var conf = {
