@@ -28,16 +28,16 @@
               <div class="presentation" v-html="showcase.presentation"></div>
             </div>
 
-            <section class="hero is-tsilaosa showcase-images">
-              <section class="photos">
+            <div class="hero is-tsilaosa showcase-images">
+              <div class="photos">
                 <div class="photo" v-model="showcase.images"
                   v-for="item in showcase.images"
                   v-bind:item="item"
                   v-bind:key="item.id">
                   <img v-img="{src: item.thumb_big}" :src="item.url">
                 </div>
-              </section>
-            </section>
+              </div>
+            </div>
 
           </b-tab-item>
           <b-tab-item label="Produits" v-if='!!products.length > 0'>
@@ -141,22 +141,22 @@
       <section class="hero is-blanc-espagne">
           <div class="hero-body">
             <div class="container social">
-              <a class="navbar-item" :href="showcase.facebook" target="_blank">
+              <a v-if="showcase.facebook" class="navbar-item" :href="showcase.facebook" target="_blank">
                 <span class="icon" style="color: #3b5998;">
                   <i class="fa fa-facebook"></i>
                 </span>
               </a>
-              <a class="navbar-item" :href="showcase.linkedin" target="_blank">
+              <a v-if="showcase.linkedin" class="navbar-item" :href="showcase.linkedin" target="_blank">
                 <span class="icon" style="color: #007bb6;">
                   <i class="fa fa-linkedin"></i>
                 </span>
               </a>
-              <a class="navbar-item" :href="showcase.twitter" target="_blank">
+              <a v-if="showcase.twitter" class="navbar-item" :href="showcase.twitter" target="_blank">
                 <span class="icon" style="color: #55acee;">
                   <i class="fa fa-twitter"></i>
                 </span>
               </a>
-              <a class="navbar-item" :href="showcase.pinterest" target="_blank">
+              <a v-if="showcase.pinterest" class="navbar-item" :href="showcase.pinterest" target="_blank">
                 <span class="icon" style="color: #BD081C;">
                   <i class="fa fa-pinterest"></i>
                 </span>
