@@ -27,18 +27,6 @@
             <div class="container showcase">
               <div class="presentation" v-html="showcase.presentation"></div>
             </div>
-
-            <div class="hero is-tsilaosa showcase-images">
-              <div class="photos">
-                <div class="photo" v-model="showcase.images"
-                  v-for="item in showcase.images"
-                  v-bind:item="item"
-                  v-bind:key="item.id">
-                  <img v-img="{src: item.thumb_big}" :src="item.url">
-                </div>
-              </div>
-            </div>
-
           </b-tab-item>
           <b-tab-item label="Produits" v-if='!!products.length > 0'>
             <div class="container showcase">
@@ -77,6 +65,16 @@
             </div>
           </b-tab-item>
       </b-tabs>
+      <section class="hero is-tsilaosa showcase-images" v-show="this.showMap">
+        <div class="photos">
+          <div class="photo" v-model="showcase.images"
+            v-for="item in showcase.images"
+            v-bind:item="item"
+            v-bind:key="item.id">
+            <img v-img="{src: item.thumb_big}" :src="item.url">
+          </div>
+        </div>
+      </section>
       <section class="hero is-blue-mapbox" v-show="this.showMap">
         <div class="hero-body no-padding">
           <div class="container">
