@@ -20,15 +20,15 @@
                 </section>
               </div>
               <div class="box-content">
-                <el-form :model="ruleForm" label-position="top" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                <el-form :model="ruleForm" label-position="top" status-icon :rules="rules" ref="ruleForm">
                   <el-form-item label="Email" prop="email">
                     <el-input type="email" v-model="ruleForm.email" auto-complete="off"></el-input>
                   </el-form-item>
                   <el-form-item label="Mot de passe" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+                    <el-input type="password" v-model="ruleForm.password" auto-complete="off" @keyup.enter.native="signin('ruleForm')"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="signin('ruleForm')">Connexion</el-button>
+                    <el-button type="primary" @click="signin('ruleForm')" class="el-large-button" round>Connexion</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -45,9 +45,6 @@ import Vuex from 'vuex'
 export default {
   data () {
     return {
-      formstate: {},
-      email: null,
-      password: null,
       ruleForm: {
         email: '',
         password: ''
@@ -58,7 +55,8 @@ export default {
           { type: 'email', message: 'Votre email n’est pas valide', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: 'Votre email est requis', trigger: 'blur' }
+          { required: true, message: 'Veuillez indiquer votre mot de passe', trigger: 'blur' },
+          { type: 'password', message: 'Votre mot de passe n’est pas valide', trigger: 'blur' }
         ]
       }
     }
@@ -68,7 +66,6 @@ export default {
       login: 'login',
       check: 'check'
     }),
-
     signin (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -78,7 +75,10 @@ export default {
           }
           this.login(data)
         } else {
-          console.log('error submit!!')
+          this.$toast.open({
+            message: 'L\'email ou le mot de passe n\'est pas valide',
+            type: 'is-danger'
+          })
           return false
         }
       })

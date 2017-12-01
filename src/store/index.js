@@ -34,7 +34,6 @@ const getters = {
 const actions = {
   async check (store) {
     const token = localStorage.getItem('id_token')
-    console.log(token)
     if (token != null) {
       try {
         await store.commit('SET_TOKEN', token)
@@ -117,30 +116,38 @@ const actions = {
   },
 
   async login ({ dispatch, commit, state }, data) {
-    const connect = await User.connectUser(data['email'], data['password'])
-    console.log(api.defaults.headers.common['Authorization'])
-    console.log(connect)
-    if (connect.data.access_token != null) {
-      try {
-        await commit('SET_TOKEN', connect.data.access_token)
-        await commit('SET_USER_AUTHENTICATED', true)
-        router.push({
-          name: 'dashboard.profile'
-        })
-      } catch (e) {
-        console.log(e)
+    try {
+      const connect = await User.connectUser(data['email'], data['password'])
+      console.log(api.defaults.headers.common['Authorization'])
+      console.log(connect)
+      if (connect.data.access_token != null) {
+        try {
+          await commit('SET_TOKEN', connect.data.access_token)
+          await commit('SET_USER_AUTHENTICATED', true)
+          router.push({
+            name: 'dashboard.profile'
+          })
+        } catch (e) {
+          console.log(e)
+          Toast.open({
+            message: 'Il y a eu un problème lors du chargement de vos données',
+            type: 'is-danger'
+          })
+        }
+      } else {
+        console.log('connect token null')
         Toast.open({
-          message: 'Il y a eu un problème lors du chargement de vos données',
+          message: 'Il y a eu un problème, vous ne pouvez vous connecter avec ces identifiants',
           type: 'is-danger'
         })
+        store.commit('SET_ERROR', true)
       }
-    } else {
-      console.log('connect token null')
+    } catch (e) {
+      console.log(e)
       Toast.open({
         message: 'Il y a eu un problème, vous ne pouvez vous connecter avec ces identifiants',
         type: 'is-danger'
       })
-      store.commit('SET_ERROR', true)
     }
   },
 
