@@ -20,7 +20,7 @@
                 </section>
               </div>
               <div class="box-content">
-                <!--<b-field class="is-centered">
+                <b-field class="is-centered">
                   <b-radio-button v-model="pro"
                     :native-value="false"
                     type="is-primary">
@@ -34,7 +34,7 @@
                     <b-icon icon="work"></b-icon>
                     <span>Professionnel</span>
                   </b-radio-button>
-                </b-field>-->
+                </b-field>
                 <el-form :model="ruleForm" label-position="top" status-icon :rules="rules" ref="ruleForm" >
                   <el-form-item label="Prénom" prop="firstName">
                     <el-input type="text" v-model="ruleForm.firstName" auto-complete="off"></el-input>
@@ -42,9 +42,9 @@
                   <el-form-item label="Nom" prop="lastName">
                     <el-input type="text" v-model="ruleForm.lastName" auto-complete="off"></el-input>
                   </el-form-item>
-                  <!--<el-form-item v-if="pro" label="Nom de la vitrine ( Nom commercial )" prop="name">
+                  <el-form-item v-if="pro" label="Nom de la vitrine ( Nom commercial )" prop="name">
                     <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
-                  </el-form-item>-->
+                  </el-form-item>
                   <el-form-item label="Email" prop="email">
                     <el-input type="email" v-model="ruleForm.email" auto-complete="off"></el-input>
                   </el-form-item>
@@ -52,7 +52,7 @@
                     <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
                   </el-form-item>
                   <el-form-item label="Confirmation du mot de passe" prop="confirmPassword">
-                    <el-input type="password" v-model="ruleForm.confirmPassword" auto-complete="off"></el-input>
+                    <el-input type="password" v-model="ruleForm.confirmPassword" auto-complete="off" @keyup.enter.native="createAccount('ruleForm')"></el-input>
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="createAccount('ruleForm')" class="el-large-button" round>Créer votre compte</el-button>
