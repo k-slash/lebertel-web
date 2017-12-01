@@ -71,7 +71,8 @@
             v-for="item in showcase.images"
             v-bind:item="item"
             v-bind:key="item.id">
-            <img v-img="{src: item.thumb_big}" :src="item.url">
+            <progressive-img v-img="{src: item.thumb_big}" :src="item.url" placeholder="item.url" :blur="30" />
+            <!--<img v-img="{src: item.thumb_big}" :src="item.url">-->
           </div>
         </div>
       </section>
