@@ -31,3 +31,21 @@
     margin-right: 2px;
   }
 }
+
+.input {
+  &.small {
+    width: 6rem;
+  }
+}
+
+.control {
+  &.price {
+    display: flex;
+    align-items: center;
+
+    .currency {
+      margin-left: 10px;
+      font-size: 1.2rem;
+    }
+  }
+}

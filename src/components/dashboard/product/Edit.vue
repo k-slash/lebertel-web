@@ -15,8 +15,8 @@
               </div>
               <div class="field">
                 <label class="label">Prix</label>
-                <div class="control">
-                  <input id="price" type="text" name="price" class="input" required v-model="product.price">
+                <div class="control price">
+                  <input id="price" type="number" step="any" name="price" class="input small" required v-model="product.price"> <span class="currency">€</span>
                 </div>
               </div>
               <div class="field">
