@@ -26,7 +26,24 @@ import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 
 Vue.use(VueAnalytics, {
-  id: 'UA-110611887-1'
+  id: 'UA-110611887-1',
+  router,
+  ignoreRoutes: [
+    'dashboard',
+    'dashboard.profile',
+    'dashboard.address',
+    'dashboard.showcase.presentation',
+    'dashboard.showcase.location',
+    'dashboard.showcase.contact',
+    'dashboard.showcase.timetable',
+    'dashboard.showcase.informations',
+    'dashboard.showcase.images',
+    'dashboard.product.list',
+    'dashboard.product.add',
+    'dashboard.product.edit',
+    'register',
+    'signin'
+  ]
 })
 Vue.use(Buefy)
 Vue.use(ElementUI)
