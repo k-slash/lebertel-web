@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import store from '@/store'
 import Dashboard from '@/components/Dashboard.vue'
 import Home from '@/components/Home.vue'
+import CookiesPage from '@/components/CookiesPage.vue'
 import Register from '@/components/Register.vue'
 import Signin from '@/components/Signin.vue'
 import Showcase from '@/components/Showcase.vue'
@@ -37,6 +38,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/utilisation-des-cookies',
+      name: 'utilisation-des-cookies',
+      component: CookiesPage
     },
     {
       path: '/vitrine/:id(\\d+)',

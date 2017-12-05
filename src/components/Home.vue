@@ -123,12 +123,12 @@
       </div>
     </section>
     <section class="hero is-blanc-espagne">
-        <div class="hero-body">
-          <div class="container social">
-            CGV - CGU
-          </div>
+      <div class="hero-body">
+        <div class="container social">
+          CGV - CGU
         </div>
-      </section>
+      </div>
+    </section>
   </div>
 </template>
 

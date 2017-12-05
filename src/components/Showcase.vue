@@ -29,11 +29,11 @@
             </div>
             <section class="hero is-tsilaosa showcase-images">
               <div class="photos">
-                <div class="photo" v-model="showcase.images"
-                  v-for="item in showcase.images"
+                <div class="photo" v-model="showcaseImages"
+                  v-for="item in showcaseImages"
                   v-bind:item="item"
                   v-bind:key="item.id">
-                  <img v-img="{src: item.thumb_big}" :src="item.url">
+                  <img v-img:my-group="{src: item.thumb_big}" :src="item.url">
                 </div>
               </div>
             </section>
@@ -179,6 +179,7 @@ export default {
   data () {
     return {
       activeTab: 0,
+      images: null,
       showMap: true,
       formstate: {},
       file: '',
@@ -196,8 +197,11 @@ export default {
       }
     }
   },
+  created () {
+    this.images = this.$store.getters.showcaseImages
+  },
   computed: {
-    ...Vuex.mapGetters(['showcase', 'products'])
+    ...Vuex.mapGetters(['showcase', 'products', 'showcaseImages'])
   },
   watch: {
     activeTab (value) {

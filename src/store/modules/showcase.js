@@ -20,9 +20,9 @@ const state = {
     city: null,
     postcode: null,
     location: null,
-    country: null,
-    images: []
+    country: null
   },
+  showcaseImages: [],
   imageAdded: {
     image: null,
     display_order: null
@@ -37,7 +37,8 @@ const getters = {
   showcases: state => state.showcases,
   allShowcases: state => state.allShowcases,
   showcasesCount: state => state.showcasesCount,
-  showcase: state => state.showcase
+  showcase: state => state.showcase,
+  showcaseImages: state => state.showcaseImages
 }
 
 // mutations
@@ -58,7 +59,7 @@ const mutations = {
     state.showcase.location = data
   },
   SET_SHOWCASE_IMAGES: function (state, data) {
-    state.showcase.images = data
+    state.showcaseImages = data
   },
   SET_LOGO: function (state, data) {
     state.fileLogo = data
