@@ -1,29 +1,19 @@
 <template>
   <div class="dashboardShowcaseLocation">
     <h1 class="title menu-title">Localisation</h1>
-    <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
-
-      <div class="field">
-        <label class="label">Adresse</label>
-        <div class="control">
-          <input id="address" type="text" name="address" class="input" v-model="user.showcase.address">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Code postal</label>
-        <div class="control">
-          <input id="postcode" type="text" name="postcode" class="input" v-model="user.showcase.postcode">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Ville</label>
-        <div class="control">
-          <input id="city" type="text" name="city" class="input" v-model="user.showcase.city">
-        </div>
-      </div>
-
+    <el-form :model="user" label-position="top" ref="form">
+      <el-form-item label="Adresse" prop="showcase.address">
+        <el-input v-model="user.showcase.address" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Code postal" prop="showcase.postcode" :rules="[
+          { required: false, pattern: /^\d{5}$/, message: 'Votre code postal doit être au format 97400', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="user.showcase.postcode" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Ville" prop="showcase.city">
+        <el-input v-model="user.showcase.city" auto-complete="off"></el-input>
+      </el-form-item>
       <div class="lebertel-map">
         <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
           <v-tilelayer :url="url"></v-tilelayer>
@@ -39,13 +29,10 @@
           </div>
         </v-map>
       </div>
-
-      <br>
-
-      <div class="py-2 text-center">
-        <button class="button is-medium is-primary is-fullwidth" type="submit">Mettre à jour</button>
-      </div>
-    </vue-form>
+      <el-form-item>
+        <el-button type="primary" @click.stop="saveShowcaseLocation('form')" class="el-large-button" round>Mettre à jour</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -57,7 +44,6 @@
 
     data () {
       return {
-        formstate: {},
         zoom: 10,
         center: [-21.15, 55.50],
         marker: L.latLng(-20.8821, 55.4507),
@@ -90,16 +76,26 @@
         this.zoom = event.target.getZoom()
       },
 
-      onSubmit: function () {
-        if (this.formstate.$valid) {
-          var formData = new FormData()
-          formData.append('address', this.$store.state.user.user.showcase.address)
-          formData.append('postcode', this.$store.state.user.user.showcase.postcode)
-          formData.append('city', this.$store.state.user.user.showcase.city)
-          formData.append('location', this.$store.state.user.user.showcase.location)
-          formData.append('country', 'RE')
-          this.updateShowcase(formData)
-        }
+      saveShowcaseLocation (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const data = {
+              'address': this.user.showcase.address,
+              'postcode': this.user.showcase.postcode,
+              'city': this.user.showcase.city,
+              'location': this.user.showcase.location,
+              'country': 'RE'
+            }
+            console.log(data)
+            this.updateShowcase(data)
+          } else {
+            this.$toast.open({
+              message: 'Veuillez vérifier les données saisies',
+              type: 'is-danger'
+            })
+            return false
+          }
+        })
       }
     }
   }

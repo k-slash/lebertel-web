@@ -1,20 +1,25 @@
 <template>
   <div class="dashboardShowcasePresentation">
-    <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
-      <div class="dashboard-avatar">
-        <VueImgInputer id="logo" name="logo" :imgSrc="user.showcase.logo_medium" v-model="file" theme="light" size="small" bottomText="logo" placeholder="logo" @onChange="updateFile"></VueImgInputer>
-      </div>
-      <br>
-      <div class="field">
-        <label class="label">Nom</label>
-        <div class="control">
-          <input id="name" type="text" name="name" class="input" required v-model="user.showcase.name">
-        </div>
-        <field-messages name="name" show="$touched || $submitted" class="form-control-feedback">
-          <div>Ok !</div>
-          <div slot="required">Le nom de la vitrine est requis</div>
-        </field-messages>
-      </div>
+    <div class="avatar-logo-center">
+      <el-upload
+        class="avatar-logo-uploader"
+        :action="url"
+        :headers="headers"
+        :data="data"
+        :before-upload="getFile"
+        :on-success="handleAvatarSuccess"
+        :show-file-list="true">
+        <img v-if="user.showcase.logo_medium" :src="user.showcase.logo_medium" class="avatar-logo">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+    </div>
+    <el-form :model="user" label-position="top" ref="form">
+      <el-form-item label="Nom" prop="showcase.name" :rules="[
+          { required: true, message: 'Le nom de votre vitrine est requis', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="user.showcase.name" auto-complete="off"></el-input>
+      </el-form-item>
       <div class="field">
         <label class="label">Je suis un(une)</label>
         <el-radio-group v-model="user.showcase.showcase_type" @change="initProfessions">
@@ -83,32 +88,28 @@
           <input id="profession" type="text" name="profession" class="input" v-model="user.showcase.profession">
         </div>
       </div>
-      <div class="field">
-        <label class="label">Présentation</label>
-        <div class="quill-editor">
-          <quill-editor ref="myTextEditor"
-                        v-model="user.showcase.presentation"
-                        :options="editorOption">
-          </quill-editor>
-        </div>
-      </div>
-      <br>
-      <div class="py-2 text-center">
-        <button class="button is-medium is-primary is-fullwidth" type="submit">Mettre à jour</button>
-      </div>
-    </vue-form>
+      <el-form-item label="Présentation" prop="showcase.presentation" class="quill-editor">
+        <quill-editor ref="presentation"
+                      name="presentation"
+                      v-model="user.showcase.presentation"
+                      :options="editorOption">
+        </quill-editor>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click.stop="saveShowcasePresentation('form')" class="el-large-button" round>Mettre à jour</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
 import Vuex from 'vuex'
-import VueImgInputer from 'vue-img-inputer'
 import Profession from '@/store/api/profession'
+import conf from '@/conf'
+
+const token = localStorage.getItem('id_token')
 
 export default {
-  components: {
-    VueImgInputer
-  },
   data () {
     return {
       name: 'presentation',
@@ -129,7 +130,11 @@ export default {
           ]
         }
       },
-      formstate: {},
+      url: conf.API_URL + 'user/uploadShowcaseLogo/',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      },
+      data: {},
       file: null,
       image: '',
       activities: [{
@@ -189,20 +194,19 @@ export default {
     ...Vuex.mapActions({
       updateShowcase: 'updateShowcase'
     }),
-    fieldClassName: function (field) {
-      if (!field) {
-        return ''
-      }
-      if ((field.$touched || field.$submitted) && field.$valid) {
-        return 'has-success'
-      }
-      if ((field.$touched || field.$submitted) && field.$invalid) {
-        return 'has-danger'
-      }
+
+    getFile (file) {
+      this.data.user = this.user.profile.user
+      this.data.logo = file
+      this.data.name = this.user.showcase.name
+      this.data.presentation = this.user.showcase.presentation
+      this.data.showcase_type = this.user.showcase.showcase_type
+      this.data.category = this.user.showcase.category
+      this.data.profession = this.user.showcase.profession
     },
 
-    updateFile (file) {
-      this.file = file
+    handleAvatarSuccess (res, file) {
+      this.user.showcase.logo_medium = URL.createObjectURL(file.raw)
     },
 
     async loadProfessions (c) {
@@ -218,19 +222,25 @@ export default {
       this.user.showcase.category = null
     },
 
-    onSubmit: function () {
-      if (this.formstate.$valid) {
-        var formData = new FormData()
-        formData.append('name', this.$store.state.user.user.showcase.name)
-        formData.append('presentation', this.$store.state.user.user.showcase.presentation)
-        formData.append('showcase_type', this.$store.state.user.user.showcase.showcase_type)
-        formData.append('category', this.$store.state.user.user.showcase.category)
-        formData.append('profession', this.$store.state.user.user.showcase.profession)
-        if (this.file != null) {
-          formData.append('logo', this.file)
+    saveShowcasePresentation (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const data = {
+            'name': this.user.showcase.name,
+            'presentation': this.user.showcase.presentation,
+            'showcase_type': this.user.showcase.showcase_type,
+            'category': this.user.showcase.category,
+            'profession': this.user.showcase.profession
+          }
+          this.updateShowcase(data)
+        } else {
+          this.$toast.open({
+            message: 'Veuillez vérifier les données saisies',
+            type: 'is-danger'
+          })
+          return false
         }
-        this.updateShowcase(formData)
-      }
+      })
     }
   },
   computed: {

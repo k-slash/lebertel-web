@@ -13,7 +13,6 @@ import ElementUI from 'element-ui'
 import '@/assets/element-theme/index.css'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
-import VueForm from 'vue-form'
 import Vue2Leaflet from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
@@ -52,21 +51,7 @@ Vue.use(VueQuillEditor)
 Vue.use(VueAgile)
 Vue.use(VueImg)
 Vue.use(SocialSharing)
-Vue.use(VueForm, {
-  inputClasses: {
-    valid: 'form-control-success',
-    invalid: 'form-control-danger'
-  },
-  validators: {
-    matches: function (value, attrValue) {
-      if (!attrValue) return true
-      return value === attrValue
-    },
-    'password-strength': function (value) {
-      return /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(value)
-    }
-  }
-})
+
 Vue.component('v-map', Vue2Leaflet.Map)
 Vue.component('v-tilelayer', Vue2Leaflet.TileLayer)
 Vue.component('v-marker', Vue2Leaflet.Marker)

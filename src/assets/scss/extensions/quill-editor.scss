@@ -1,0 +1,26 @@
+.ql-container .ql-editor {
+  min-height: 20em;
+  padding-bottom: 1em;
+  max-height: 25em;
+}
+
+.ql-container {
+  font-family: Linotte,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.quill-editor {
+  .ql-toolbar, .ql-picker {
+    display: flex;
+    .ql-picker-label {
+      display: grid;
+    }
+  }
+
+  .ql-color-picker, .ql-icon-picker {
+    .ql-picker-label {
+      display: grid;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { Toast } from 'buefy'
 import Product from '@/store/api/product'
 import Showcase from '@/store/api/showcase'
 import User from '@/store/api/user'
+import router from '@/router'
 
 // state
 const state = {
@@ -16,6 +17,7 @@ const state = {
     size: null,
     colors: null,
     materials: null,
+    ingredients: null,
     images: []
   },
   productImageAdded: {
@@ -74,12 +76,13 @@ const mutations = {
     state.product.id = null
     state.product.owner = null
     state.product.name = null
-    state.product.price = null
+    state.product.price = 0
     state.product.short_description = null
     state.product.description = null
     state.product.size = null
     state.product.colors = null
     state.product.materials = null
+    state.product.ingredients = null
   }
 }
 
@@ -92,6 +95,10 @@ const actions = {
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'
+      })
+      router.push({
+        name: 'dashboard.product.edit',
+        params: { id: p.data.id }
       })
     } catch (e) {
       console.log(e)
@@ -181,9 +188,9 @@ const actions = {
     }
   },
 
-  async updateProduct ({ commit, state }, id) {
+  async updateProduct ({ commit, state }, data) {
     try {
-      await Product.update(id, state.product)
+      await Product.update(data['id'], data)
       Toast.open({
         message: 'Ok ! C\'est sauvegardé',
         type: 'is-success'

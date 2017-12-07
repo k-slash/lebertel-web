@@ -1,22 +1,18 @@
 <template>
   <div class="dashboardShowcaseMoreInformations">
     <h1 class="title menu-title">Plus d'infos</h1>
-    <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
-
-      <div class="field">
-        <label class="label">Plus d'informations</label>
-        <div class="quill-editor">
-          <quill-editor ref="myTextEditor"
-                        v-model="user.showcase.informations"
-                        :options="editorOption">
-          </quill-editor>
-        </div>
-      </div>
-      <br>
-      <div class="py-2 text-center">
-        <button class="button is-medium is-primary is-fullwidth" type="submit">Mettre à jour</button>
-      </div>
-    </vue-form>
+    <el-form :model="user" label-position="top" ref="form">
+      <el-form-item label="Plus d'informations" prop="showcase.informations" class="quill-editor">
+        <quill-editor ref="informations"
+                      name="informations"
+                      v-model="user.showcase.informations"
+                      :options="editorOption">
+        </quill-editor>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click.stop="saveShowcase('form')" class="el-large-button" round>Mettre à jour</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -43,8 +39,7 @@ export default {
             ['clean']
           ]
         }
-      },
-      formstate: {}
+      }
     }
   },
 
@@ -57,24 +52,21 @@ export default {
       updateShowcase: 'updateShowcase'
     }),
 
-    fieldClassName: function (field) {
-      if (!field) {
-        return ''
-      }
-      if ((field.$touched || field.$submitted) && field.$valid) {
-        return 'has-success'
-      }
-      if ((field.$touched || field.$submitted) && field.$invalid) {
-        return 'has-danger'
-      }
-    },
-
-    onSubmit: function () {
-      if (this.formstate.$valid) {
-        var formData = new FormData()
-        formData.append('informations', this.$store.state.user.user.showcase.informations)
-        this.updateShowcase(formData)
-      }
+    saveShowcase (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const data = {
+            'informations': this.user.showcase.informations
+          }
+          this.updateShowcase(data)
+        } else {
+          this.$toast.open({
+            message: 'Veuillez vérifier les données saisies',
+            type: 'is-danger'
+          })
+          return false
+        }
+      })
     }
   }
 }

@@ -1,61 +1,39 @@
 <template>
   <div class="dashboardProductAdd">
     <h1 class="title menu-title">Ajout</h1>
-    <vue-form name="addProduct" autocomplete="off" @submit.prevent="onSubmit(user.info.id)" :state="formstate" v-model="formstate" enctype="multipart/form-data">
-
-      <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.name)">
-        <div class="field">
-          <label class="label">Nom</label>
-          <div class="control">
-            <input id="name" type="text" name="name" class="input" v-model="product.name">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Prix</label>
-          <div class="control price">
-            <input id="price" type="number" step="any" name="price" class="input small" required v-model="product.price"> <span class="currency">€</span>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Petite description</label>
-          <div class="control">
-            <input id="short_description" type="text" name="short_description" class="input" required v-model="product.short_description">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Description</label>
-          <div class="quill-editor">
-            <quill-editor ref="description"
-                          name="description"
-                          v-model="product.description"
-                          :options="editorOption">
-            </quill-editor>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Taille</label>
-          <div class="control">
-            <input id="size" type="text" name="size" class="input" required v-model="product.size">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Couleurs</label>
-          <div class="control">
-            <input id="colors" type="text" name="size" class="input" required v-model="product.colors">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Matériaux</label>
-          <div class="control">
-            <input id="materials" type="text" name="materials" class="input" required v-model="product.materials">
-          </div>
-        </div>
-      </validate>
-      <br>
-      <div class="py-2 text-center">
-        <button class="button is-medium is-primary is-fullwidth" type="submit">Ajouter</button>
-      </div>
-    </vue-form>
+    <el-form :model="form" label-position="top" :rules="rules" ref="form">
+      <el-form-item label="Nom" prop="name">
+        <el-input v-model="form.name" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Prix" prop="price">
+        <el-input-number controls-position="right" v-model="form.price"></el-input-number> <span class="currency">€</span>
+      </el-form-item>
+      <el-form-item label="Petite description" prop="short_description">
+        <el-input v-model="form.short_description" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Description" prop="short_description" class="quill-editor">
+        <quill-editor ref="description"
+                      name="description"
+                      v-model="form.description"
+                      :options="editorOption">
+        </quill-editor>
+      </el-form-item>
+      <el-form-item label="Taille" prop="size">
+        <el-input v-model="form.size" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Couleurs" prop="color">
+        <el-input v-model="form.colors" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Matériaux" prop="materials">
+        <el-input v-model="form.materials" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Ingrédients" prop="ingredients">
+        <el-input v-model="form.ingredients" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click.stop="saveProduct('form')" class="el-large-button" round>Ajouter</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -66,6 +44,21 @@ import store from '@/store'
 export default {
   data () {
     return {
+      form: {
+        name: '',
+        price: '0.00',
+        short_description: '',
+        description: '',
+        size: '',
+        colors: '',
+        materials: '',
+        ingredients: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: 'Le nom du produit est requis', trigger: 'blur' }
+        ]
+      },
       name: 'description',
       content: '',
       editorOption: {
@@ -100,31 +93,29 @@ export default {
       addProduct: 'addProduct'
     }),
 
-    fieldClassName: function (field) {
-      if (!field) {
-        return ''
-      }
-      if ((field.$touched || field.$submitted) && field.$valid) {
-        return 'has-success'
-      }
-      if ((field.$touched || field.$submitted) && field.$invalid) {
-        return 'has-danger'
-      }
-    },
-
-    onSubmit: function (id) {
-      if (this.formstate.$valid) {
-        var formData = new FormData()
-        formData.append('owner', id)
-        formData.append('name', this.$store.state.product.product.name)
-        formData.append('price', this.$store.state.product.product.price)
-        formData.append('short_description', this.$store.state.product.product.short_description)
-        formData.append('description', this.$store.state.product.product.description)
-        formData.append('size', this.$store.state.product.product.size)
-        formData.append('colors', this.$store.state.product.product.colors)
-        formData.append('materials', this.$store.state.product.product.materials)
-        this.addProduct(formData)
-      }
+    saveProduct (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const data = {
+            'owner': this.user.info.id,
+            'name': this.form.name,
+            'price': this.form.price,
+            'short_description': this.form.short_description,
+            'description': this.form.description,
+            'size': this.form.size,
+            'colors': this.form.colors,
+            'materials': this.form.materials,
+            'ingredients': this.form.ingredients
+          }
+          this.addProduct(data)
+        } else {
+          this.$toast.open({
+            message: 'Le nom du produit est requis',
+            type: 'is-danger'
+          })
+          return false
+        }
+      })
     }
   }
 }

@@ -1,60 +1,35 @@
 <template>
   <div class="dashboardShowcaseContact">
     <h1 class="title menu-title">Contact</h1>
-    <vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
-
-      <validate auto-label class="form-group required-field" :class="fieldClassName(formstate.email)">
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input id="email" type="text" name="email" class="input" v-model="user.showcase.email">
-          </div>
-          <field-messages auto-label name="email" show="$touched || $submitted" class="form-control-feedback">
-            <div>Ok !</div>
-            <div slot="email">L'email est invalide</div>
-          </field-messages>
-        </div>
-      </validate>
-
-      <div class="field">
-        <label class="label">Téléphone</label>
-        <div class="control">
-          <input id="phone" type="text" name="phone" class="input" required v-model="user.showcase.phone_number">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Facebook</label>
-        <div class="control">
-          <input id="facebook" type="text" name="facebook" class="input" required v-model="user.showcase.facebook">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">LinkedIn</label>
-        <div class="control">
-          <input id="linkedin" type="text" name="linkedin" class="input" required v-model="user.showcase.linkedin">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Twitter</label>
-        <div class="control">
-          <input id="twitter" type="text" name="twitter" class="input" required v-model="user.showcase.twitter">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Pinterest</label>
-        <div class="control">
-          <input id="pinterest" type="text" name="pinterest" class="input" required v-model="user.showcase.pinterest">
-        </div>
-      </div>
-      <br>
-      <div class="py-2 text-center">
-        <button class="button is-medium is-primary is-fullwidth" type="submit">Mettre à jour</button>
-      </div>
-    </vue-form>
+    <el-form :model="user" label-position="top" ref="form">
+      <el-form-item label="Email" prop="showcase.email" :rules="[
+          { type: 'email', message: 'Votre email n’est pas valide', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="user.showcase.email" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Téléphone" prop="showcase.phone_number" :rules="[
+          { required: false, pattern: /^\d{10}$/, message: 'Le numéro de téléphone doit être au format 0262121212', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="user.showcase.phone_number" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Facebook" prop="showcase.facebook">
+        <el-input v-model="user.showcase.facebook" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="LinkedIn" prop="showcase.linkedin">
+        <el-input v-model="user.showcase.linkedin" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Twitter" prop="showcase.twitter">
+        <el-input v-model="user.showcase.twitter" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Pinterest" prop="showcase.pinterest">
+        <el-input v-model="user.showcase.pinterest" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click.stop="saveShowcaseContact('form')" class="el-large-button" round>Mettre à jour</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -64,7 +39,6 @@ import Vuex from 'vuex'
 export default {
   data () {
     return {
-      formstate: {}
     }
   },
   computed: {
@@ -75,31 +49,27 @@ export default {
       updateShowcase: 'updateShowcase'
     }),
 
-    fieldClassName: function (field) {
-      if (!field) {
-        return ''
-      }
-      if ((field.$touched || field.$submitted) && field.$valid) {
-        return 'has-success'
-      }
-      if ((field.$touched || field.$submitted) && field.$invalid) {
-        return 'has-danger'
-      }
-    },
-
-    onSubmit: function () {
-      if (this.formstate.$valid) {
-        var formData = new FormData()
-        formData.append('email', this.$store.state.user.user.showcase.email)
-        formData.append('phone_number', this.$store.state.user.user.showcase.phone_number)
-        formData.append('facebook', this.$store.state.user.user.showcase.facebook)
-        formData.append('linkedin', this.$store.state.user.user.showcase.linkedin)
-        formData.append('twitter', this.$store.state.user.user.showcase.twitter)
-        formData.append('pinterest', this.$store.state.user.user.showcase.pinterest)
-        this.updateShowcase(formData)
-      }
+    saveShowcaseContact (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const data = {
+            'email': this.user.showcase.email,
+            'phone_number': this.user.showcase.phone_number,
+            'facebook': this.user.showcase.facebook,
+            'linkedin': this.user.showcase.linkedin,
+            'twitter': this.user.showcase.twitter,
+            'pinterest': this.user.showcase.pinterest
+          }
+          this.updateShowcase(data)
+        } else {
+          this.$toast.open({
+            message: 'Veuillez vérifier les données saisies',
+            type: 'is-danger'
+          })
+          return false
+        }
+      })
     }
-
   }
 }
 </script>
