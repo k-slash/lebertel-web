@@ -38,7 +38,11 @@
             <label class="label">Matériaux</label>
             {{ product.materials }}
           </div>
-          <div class="field" v-if="!product.size && !product.color && !product.materials">
+          <div class="field" v-if="!!product.ingredients">
+            <label class="label">Ingredients</label>
+            {{ product.ingredients }}
+          </div>
+          <div class="field" v-if="!product.size && !product.color && !product.materials && !product.ingredients">
             Il n'y a pas de détail pour ce produit :(
           </div>
         </div>
