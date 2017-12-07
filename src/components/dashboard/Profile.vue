@@ -9,7 +9,7 @@
         :before-upload="getFile"
         :on-success="handleAvatarSuccess"
         :show-file-list="true">
-        <img v-if="user.profile.thumb_medium" :src="user.profile.thumb_medium" class="avatar-logo">
+        <img v-if="user.profile.avatar" :src="user.profile.thumb_medium" class="avatar-logo">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
     </div>

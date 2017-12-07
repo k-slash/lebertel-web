@@ -55,14 +55,14 @@
           Ajouter un produit
         </router-link>
       </ul>
-      <p class="menu-label">
+      <!-- <p class="menu-label">
         Transactions
       </p>
       <ul class="menu-list">
         <li><a>Payments</a></li>
         <li><a>Transfers</a></li>
         <li><a>Balance</a></li>
-      </ul>
+      </ul> -->
     </aside>
   </div>
 </template>

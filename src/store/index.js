@@ -44,13 +44,15 @@ const actions = {
         await store.commit('SET_USER_PROFILE', userProfile.data)
         const userLocation = await User.getUserLocation()
         await store.commit('SET_USER_ADDRESS', userLocation.data)
-        const userShowcase = await User.getUserShowcase()
-        await store.commit('SET_USER_SHOWCASE', userShowcase.data)
-        const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
-        await store.commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
-        const userProducts = await User.getUserProducts()
-        await store.commit('SET_USER_PRODUCTS', userProducts.data.results)
-        await store.commit('SET_ERROR', false)
+        if (userProfile.data.pro) {
+          const userShowcase = await User.getUserShowcase()
+          await store.commit('SET_USER_SHOWCASE', userShowcase.data)
+          const showcaseImages = await Showcase.getShowcaseImages(userShowcase.data.user)
+          await store.commit('SET_USER_SHOWCASE_IMAGES', showcaseImages.data)
+          const userProducts = await User.getUserProducts()
+          await store.commit('SET_USER_PRODUCTS', userProducts.data.results)
+          await store.commit('SET_ERROR', false)
+        }
       } catch (e) {
         console.log(e)
         localStorage.removeItem('id_token')
