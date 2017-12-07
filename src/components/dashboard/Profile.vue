@@ -79,6 +79,7 @@ export default {
       this.data.avatar = file
     },
     handleAvatarSuccess (res, file) {
+      this.user.profile.avatar = URL.createObjectURL(file.raw)
       this.user.profile.thumb_medium = URL.createObjectURL(file.raw)
       this.user.profile.thumb_avatar = URL.createObjectURL(file.raw)
     },

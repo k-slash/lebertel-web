@@ -206,6 +206,7 @@ export default {
     },
 
     handleAvatarSuccess (res, file) {
+      this.user.showcase.logo = URL.createObjectURL(file.raw)
       this.user.showcase.logo_medium = URL.createObjectURL(file.raw)
     },
 
