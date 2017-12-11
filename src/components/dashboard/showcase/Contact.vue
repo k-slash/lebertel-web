@@ -14,6 +14,9 @@
       >
         <el-input v-model="user.showcase.phone_number" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item label="Site web" prop="showcase.website">
+        <el-input v-model="user.showcase.website" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item label="Facebook" prop="showcase.facebook">
         <el-input v-model="user.showcase.facebook" auto-complete="off"></el-input>
       </el-form-item>
@@ -55,6 +58,7 @@ export default {
           const data = {
             'email': this.user.showcase.email,
             'phone_number': this.user.showcase.phone_number,
+            'website': this.user.showcase.website,
             'facebook': this.user.showcase.facebook,
             'linkedin': this.user.showcase.linkedin,
             'twitter': this.user.showcase.twitter,

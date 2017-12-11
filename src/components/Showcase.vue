@@ -139,6 +139,11 @@
       <section class="hero is-blanc-espagne">
           <div class="hero-body">
             <div class="container social">
+              <a v-if="showcase.website" class="navbar-item" :href="showcase.website" target="_blank">
+                <span class="icon" style="color: #767676;">
+                  <i class="material-icons">language</i>
+                </span>
+              </a>
               <a v-if="showcase.facebook" class="navbar-item" :href="showcase.facebook" target="_blank">
                 <span class="icon" style="color: #3b5998;">
                   <i class="fa fa-facebook"></i>
