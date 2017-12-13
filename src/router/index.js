@@ -45,12 +45,12 @@ export default new Router({
       component: CookiesPage
     },
     {
-      path: '/vitrine/:id(\\d+)',
+      path: '/vitrine/:id',
       name: 'showcase',
       component: Showcase
     },
     {
-      path: '/produit/:id(\\d+)',
+      path: '/produit/:id',
       name: 'product',
       component: Product
     },

@@ -56,13 +56,13 @@
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item value="showcase" has-link>
-                <router-link :to="{ name: 'showcase', params: { id: user.info.id } }">
+                <router-link :to="{ name: 'showcase', params: { id: user.info.uuid } }">
                   <b-icon icon="art_track" class="icon-margin"></b-icon>
                   Ma vitrine
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item value="products" has-link>
-                <router-link :to="{ name: 'dashboard.profile' }">
+                <router-link :to="{ name: 'dashboard.product.list' }">
                   <b-icon icon="store" class="icon-margin"></b-icon>
                   Mes produits
                 </router-link>
