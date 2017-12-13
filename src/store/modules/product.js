@@ -127,11 +127,11 @@ const actions = {
       const p = await Product.get(id)
       console.log(p.data)
       await commit('SET_PRODUCT', p.data)
-      const s = await Showcase.get(p.data.owner)
+      const s = await Showcase.get(p.data.uuid)
       await commit('SET_PRODUCT_OWNER_SHOWCASE', s.data)
       const u = await User.get(s.data.user)
       await commit('SET_PRODUCT_OWNER_USER', u.data)
-      const images = await Product.getProductImages(id)
+      const images = await Product.getProductImages(p.data.id)
       await commit('SET_PRODUCT_IMAGES', images.data)
     } catch (e) {
       console.log(e)
