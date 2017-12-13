@@ -100,7 +100,7 @@ export default new Router({
         name: 'dashboard.product.add',
         component: DashboardProductAdd
       }, {
-        path: 'product/:id(\\d+)',
+        path: 'product/:id',
         name: 'dashboard.product.edit',
         component: DashboardProductEdit
       }]
