@@ -176,7 +176,7 @@ const actions = {
 
   async getProductsByUser ({ commit, state }, id) {
     try {
-      const s = await Showcase.getShowcase(id)
+      const s = await Showcase.get(id)
       console.log(s)
       const userProducts = await Product.getByUser(s.data.user)
       console.log(userProducts)
