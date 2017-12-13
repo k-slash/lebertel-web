@@ -115,7 +115,7 @@ const actions = {
     try {
       const s = await Showcase.get(id)
       await commit('SET_SHOWCASE', s.data)
-      const images = await Showcase.getShowcaseImages(id)
+      const images = await Showcase.getShowcaseImages(s.data.user)
       await commit('SET_SHOWCASE_IMAGES', images.data)
     } catch (e) {
       console.log(e)
