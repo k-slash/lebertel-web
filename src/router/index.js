@@ -45,12 +45,12 @@ export default new Router({
       component: CookiesPage
     },
     {
-      path: '/vitrine/:id',
+      path: '/vitrine/:id(\\d+)',
       name: 'showcase',
       component: Showcase
     },
     {
-      path: '/produit/:id',
+      path: '/produit/:id(\\d+)',
       name: 'product',
       component: Product
     },
@@ -100,7 +100,7 @@ export default new Router({
         name: 'dashboard.product.add',
         component: DashboardProductAdd
       }, {
-        path: 'product/:id',
+        path: 'product/:id(\\d+)',
         name: 'dashboard.product.edit',
         component: DashboardProductEdit
       }]

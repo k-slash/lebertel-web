@@ -15,9 +15,6 @@ export default {
   get (id) {
     return api.get('showcases/' + id + '/')
   },
-  getById (id) {
-    return api.get('showcasesById/' + id + '/')
-  },
   updateShowcase (showcase) {
     return api.patch('user/showcase/', showcase)
   },

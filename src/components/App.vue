@@ -10,7 +10,7 @@
     </div>
     <template>
       <footer>
-        <cookie-law theme="dark-lime" buttonText="J'aime les cookies ! 🍪">
+        <cookie-law theme="dark-lime" buttonText="OK ! 🍪">
           <div slot="message">
             Ce site utilise des cookies pour le bon fonctionnement de celui-ci <router-link to="utilisation-des-cookies"> En savoir plus </router-link>
           </div>

@@ -10,9 +10,6 @@ export default {
   get (productId) {
     return api.get('products/' + productId)
   },
-  getById (productId) {
-    return api.get('productsById/' + productId)
-  },
   getList (page) {
     return api.get('products/?page=' + page)
   },

@@ -21,10 +21,10 @@
         </b-table-column>
 
         <b-table-column label="" class="on-right space">
-          <router-link :to="{ name: 'dashboard.product.edit', params: { id: product.row.uuid } }" class="button rounded is-primary">
+          <router-link :to="{ name: 'dashboard.product.edit', params: { id: product.row.id } }" class="button rounded is-primary">
             <i class="material-icons">mode_edit</i>
           </router-link>
-          <button class="button rounded is-danger" @click="confirmCustomDelete(product.row.uuid)">
+          <button class="button rounded is-danger" @click="confirmCustomDelete(product.row.id)">
             <i class="material-icons">delete_forever</i>
           </button>
         </b-table-column>

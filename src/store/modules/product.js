@@ -123,15 +123,13 @@ const actions = {
 
   async getProduct ({ commit, state }, id) {
     try {
-      console.log(id)
       const p = await Product.get(id)
-      console.log(p.data)
       await commit('SET_PRODUCT', p.data)
-      const s = await Showcase.getById(p.data.owner)
+      const s = await Showcase.get(p.data.owner)
       await commit('SET_PRODUCT_OWNER_SHOWCASE', s.data)
       const u = await User.get(s.data.user)
       await commit('SET_PRODUCT_OWNER_USER', u.data)
-      const images = await Product.getProductImages(p.data.id)
+      const images = await Product.getProductImages(id)
       await commit('SET_PRODUCT_IMAGES', images.data)
     } catch (e) {
       console.log(e)
@@ -176,9 +174,7 @@ const actions = {
 
   async getProductsByUser ({ commit, state }, id) {
     try {
-      const s = await Showcase.get(id)
-      console.log(s)
-      const userProducts = await Product.getByUser(s.data.user)
+      const userProducts = await Product.getByUser(id)
       console.log(userProducts)
       await commit('SET_USER_PRODUCTS', userProducts.data.results)
     } catch (e) {

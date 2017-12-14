@@ -51,7 +51,7 @@
                   v-model="products"
                   v-for="p in products"
                   v-bind:item="p"
-                  v-bind:key="p.id" :to="{ name: 'product', params: { id: p.uuid } }">
+                  v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
                   <div class="card-image">
                     <figure class="image" v-if="p.images[0]">
                       <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>

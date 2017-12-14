@@ -35,7 +35,7 @@
               v-for="s in showcases"
               v-if="showShowcase(s)"
               v-bind:item="s"
-              v-bind:key="s.user" :to="{ name: 'showcase', params: { id: s.uuid } }">
+              v-bind:key="s.user" :to="{ name: 'showcase', params: { id: s.user } }">
               <div class="card-image">
                 <figure class="image" v-if="s.logo_medium">
                   <div class="slide" v-bind:style="{ backgroundImage: 'url(' + s.logo_medium + ')' }" ></div>
@@ -83,7 +83,7 @@
                 v-for="p in homeProducts"
                 v-if="showProduct(p)"
                 v-bind:item="p"
-                v-bind:key="p.id" :to="{ name: 'product', params: { id: p.uuid } }">
+                v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
                 <div class="card-image">
                   <figure class="image" v-if="p.images[0]">
                     <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
