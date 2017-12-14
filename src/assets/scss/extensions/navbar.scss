@@ -57,3 +57,22 @@
     }
   }
 }
+
+.navbar-avatar {
+  display: block;
+  margin-left: auto;
+}
+
+.navbar {
+  &.connected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.navbar-end {
+  &.is-active {
+    text-align: center;
+  }
+}

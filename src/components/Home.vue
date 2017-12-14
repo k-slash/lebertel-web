@@ -111,7 +111,7 @@
     <section class="hero">
       <div class="columns is-multiline is-mobile">
         <div class="lebertel-map">
-          <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+          <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
             <v-tilelayer :url="url"></v-tilelayer>
             <div v-for="showcase in allShowcases" v-if="showcase.location != undefined">
               <v-marker :lat-lng="showcase.location.coordinates" :draggable="false">
@@ -135,8 +135,10 @@
 <script>
 import Vuex from 'vuex'
 import store from '@/store'
-import router from '@/router'
 import L from 'leaflet'
+
+var MobileDetect = require('mobile-detect')
+var md = new MobileDetect(navigator.userAgent)
 
 export default {
   data () {
@@ -149,9 +151,8 @@ export default {
       opacity: 0.6,
       // url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       url: 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGViZXJ0ZWwiLCJhIjoiY2o5ZWlrbWo3MjE3bTMycXFjYXJrbTFjdSJ9.lNxTnbWuChJx4UeArFLsXg',
-      options: {
-        scrollWheelZoom: false
-      },
+      options: {},
+      allowDragging: true,
       current: 1,
       perPage: 4,
       order: '',
@@ -164,7 +165,23 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters(['allShowcases', 'showcases', 'showcasesCount', 'homeProducts', 'homeProductsCount'])
+    ...Vuex.mapGetters(['allShowcases', 'showcases', 'showcasesCount', 'homeProducts', 'homeProductsCount']),
+    getOptions: function () {
+      var options
+      if (md.mobile()) {
+        options = {
+          scrollWheelZoom: false,
+          dragging: false
+        }
+        return options
+      } else {
+        options = {
+          scrollWheelZoom: false,
+          dragging: true
+        }
+        return options
+      }
+    }
   },
   methods: {
     ...Vuex.mapActions({
@@ -187,13 +204,6 @@ export default {
 
     showProduct: function (p) {
       return p.name && p.images.length
-    },
-
-    goto: function (id) {
-      router.push({
-        name: 'showcase',
-        params: { id: id }
-      })
     },
 
     zoomChanged: function (event) {

@@ -81,7 +81,7 @@
             <div class="columns">
               <div class="column is-three-fifths">
                 <div class="lebertel-map" v-if="!!showcase.location">
-                  <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+                  <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
                     <v-tilelayer :url="url"></v-tilelayer>
                     <div v-if="showcase.location != undefined">
                       <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
@@ -177,6 +177,9 @@ import VueImgInputer from 'vue-img-inputer'
 import store from '@/store'
 import L from 'leaflet'
 
+var MobileDetect = require('mobile-detect')
+var md = new MobileDetect(navigator.userAgent)
+
 export default {
   components: {
     VueImgInputer
@@ -206,7 +209,23 @@ export default {
     this.images = this.$store.getters.showcaseImages
   },
   computed: {
-    ...Vuex.mapGetters(['showcase', 'products', 'showcaseImages'])
+    ...Vuex.mapGetters(['showcase', 'products', 'showcaseImages']),
+    getOptions: function () {
+      var options
+      if (md.mobile()) {
+        options = {
+          scrollWheelZoom: false,
+          dragging: false
+        }
+        return options
+      } else {
+        options = {
+          scrollWheelZoom: false,
+          dragging: true
+        }
+        return options
+      }
+    }
   },
   watch: {
     activeTab (value) {

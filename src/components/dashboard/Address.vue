@@ -15,7 +15,7 @@
         <el-input v-model="user.address.city" auto-complete="off"></el-input>
       </el-form-item>
       <div class="lebertel-map">
-        <v-map :padding="[200, 200]" :zoom="zoom" :options="options" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+        <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
           <v-tilelayer :url="url"></v-tilelayer>
           <div v-if="user.address.location != undefined">
             <v-marker :lat-lng="user.address.location.coordinates" :draggable="true" v-on:l-move="markerMoved">
@@ -40,6 +40,9 @@
   import Vuex from 'vuex'
   import L from 'leaflet'
 
+  var MobileDetect = require('mobile-detect')
+  var md = new MobileDetect(navigator.userAgent)
+
   export default {
 
     data () {
@@ -60,7 +63,23 @@
     },
 
     computed: {
-      ...Vuex.mapGetters(['user'])
+      ...Vuex.mapGetters(['user']),
+      getOptions: function () {
+        var options
+        if (md.mobile()) {
+          options = {
+            scrollWheelZoom: false,
+            dragging: false
+          }
+          return options
+        } else {
+          options = {
+            scrollWheelZoom: false,
+            dragging: true
+          }
+          return options
+        }
+      }
     },
 
     methods: {

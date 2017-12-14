@@ -124,6 +124,7 @@ article {
     justify-content: space-between;
 
     .pagination {
+      min-width: 4.5rem;
       small {
         display: none;
       }

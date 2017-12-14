@@ -120,8 +120,6 @@ const actions = {
   async login ({ dispatch, commit, state }, data) {
     try {
       const connect = await User.connectUser(data['email'], data['password'])
-      console.log(api.defaults.headers.common['Authorization'])
-      console.log(connect)
       if (connect.data.access_token != null) {
         try {
           await commit('SET_TOKEN', connect.data.access_token)
