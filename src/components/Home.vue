@@ -171,7 +171,7 @@ export default {
       if (md.mobile()) {
         options = {
           scrollWheelZoom: false,
-          dragging: true,
+          dragging: false,
           tap: false
         }
         return options
