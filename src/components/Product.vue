@@ -16,7 +16,7 @@
       <div class="column product-detail">
         <!--<div class="product-detail-item product-detail--top"></div>-->
         <div class="product-detail-item product-detail--center">
-          <h4>Intro</h4>
+          <h4>Description</h4>
           <div class="product-desc">
             <div class="product-description" v-if="!!product.description" v-html="product.description"></div>
             <div class="product-description" v-if="!product.description && !!product.short_description">

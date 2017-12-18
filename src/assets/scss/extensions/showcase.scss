@@ -78,13 +78,14 @@ article {
     }
     .presentation {
       font-size: 1rem;
-      column-count: 2;
+      text-align: center;
+      /** column-count: 2;
       @media (min-width: 820px) {
         column-count: 3;
       }
       @media (max-width: 540px) {
         column-count: 1;
-      }
+      } **/
     }
     h1 {
       font-size: 5rem;
@@ -254,10 +255,7 @@ article {
 }
 
 .showcase-address {
-  display: flex;
-  flex-direction: row;
   font-style: normal;
-  //justify-content: space-between;
 
   .on-right {
     display: flex;

@@ -88,12 +88,12 @@
 }
 
 .product-description {
-  max-height: 25vh;
+  max-height: 40vh;
   overflow: auto;
   &:after {
     position: absolute;
     bottom: 0;
-    height: 100%;
+    height: 20%;
     width: 100%;
     content: "";
     background: linear-gradient(to top,
@@ -109,12 +109,12 @@
 }
 
 .product-more-infos {
-  max-height: 25vh;
+  max-height: 30vh;
   overflow: auto;
   &:after {
     position: absolute;
     bottom: 0;
-    height: 100%;
+    height: 20%;
     width: 100%;
     content: "";
     background: linear-gradient(to top,
