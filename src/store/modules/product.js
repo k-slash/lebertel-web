@@ -143,7 +143,7 @@ const actions = {
   async getProducts ({ commit, state }) {
     try {
       const userProducts = await User.getUserProducts()
-      await commit('SET_USER_PRODUCTS', userProducts.data.results)
+      await commit('SET_USER_PRODUCTS', userProducts.data)
     } catch (e) {
       console.log(e)
       Toast.open({

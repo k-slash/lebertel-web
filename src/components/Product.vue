@@ -17,33 +17,39 @@
         <!--<div class="product-detail-item product-detail--top"></div>-->
         <div class="product-detail-item product-detail--center">
           <h4>Intro</h4>
-          <div class="product-description" v-if="!!product.description" v-html="product.description"></div>
-          <div class="product-description" v-if="!product.description && !!product.short_description">
-            {{ product.short_description }}
-          </div>
-          <div class="product-description" v-if="!product.description && !product.short_description">
-            Il n'y a pas de description pour ce produit :(
+          <div class="product-desc">
+            <div class="product-description" v-if="!!product.description" v-html="product.description"></div>
+            <div class="product-description" v-if="!product.description && !!product.short_description">
+              {{ product.short_description }}
+            </div>
+            <div class="product-description" v-if="!product.description && !product.short_description">
+              Il n'y a pas de description pour ce produit :(
+            </div>
           </div>
           <br>
           <h4>Détails du produit</h4>
-          <div class="field" v-if="!!product.size">
-            <label class="label">Taille</label>
-            {{ product.size }}
-          </div>
-          <div class="field" v-if="!!product.colors">
-            <label class="label">Couleurs</label>
-            {{ product.colors }}
-          </div>
-          <div class="field" v-if="!!product.materials">
-            <label class="label">Matériaux</label>
-            {{ product.materials }}
-          </div>
-          <div class="field" v-if="!!product.ingredients">
-            <label class="label">Ingredients</label>
-            {{ product.ingredients }}
-          </div>
-          <div class="field" v-if="!product.size && !product.color && !product.materials && !product.ingredients">
-            Il n'y a pas de détail pour ce produit :(
+          <div class="product-more-info">
+            <div class="product-more-infos">
+              <div class="field" v-if="!!product.size">
+                <label class="label">Taille</label>
+                {{ product.size }}
+              </div>
+              <div class="field" v-if="!!product.colors">
+                <label class="label">Couleurs</label>
+                {{ product.colors }}
+              </div>
+              <div class="field" v-if="!!product.materials">
+                <label class="label">Matériaux</label>
+                {{ product.materials }}
+              </div>
+              <div class="field" v-if="!!product.ingredients">
+                <label class="label">Ingredients</label>
+                {{ product.ingredients }}
+              </div>
+              <div class="field" v-if="!product.size && !product.color && !product.materials && !product.ingredients">
+                Il n'y a pas de détail pour ce produit :(
+              </div>
+            </div>
           </div>
         </div>
         <div class="product-detail-item product-detail--bottom">
