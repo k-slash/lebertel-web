@@ -208,6 +208,31 @@ article {
   }
 }
 
+.grid {
+  column-count: 4;
+  column-gap: 1em;
+
+  @media (max-width: 1024px) {
+    column-count: 3;
+  }
+  @media (max-width: 769px) {
+    column-count: 2;
+  }
+  @media (max-width: 500px) {
+    column-count: 1;
+  }
+}
+
+.grid-item {
+  // width: 25%;
+  @media (max-width: 1024px) {
+    // width: 33%;
+  }
+  @media (max-width: 769px) {
+    // width: 100%;
+  }
+}
+
 .photos {
   /* Prevent vertical gaps */
   display: flex;

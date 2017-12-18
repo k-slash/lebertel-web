@@ -28,12 +28,67 @@
               <div class="presentation" v-html="showcase.presentation"></div>
             </div>
             <section class="hero is-tsilaosa showcase-images">
-              <div class="photos">
-                <div class="photo" v-model="showcaseImages"
+              <div class="grid js-masonry">
+                <div class="grid-item" v-model="showcaseImages"
                   v-for="item in showcaseImages"
                   v-bind:item="item"
                   v-bind:key="item.id">
                   <img v-img:my-group="{src: item.thumb_big}" :src="item.url">
+                </div>
+              </div>
+            </section>
+            <section class="hero is-blue-mapbox" v-show="this.showMap">
+              <div class="hero-body no-padding">
+                <div class="container">
+                  <div class="columns">
+                    <div class="column is-three-fifths">
+                      <div class="lebertel-map" v-if="!!showcase.location">
+                        <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+                          <v-tilelayer :url="url"></v-tilelayer>
+                          <div v-if="showcase.location != undefined">
+                            <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
+                              <v-popup :content="showcase.address"></v-popup>
+                            </v-marker>
+                          </div>
+                          <div v-else>
+                            <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
+                              <v-popup content="Mon atelier"></v-popup>
+                            </v-marker>
+                          </div>
+                        </v-map>
+                      </div>
+                    </div>
+                    <div class="column is-one-third is-offset-1 showcase-address-info">
+                      <address class="showcase-address">
+                        <h2>{{ showcase.name }}</h2>
+                        {{ showcase.address }}<br>
+                        {{ showcase.postcode }} {{ showcase.city }}<br>
+                        La Réunion <br>
+                        <div class="phone">
+                          <span class="icon margin-right">
+                            <i class="fa fa-phone"></i>
+                          </span>
+                          {{ showcase.phone_number }}
+                        </div>
+                        <div class="email">
+                          <span class="icon margin-right">
+                            <i class="fa fa-envelope-o"></i>
+                          </span>
+                          {{ showcase.email }}
+                        </div>
+                      </address>
+                      <br>
+                      <div class="timetable" v-if='!!showcase.timetable'>
+                        <h2>Horaires</h2>
+                        <div v-html="showcase.timetable"></div>
+                      </div>
+                      <br>
+                      <div class="moreInfos" v-if='!!showcase.informations'>
+                        <h2>Pour info</h2>
+                        <div v-html="showcase.informations"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -75,63 +130,6 @@
             </div>
           </b-tab-item>
       </b-tabs>
-      <section class="hero is-blue-mapbox" v-show="this.showMap">
-        <div class="hero-body no-padding">
-          <div class="container">
-            <div class="columns">
-              <div class="column is-three-fifths">
-                <div class="lebertel-map" v-if="!!showcase.location">
-                  <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
-                    <v-tilelayer :url="url"></v-tilelayer>
-                    <div v-if="showcase.location != undefined">
-                      <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
-                        <v-popup :content="showcase.address"></v-popup>
-                      </v-marker>
-                    </div>
-                    <div v-else>
-                      <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
-                        <v-popup content="Mon atelier"></v-popup>
-                      </v-marker>
-                    </div>
-                  </v-map>
-                </div>
-              </div>
-              <div class="column is-one-third is-offset-1 showcase-address-info">
-                <address class="showcase-address">
-                  <h2>{{ showcase.name }}</h2>
-                  {{ showcase.address }}<br>
-                  {{ showcase.postcode }} {{ showcase.city }}<br>
-                  La Réunion <br>
-                  <div class="phone">
-                    <span class="icon margin-right">
-                      <i class="fa fa-phone"></i>
-                    </span>
-                    {{ showcase.phone_number }}
-                  </div>
-                  <div class="email">
-                    <span class="icon margin-right">
-                      <i class="fa fa-envelope-o"></i>
-                    </span>
-                    {{ showcase.email }}
-                  </div>
-                </address>
-                <br>
-
-                <div class="timetable" v-if='!!showcase.timetable'>
-                  <h2>Horaires</h2>
-                  <div v-html="showcase.timetable"></div>
-                </div>
-                <br>
-                <div class="moreInfos" v-if='!!showcase.informations'>
-                  <h2>Pour info</h2>
-                  <div v-html="showcase.informations"></div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       <section class="hero is-blanc-espagne">
           <div class="hero-body">
             <div class="container social">
@@ -170,6 +168,7 @@
 <script>
 import Vuex from 'vuex'
 import VueImgInputer from 'vue-img-inputer'
+import Masonry from 'masonry-layout'
 import store from '@/store'
 import L from 'leaflet'
 
@@ -203,6 +202,13 @@ export default {
   },
   created () {
     this.images = this.$store.getters.showcaseImages
+    var elem = document.querySelector('.grid')
+    var msnry = new Masonry(elem, {
+      itemSelector: '.grid-item',
+      columnWidth: 25,
+      percentPosition: true
+    })
+    console.log(msnry)
   },
   computed: {
     ...Vuex.mapGetters(['showcase', 'products', 'showcaseImages']),
