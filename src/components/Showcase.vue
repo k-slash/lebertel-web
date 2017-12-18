@@ -37,61 +37,6 @@
                 </div>
               </div>
             </section>
-            <section class="hero is-blue-mapbox" v-show="this.showMap">
-              <div class="hero-body no-padding">
-                <div class="container">
-                  <div class="columns">
-                    <div class="column is-three-fifths">
-                      <div class="lebertel-map" v-if="!!showcase.location">
-                        <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
-                          <v-tilelayer :url="url"></v-tilelayer>
-                          <div v-if="showcase.location != undefined">
-                            <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
-                              <v-popup :content="showcase.address"></v-popup>
-                            </v-marker>
-                          </div>
-                          <div v-else>
-                            <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
-                              <v-popup content="Mon atelier"></v-popup>
-                            </v-marker>
-                          </div>
-                        </v-map>
-                      </div>
-                    </div>
-                    <div class="column is-one-third is-offset-1 showcase-address-info">
-                      <address class="showcase-address">
-                        <h2>{{ showcase.name }}</h2>
-                        {{ showcase.address }}<br>
-                        {{ showcase.postcode }} {{ showcase.city }}<br>
-                        La Réunion <br>
-                        <div class="phone">
-                          <span class="icon margin-right">
-                            <i class="fa fa-phone"></i>
-                          </span>
-                          {{ showcase.phone_number }}
-                        </div>
-                        <div class="email">
-                          <span class="icon margin-right">
-                            <i class="fa fa-envelope-o"></i>
-                          </span>
-                          {{ showcase.email }}
-                        </div>
-                      </address>
-                      <br>
-                      <div class="timetable" v-if='!!showcase.timetable'>
-                        <h2>Horaires</h2>
-                        <div v-html="showcase.timetable"></div>
-                      </div>
-                      <br>
-                      <div class="moreInfos" v-if='!!showcase.informations'>
-                        <h2>Pour info</h2>
-                        <div v-html="showcase.informations"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
           </b-tab-item>
           <b-tab-item label="Produits" v-if='!!products.length > 0'>
             <div class="container showcase">
@@ -130,6 +75,61 @@
             </div>
           </b-tab-item>
       </b-tabs>
+      <section class="hero is-blue-mapbox" v-show="this.showMap">
+        <div class="hero-body no-padding">
+          <div class="container">
+            <div class="columns">
+              <div class="column is-three-fifths">
+                <div class="lebertel-map" v-if="!!showcase.location">
+                  <v-map :padding="[200, 200]" :zoom="zoom" :options="getOptions" :center="center" :min-zoom="minZoom" :max-zoom="maxZoom" v-on:l-zoomanim="zoomChanged">
+                    <v-tilelayer :url="url"></v-tilelayer>
+                    <div v-if="showcase.location != undefined">
+                      <v-marker :lat-lng="showcase.location.coordinates" :draggable="false" v-on:l-move="markerMoved">
+                        <v-popup :content="showcase.address"></v-popup>
+                      </v-marker>
+                    </div>
+                    <div v-else>
+                      <v-marker :lat-lng="marker" :draggable="false" v-on:l-move="markerMoved">
+                        <v-popup content="Mon atelier"></v-popup>
+                      </v-marker>
+                    </div>
+                  </v-map>
+                </div>
+              </div>
+              <div class="column is-one-third is-offset-1 showcase-address-info">
+                <address class="showcase-address">
+                  <h2>{{ showcase.name }}</h2>
+                  {{ showcase.address }}<br>
+                  {{ showcase.postcode }} {{ showcase.city }}<br>
+                  La Réunion <br>
+                  <div class="phone">
+                    <span class="icon margin-right">
+                      <i class="fa fa-phone"></i>
+                    </span>
+                    {{ showcase.phone_number }}
+                  </div>
+                  <div class="email">
+                    <span class="icon margin-right">
+                      <i class="fa fa-envelope-o"></i>
+                    </span>
+                    {{ showcase.email }}
+                  </div>
+                </address>
+                <br>
+                <div class="timetable" v-if='!!showcase.timetable'>
+                  <h2>Horaires</h2>
+                  <div v-html="showcase.timetable"></div>
+                </div>
+                <br>
+                <div class="moreInfos" v-if='!!showcase.informations'>
+                  <h2>Pour info</h2>
+                  <div v-html="showcase.informations"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="hero is-blanc-espagne">
           <div class="hero-body">
             <div class="container social">
