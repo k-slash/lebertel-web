@@ -210,7 +210,7 @@ article {
 
 .grid {
   column-count: 4;
-  column-gap: 1em;
+  column-gap: 7px;
 
   @media (max-width: 1024px) {
     column-count: 3;
