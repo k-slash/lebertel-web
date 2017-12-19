@@ -27,6 +27,7 @@
     "masonry-layout": "^4.2.0",
     "mobile-detect": "^1.4.0",
     "popper.js": "^1.13.0",
+    "prerender-spa-plugin": "^2.1.0",
     "v-img": "^0.1.9",
     "vue": "^2.5.9",
     "vue-agile": "^0.2.6",

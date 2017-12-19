@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -96,7 +97,18 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    // Use PrerenderSpaPlugin for SEO
+    new PrerenderSpaPlugin(
+      // Absolute path to compiled SPA
+      path.join(__dirname, '../dist'),
+      // List of routes to prerender
+      [ '/',
+        '/register', '/login', '/utilisation-des-cookies',
+        '/vitrine/3', '/vitrine/7', '/vitrine/8',
+        '/produit/1', '/produit/2', '/produit/3', '/produit/4', '/produit/5', '/produit/6', '/produit/7', '/produit/8', '/produit/9', '/produit/10', '/produit/11', '/produit/12', '/produit/13', '/produit/14'
+      ]
+    )
   ]
 })
 

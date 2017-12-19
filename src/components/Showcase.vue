@@ -203,12 +203,12 @@ export default {
   created () {
     this.images = this.$store.getters.showcaseImages
     var elem = document.querySelector('.grid')
-    var msnry = new Masonry(elem, {
+    /* eslint-disable no-new */
+    new Masonry(elem, {
       itemSelector: '.grid-item',
       columnWidth: 25,
       percentPosition: true
     })
-    console.log(msnry)
     window.document.title = this.showcase.name + ' sur lebertel.'
   },
   computed: {

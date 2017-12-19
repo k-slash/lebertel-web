@@ -87,9 +87,13 @@ sync(store, router)
 
 /* eslint-disable no-new */
 
-new Vue({
+var root = new Vue({
   el: '#app',
   store,
   router,
   render: h => h(App)
-}).$mount()
+})
+
+document.addEventListener('DOMContentLoaded', function () {
+  root.$mount('#app')
+})
