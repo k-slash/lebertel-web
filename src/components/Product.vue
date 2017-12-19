@@ -110,6 +110,9 @@ export default {
   computed: {
     ...Vuex.mapGetters(['product'])
   },
+  created () {
+    window.document.title = this.product.name + ' par ' + this.product.owner.name + ' sur lebertel.'
+  },
   beforeRouteEnter (to, from, next) {
     store.dispatch('getProduct', to.params.id).then(res => next())
   },

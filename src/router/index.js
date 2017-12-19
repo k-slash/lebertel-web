@@ -37,83 +37,173 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        title: 'Bienvenue sur lebertel.',
+        analytics: {
+          pageviewTemplate (route) {
+            return {
+              title: 'Bienvenue sur lebertel. Le site des artisans, commercants, services et associations près de chez vous.',
+              path: route.path,
+              location: 'https://lebertel.re/'
+            }
+          }
+        }
+      }
     },
     {
       path: '/utilisation-des-cookies',
       name: 'utilisation-des-cookies',
-      component: CookiesPage
+      component: CookiesPage,
+      meta: {
+        title: 'Utilisation des cookies',
+        analytics: {
+          pageviewTemplate (route) {
+            return {
+              title: 'Utilisation des cookies',
+              path: route.path,
+              location: 'https://lebertel.re/utilisation-des-cookies'
+            }
+          }
+        }
+      }
     },
     {
       path: '/vitrine/:id(\\d+)',
       name: 'showcase',
+      meta: {
+        title: 'lebertel.'
+      },
       component: Showcase
     },
     {
       path: '/produit/:id(\\d+)',
       name: 'product',
+      meta: {
+        title: 'lebertel.'
+      },
       component: Product
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        title: 'Tableau de bord'
+      },
       beforeEnter: requireAuth,
       children: [{
         path: 'profile',
         name: 'dashboard.profile',
+        meta: {
+          title: 'Tableau de bord - Profile'
+        },
         component: DashboardProfile
       }, {
         path: 'address',
         name: 'dashboard.address',
+        meta: {
+          title: 'Tableau de bord - Adresse'
+        },
         component: DashboardAddress
       }, {
         path: 'showcase/presentation',
         name: 'dashboard.showcase.presentation',
+        meta: {
+          title: 'Tableau de bord - Vitrine - Présentation'
+        },
         component: DashboardPresentation
       }, {
         path: 'showcase/location',
         name: 'dashboard.showcase.location',
+        meta: {
+          title: 'Tableau de bord - Vitrine - Localisation'
+        },
         component: DashboardLocation
       }, {
         path: 'showcase/contact',
         name: 'dashboard.showcase.contact',
+        meta: {
+          title: 'Tableau de bord - Vitrine - Contact'
+        },
         component: DashboardContact
       }, {
         path: 'showcase/timetable',
         name: 'dashboard.showcase.timetable',
+        meta: {
+          title: 'Tableau de bord - Vitrine - Horaires'
+        },
         component: DashboardTimetable
       }, {
         path: 'showcase/informations',
         name: 'dashboard.showcase.informations',
+        meta: {
+          title: 'Tableau de bord - Vitrine - Informations'
+        },
         component: DashboardMoreInformations
       }, {
         path: 'showcase/images',
         name: 'dashboard.showcase.images',
+        meta: {
+          title: 'Tableau de bord - Vitrine - Images'
+        },
         component: DashboardImages
       }, {
         path: 'product/list',
         name: 'dashboard.product.list',
+        meta: {
+          title: 'Tableau de bord - Liste des produits'
+        },
         component: DashboardProductList
       }, {
         path: 'product/add',
         name: 'dashboard.product.add',
+        meta: {
+          title: 'Tableau de bord - Ajouter un produit'
+        },
         component: DashboardProductAdd
       }, {
         path: 'product/:id(\\d+)',
         name: 'dashboard.product.edit',
+        meta: {
+          title: 'Tableau de bord - Modifier un produit'
+        },
         component: DashboardProductEdit
       }]
     },
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: {
+        title: 'Créez votre compte sur le bertel.',
+        analytics: {
+          pageviewTemplate (route) {
+            return {
+              title: 'Créez votre compte sur le bertel.',
+              path: route.path,
+              location: 'https://lebertel.re/inscription'
+            }
+          }
+        }
+      }
     },
     {
-      path: '/signin',
+      path: '/login',
       name: 'signin',
-      component: Signin
+      component: Signin,
+      meta: {
+        title: 'Connexion à lebertel.',
+        analytics: {
+          pageviewTemplate (route) {
+            return {
+              title: 'Connexion à lebertel.',
+              path: route.path,
+              location: 'https://lebertel.re/connexion'
+            }
+          }
+        }
+      }
     },
     {
       path: '*',

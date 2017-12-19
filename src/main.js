@@ -5,6 +5,7 @@ import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
 import router from '@/router'
 import store from '@/store'
+import conf from '@/conf'
 import VueResource from 'vue-resource'
 import App from '@/components/App.vue'
 
@@ -23,8 +24,17 @@ import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 
 Vue.use(VueAnalytics, {
-  id: 'UA-110611887-1',
+  id: conf.GA_ID,
   router,
+  autoTracking: {
+    pageviewTemplate (route) {
+      return {
+        page: route.path,
+        title: document.title,
+        location: window.location.href
+      }
+    }
+  },
   ignoreRoutes: [
     'dashboard',
     'dashboard.profile',
@@ -37,9 +47,7 @@ Vue.use(VueAnalytics, {
     'dashboard.showcase.images',
     'dashboard.product.list',
     'dashboard.product.add',
-    'dashboard.product.edit',
-    'register',
-    'signin'
+    'dashboard.product.edit'
   ]
 })
 Vue.use(Buefy)
@@ -68,7 +76,11 @@ L.Icon.Default.mergeOptions({
 
 Vue.config.productionTip = false
 
-// export default Vue
+// Set title for each views
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})
 
 /* Link store to router */
 sync(store, router)

@@ -209,6 +209,7 @@ export default {
       percentPosition: true
     })
     console.log(msnry)
+    window.document.title = this.showcase.name + ' sur lebertel.'
   },
   computed: {
     ...Vuex.mapGetters(['showcase', 'products', 'showcaseImages']),
