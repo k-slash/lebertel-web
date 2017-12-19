@@ -199,10 +199,18 @@ export default {
       this.data.user = this.user.profile.user
       this.data.logo = file
       this.data.name = this.user.showcase.name
-      this.data.presentation = this.user.showcase.presentation
-      this.data.showcase_type = this.user.showcase.showcase_type
-      this.data.category = this.user.showcase.category
-      this.data.profession = this.user.showcase.profession
+      if (this.user.showcase.presentation) {
+        this.data.presentation = this.user.showcase.presentation
+      }
+      if (this.user.showcase.showcase_type) {
+        this.data.showcase_type = this.user.showcase.showcase_type
+      }
+      if (this.user.showcase.category) {
+        this.data.category = this.user.showcase.category
+      }
+      if (this.user.showcase.profession) {
+        this.data.profession = this.user.showcase.profession
+      }
     },
 
     handleAvatarSuccess (res, file) {

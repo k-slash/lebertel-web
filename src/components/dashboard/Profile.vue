@@ -74,9 +74,11 @@ export default {
     }),
     getFile (file) {
       this.data.user = this.user.profile.user
-      this.data.phone_number = this.user.profile.phone_number
       this.data.pro = this.user.profile.pro
       this.data.avatar = file
+      if (this.user.profile.phone_number) {
+        this.data.phone_number = this.user.profile.phone_number
+      }
     },
     handleAvatarSuccess (res, file) {
       this.user.profile.avatar = URL.createObjectURL(file.raw)
