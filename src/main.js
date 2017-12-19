@@ -86,14 +86,8 @@ router.beforeEach((to, from, next) => {
 sync(store, router)
 
 /* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  store,
-  router,
-  render: h => h(App)
-}).$mount()
 
-/** var root = new Vue({
+var root = new Vue({
   el: '#app',
   store,
   router,
@@ -102,4 +96,4 @@ new Vue({
 
 document.addEventListener('DOMContentLoaded', function () {
   root.$mount('#app')
-}) **/
+})
