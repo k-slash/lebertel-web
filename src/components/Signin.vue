@@ -10,7 +10,7 @@
                   <div class="hero-body connection">
                     <div class="has-text-centered">
                       <h1 class="title">
-                        Bienvenue sur <span class="lebertel-font"> le bertel. </span>
+                        Bienvenue sur <span class="lebertel-font big"> le bertel. </span>
                       </h1>
                       <h2 class="subtitle">
                         Adoptez la consom'action, en privilégiant les artisans, les producteurs et les savoir-faire réunionnais.

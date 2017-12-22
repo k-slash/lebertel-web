@@ -13,22 +13,6 @@
         <el-button type="primary" @click.stop="saveShowcase('form')" class="el-large-button" round>Mettre à jour</el-button>
       </el-form-item>
     </el-form>
-    <!--<vue-form autocomplete="off" @submit.prevent="onSubmit" :state="formstate" v-model="formstate" enctype="multipart/form-data">
-
-      <div class="field">
-        <label class="label">Horaires</label>
-        <div class="quill-editor">
-          <quill-editor ref="myTextEditor"
-                        v-model="user.showcase.timetable"
-                        :options="editorOption">
-          </quill-editor>
-        </div>
-      </div>
-      <br>
-      <div class="py-2 text-center">
-        <button class="button is-medium is-primary is-fullwidth" type="submit">Mettre à jour</button>
-      </div>
-    </vue-form>-->
   </div>
 </template>
 
@@ -44,15 +28,10 @@ export default {
         placeholder: 'Vos horaires',
         modules: {
           toolbar: [
+            [{ 'size': ['small', false, 'large'] }],
             ['bold', 'italic', 'underline', 'strike'],
-            [{ 'header': [1, 2, 3, false] }],
             ['blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-            [{ 'color': [] }],
-            [{ 'align': [] }],
-            ['clean']
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }]
           ]
         }
       }

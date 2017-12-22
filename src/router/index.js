@@ -69,22 +69,6 @@ export default new Router({
       }
     },
     {
-      path: '/:id',
-      name: 'showcase',
-      meta: {
-        title: 'lebertel.'
-      },
-      component: Showcase
-    },
-    {
-      path: '/produit/:id(\\d+)',
-      name: 'product',
-      meta: {
-        title: 'lebertel.'
-      },
-      component: Product
-    },
-    {
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
@@ -204,6 +188,22 @@ export default new Router({
           }
         }
       }
+    },
+    {
+      path: '/:id',
+      name: 'showcase',
+      meta: {
+        title: 'lebertel.'
+      },
+      component: Showcase
+    },
+    {
+      path: '/produit/:id(\\d+)',
+      name: 'product',
+      meta: {
+        title: 'lebertel.'
+      },
+      component: Product
     },
     {
       path: '*',

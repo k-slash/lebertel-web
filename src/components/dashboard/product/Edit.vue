@@ -89,15 +89,10 @@ export default {
         placeholder: 'Veuillez indiquer ici la description de votre produit.',
         modules: {
           toolbar: [
+            [{ 'size': ['small', false, 'large'] }],
             ['bold', 'italic', 'underline', 'strike'],
-            [{ 'header': [1, 2, 3, false] }],
             ['blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-            [{ 'color': [] }],
-            [{ 'align': [] }],
-            ['clean']
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }]
           ]
         }
       },

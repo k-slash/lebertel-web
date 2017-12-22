@@ -4,7 +4,7 @@
       <div class="hero-body">
         <div class="container has-text-centered">
           <h1 class="title">
-            Bienvenue sur <span class="lebertel-font"> le bertel. </span>
+            Bienvenue sur <span class="lebertel-font big"> le bertel. </span>
           </h1>
           <h2 class="subtitle">
             Le site des artisans, commercants, services et associations près de chez vous.

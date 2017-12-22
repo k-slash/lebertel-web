@@ -16,6 +16,25 @@
       <div class="column product-detail">
         <!--<div class="product-detail-item product-detail--top"></div>-->
         <div class="product-detail-item product-detail--center">
+          <div class="card showcase">
+            <div class="card-image">
+              <figure class="img" v-if="product.owner.logo_medium">
+                <div class="slide" v-bind:style="{ backgroundImage: 'url(' + product.owner.logo_medium + ')' }" ></div>
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">{{ product.owner.name }}</p>
+                  <p class="subtitle is-6">{{ product.owner.city }}</p>
+                </div>
+              </div>
+              <div class="content">
+                {{ product.owner.showcase_type_lbl}} <br> {{ product.owner.category_lbl }} <br> {{ product.owner.profession }}
+              </div>
+            </div>
+          </div>
+          <br>
           <h4>Description</h4>
           <div class="product-desc">
             <div class="product-description" v-if="!!product.description" v-html="product.description"></div>
@@ -69,10 +88,11 @@
           </div>
           <social-sharing class="social" :url="url"
             :title="title"
-            :description="product.description"
-            :quote="product.description"
+            :description="product.short_description"
+            :quote="product.short_description"
             hashtags="produitLocal,artisanat,MadeInRéunion,lebertel"
             twitter-user="lebertel"
+            media="product.images[0].thumb_medium"
             inline-template>
             <div>
               <network class="navbar-item" network="facebook">

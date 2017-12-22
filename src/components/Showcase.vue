@@ -25,9 +25,9 @@
       <b-tabs position="is-centered" class="tabs-showcase" v-model="activeTab">
           <b-tab-item label="Présentation">
             <div class="container showcase">
-              <div class="showcase-user-infos">
-                {{ showcase.showcase_type_lbl }} - {{ showcase.category_lbl }} - {{ showcase.profession }}
-              </div>
+              <h2 class="showcase-user-infos">
+                {{ showcase.showcase_type_lbl }} · {{ showcase.category_lbl }} · {{ showcase.profession }}
+              </h2>
               <div class="presentation" v-html="showcase.presentation"></div>
             </div>
             <section class="hero is-milk-jam">

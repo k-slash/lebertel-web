@@ -127,7 +127,7 @@ const actions = {
     try {
       const p = await Product.get(id)
       await commit('SET_PRODUCT', p.data)
-      const s = await Showcase.get(p.data.owner)
+      const s = await Showcase.getById(p.data.owner)
       await commit('SET_PRODUCT_OWNER_SHOWCASE', s.data)
       const u = await User.get(s.data.user)
       await commit('SET_PRODUCT_OWNER_USER', u.data)

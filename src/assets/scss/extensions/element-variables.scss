@@ -6,6 +6,7 @@ $--color-primary: red !default;
 
 .el-form-item__label {
   padding: 0;
+  font-weight: 600;
 }
 
 .el-form--label-top .el-form-item__label {
@@ -15,6 +16,7 @@ $--color-primary: red !default;
 .el-large-button {
   width: 100%;
   margin-top: 1rem;
+  font-weight: 600;
 }
 
 .avatar-logo-center {

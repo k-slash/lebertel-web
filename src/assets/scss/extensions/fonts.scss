@@ -5,6 +5,37 @@
 }
 
 @font-face {
+  font-family: 'Bahagia';
+  src: url('../assets/fonts/Bahagia/Bahagia.otf') format('truetype')
+}
+
+@font-face {
   font-family: 'Linotte';
-  src: url('../assets/fonts/Linotte/Linotte.otf') format('truetype')
+  src:  url('../assets/fonts/Linotte/Linotte-Regular.woff2') format('woff2'),
+        url('../assets/fonts/Linotte/Linotte-Regular.woff') format('woff');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Linotte';
+  src:  url('../assets/fonts/Linotte/Linotte-Light.woff2') format('woff2'),
+        url('../assets/fonts/Linotte/Linotte-Light.woff') format('woff');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Linotte';
+  src:  url('../assets/fonts/Linotte/Linotte-SemiBold.woff2') format('woff2'),
+       url('../assets/fonts/Linotte/Linotte-SemiBold.woff') format('woff');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Linotte';
+  src:  url('../assets/fonts/Linotte/Linotte-Bold.woff2') format('woff2'),
+        url('../assets/fonts/Linotte/Linotte-Bold.woff') format('woff');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Linotte';
+  src:  url('../assets/fonts/Linotte/Linotte-Heavy.woff2') format('woff2'),
+        url('../assets/fonts/Linotte/Linotte-Heavy.woff') format('woff');
+  font-weight: 900;
 }
