@@ -42,7 +42,7 @@
               </router-link>
             </b-dropdown-item>
             <b-dropdown-item value="showcase" has-link>
-              <router-link :to="{ name: 'showcase', params: { id: user.info.id } }">
+              <router-link :to="{ name: 'showcase', params: { id: user.showcase.slug_name } }">
                 <b-icon icon="art_track" class="icon-margin"></b-icon>
                 Ma vitrine
               </router-link>

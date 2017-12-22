@@ -49,7 +49,7 @@
       </p>
       <ul class="menu-list" v-if="!!user.profile.pro">
         <router-link :to="{ name: 'dashboard.product.list' }" v-bind:class="{ 'is-active': $route.name == 'dashboard.product.list' }">
-          Liste de produits
+          Liste des produits
         </router-link>
         <router-link :to="{ name: 'dashboard.product.add' }" v-bind:class="{ 'is-active': $route.name == 'dashboard.product.add' }">
           Ajouter un produit

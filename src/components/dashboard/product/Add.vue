@@ -21,6 +21,12 @@
       <el-form-item label="Taille" prop="size">
         <el-input v-model="form.size" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item label="Poids" prop="size">
+        <el-input v-model="form.weight" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Volume" prop="size">
+        <el-input v-model="form.volume" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item label="Couleurs" prop="color">
         <el-input v-model="form.colors" auto-complete="off"></el-input>
       </el-form-item>
@@ -29,6 +35,9 @@
       </el-form-item>
       <el-form-item label="Ingrédients" prop="ingredients">
         <el-input v-model="form.ingredients" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Quantité" prop="quantity">
+        <el-input-number controls-position="right" v-model="form.quantity"></el-input-number>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click.stop="saveProduct('form')" class="el-large-button" round>Ajouter</el-button>
@@ -50,9 +59,12 @@ export default {
         short_description: '',
         description: '',
         size: '',
+        weight: '',
+        volume: '',
         colors: '',
         materials: '',
-        ingredients: ''
+        ingredients: '',
+        quantity: ''
       },
       rules: {
         name: [
@@ -103,9 +115,12 @@ export default {
             'short_description': this.form.short_description,
             'description': this.form.description,
             'size': this.form.size,
+            'weight': this.form.weight,
+            'volume': this.form.volume,
             'colors': this.form.colors,
             'materials': this.form.materials,
-            'ingredients': this.form.ingredients
+            'ingredients': this.form.ingredients,
+            'quantity': this.form.quantity
           }
           this.addProduct(data)
         } else {

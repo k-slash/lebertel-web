@@ -35,7 +35,7 @@
               v-for="s in showcases"
               v-if="showShowcase(s)"
               v-bind:item="s"
-              v-bind:key="s.user" :to="{ name: 'showcase', params: { id: s.user } }">
+              v-bind:key="s.user" :to="{ name: 'showcase', params: { id: s.slug_name } }">
               <div class="card-image">
                 <figure class="image" v-if="s.logo_medium">
                   <div class="slide" v-bind:style="{ backgroundImage: 'url(' + s.logo_medium + ')' }" ></div>
@@ -77,32 +77,34 @@
             </b-pagination>
           </div>
           <div class="container">
-            <section class="products">
-              <router-link class="card showcase"
-                v-model="homeProducts"
-                v-for="p in homeProducts"
-                v-if="showProduct(p)"
-                v-bind:item="p"
-                v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
-                <div class="card-image">
-                  <figure class="image" v-if="p.images[0]">
-                    <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-4">{{ p.name }}</p>
-                      <p class="subtitle is-6">{{ p.price }} €</p>
+            <!--<transition name="container" mode="out-in">-->
+              <section class="products">
+                <router-link class="card showcase"
+                  v-model="homeProducts"
+                  v-for="p in homeProducts"
+                  v-if="showProduct(p)"
+                  v-bind:item="p"
+                  v-bind:key="p.id" :to="{ name: 'product', params: { id: p.id } }">
+                  <div class="card-image">
+                    <figure class="image" v-if="p.images[0]">
+                      <div class="slide" v-bind:style="{ backgroundImage: 'url(' + p.images[0].thumb_medium + ')' }" ></div>
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">{{ p.name }}</p>
+                        <p class="subtitle is-6">{{ p.price }} €</p>
+                      </div>
+                    </div>
+                    <div class="content">
+                      <div v-html="p.short_description"></div>
                     </div>
                   </div>
-                  <div class="content">
-                    <div v-html="p.short_description"></div>
-                  </div>
-                </div>
-                <br>
-              </router-link>
-            </section>
+                  <br>
+                </router-link>
+              </section>
+            <!--</transition>-->
             <br>
           </div>
         </div>
@@ -161,7 +163,8 @@ export default {
       perPageProduct: 4,
       orderProduct: '',
       sizeProduct: '',
-      isSimple: true
+      isSimple: true,
+      show: true
     }
   },
   computed: {
@@ -193,7 +196,10 @@ export default {
     }),
 
     nextShowcases: function (page) {
-      this.getListShowcases(page)
+      this.show = false
+      this.getListShowcases(page).then(response => {
+        this.show = true
+      })
     },
 
     showShowcase: function (s) {
@@ -202,9 +208,11 @@ export default {
 
     nextProducts: function (page) {
       this.getHomeProducts(page)
+      this.show = false
     },
 
     showProduct: function (p) {
+      this.show = true
       return p.name && p.images.length
     },
 

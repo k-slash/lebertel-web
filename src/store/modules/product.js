@@ -18,6 +18,8 @@ const state = {
     colors: null,
     materials: null,
     ingredients: null,
+    weight: null,
+    nb_views: null,
     images: []
   },
   productImageAdded: {
@@ -174,8 +176,8 @@ const actions = {
 
   async getProductsByUser ({ commit, state }, id) {
     try {
-      const userProducts = await Product.getByUser(id)
-      console.log(userProducts)
+      const s = await Showcase.get(id)
+      const userProducts = await Product.getByUser(s.data.user)
       await commit('SET_USER_PRODUCTS', userProducts.data.results)
     } catch (e) {
       console.log(e)

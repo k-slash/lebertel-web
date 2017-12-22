@@ -24,6 +24,12 @@
           <el-form-item label="Taille" prop="size">
             <el-input v-model="product.size" auto-complete="off"></el-input>
           </el-form-item>
+          <el-form-item label="Poids" prop="size">
+            <el-input v-model="product.weight" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Volume" prop="size">
+            <el-input v-model="product.volume" auto-complete="off"></el-input>
+          </el-form-item>
           <el-form-item label="Couleurs" prop="color">
             <el-input v-model="product.colors" auto-complete="off"></el-input>
           </el-form-item>
@@ -32,6 +38,9 @@
           </el-form-item>
           <el-form-item label="Ingrédients" prop="ingredients">
             <el-input v-model="product.ingredients" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Quantité" prop="quantity">
+            <el-input-number controls-position="right" v-model="product.quantity"></el-input-number>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click.stop="saveProduct('form')" class="el-large-button" round>Mettre à jour</el-button>
@@ -141,9 +150,12 @@ export default {
             'short_description': this.product.short_description,
             'description': this.product.description,
             'size': this.product.size,
+            'weight': this.product.weight,
+            'volume': this.product.volume,
             'colors': this.product.colors,
             'materials': this.product.materials,
-            'ingredients': this.product.ingredients
+            'ingredients': this.product.ingredients,
+            'quantity': this.product.quantity
           }
           this.updateProduct(data)
         } else {

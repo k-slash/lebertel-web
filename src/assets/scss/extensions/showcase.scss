@@ -68,6 +68,7 @@ article {
 .container {
   &.showcase {
     display: flex;
+    flex-direction: column;
     align-items: center;
     background-color: $light;
     border-radius: 10px;
@@ -75,6 +76,9 @@ article {
     position: relative;
     @media (min-width: 820px) {
       width: 800px;
+    }
+    .showcase-user-infos {
+      text-align: center;
     }
     .presentation {
       font-size: 1rem;
@@ -92,13 +96,39 @@ article {
     }
   }
 
-  &.social {
+  &.social, &.views-likes {
     display: flex;
     justify-content: center;
 
     .navbar-item {
       border-radius: 50%;
       padding: 1rem;
+    }
+  }
+
+  &.views-likes {
+    font-size: 3rem;
+
+    .showcase-views {
+      display: flex;
+      align-items: center;
+      margin-right: 12rem;
+    }
+
+    .showcase-likes {
+      display: flex;
+      align-items: center;
+
+      #heart-svg {
+        padding-top: 0.8rem;
+      }
+    }
+
+    .material-icons {
+      &.big {
+        font-size: 3.4rem;
+        margin-right: 1rem;
+      }
     }
   }
 

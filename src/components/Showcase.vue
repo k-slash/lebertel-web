@@ -25,8 +25,33 @@
       <b-tabs position="is-centered" class="tabs-showcase" v-model="activeTab">
           <b-tab-item label="Présentation">
             <div class="container showcase">
+              <div class="showcase-user-infos">
+                {{ showcase.showcase_type_lbl }} - {{ showcase.category_lbl }} - {{ showcase.profession }}
+              </div>
               <div class="presentation" v-html="showcase.presentation"></div>
             </div>
+            <section class="hero is-milk-jam">
+              <div class="hero-body">
+                <div class="container views-likes">
+                  <div class="showcase-views">
+                    <span class="icon" style="color: #767676;">
+                      <i class="material-icons big" aria-hidden="true">visibility</i> {{ showcase.nb_views }}
+                    </span>
+                  </div>
+                  <div class="showcase-likes">
+                    <div class="like-icon">
+                      <input type="checkbox" id="likes-checkbox" v-model="likeChecked" v-on:change="likeAction()"/>
+                      <label for="likes-checkbox">
+                        <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg"><g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)"><path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#767676"/><circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/><g id="grp7" opacity="0" transform="translate(7 6)"><circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/><circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/></g><g id="grp6" opacity="0" transform="translate(0 28)"><circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/><circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/></g><g id="grp3" opacity="0" transform="translate(52 28)"><circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/><circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/></g><g id="grp2" opacity="0" transform="translate(44 6)" fill="#CC8EF5"><circle id="oval2" transform="matrix(-1 0 0 1 10 0)" cx="5" cy="6" r="2"/><circle id="oval1" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp5" opacity="0" transform="translate(14 50)" fill="#91D2FA"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp4" opacity="0" transform="translate(35 50)" fill="#F48EA7"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp1" opacity="0" transform="translate(24)" fill="#9FC7FA"><circle id="oval1" cx="2.5" cy="3" r="2"/><circle id="oval2" cx="7.5" cy="2" r="2"/></g></g></svg>
+                      </label>
+                    </div>
+                    <span class="nb-likes" style="color: #767676;">
+                      {{ showcase.nb_likes }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </section>
             <section class="hero is-tsilaosa showcase-images">
               <div class="grid js-masonry">
                 <div class="grid-item" v-model="showcaseImages"
@@ -130,32 +155,37 @@
           </div>
         </div>
       </section>
-      <section class="hero is-blanc-espagne">
+      <section class="hero is-light">
           <div class="hero-body">
             <div class="container social">
               <a v-if="showcase.website" class="navbar-item" :href="showcase.website" target="_blank">
                 <span class="icon" style="color: #767676;">
-                  <i class="material-icons">language</i>
+                  <i class="material-icons" aria-hidden="true">language</i>
                 </span>
               </a>
               <a v-if="showcase.facebook" class="navbar-item" :href="showcase.facebook" target="_blank">
                 <span class="icon" style="color: #3b5998;">
-                  <i class="fa fa-facebook"></i>
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
                 </span>
               </a>
               <a v-if="showcase.linkedin" class="navbar-item" :href="showcase.linkedin" target="_blank">
                 <span class="icon" style="color: #007bb6;">
-                  <i class="fa fa-linkedin"></i>
+                  <i class="fa fa-linkedin" aria-hidden="true"></i>
                 </span>
               </a>
               <a v-if="showcase.twitter" class="navbar-item" :href="showcase.twitter" target="_blank">
                 <span class="icon" style="color: #55acee;">
-                  <i class="fa fa-twitter"></i>
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
                 </span>
               </a>
               <a v-if="showcase.pinterest" class="navbar-item" :href="showcase.pinterest" target="_blank">
                 <span class="icon" style="color: #BD081C;">
-                  <i class="fa fa-pinterest"></i>
+                  <i class="fa fa-pinterest" aria-hidden="true"></i>
+                </span>
+              </a>
+              <a v-if="showcase.instagram" class="navbar-item" :href="showcase.instagram" target="_blank">
+                <span class="icon" style="color: #e95950;">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
                 </span>
               </a>
             </div>
@@ -182,6 +212,7 @@ export default {
   data () {
     return {
       activeTab: 0,
+      likeChecked: false,
       images: null,
       showMap: true,
       formstate: {},
@@ -202,6 +233,20 @@ export default {
   },
   created () {
     this.images = this.$store.getters.showcaseImages
+    console.log(this.showcase)
+    if (!this.$cookie.get('lebertel_showcase_view_' + this.showcase.user)) {
+      this.$cookie.set('lebertel_showcase_view_' + this.showcase.user, true, 60)
+      this.showcase.nb_views++
+      store.commit('SET_SHOWCASE_NB_VIEWS', this.showcase.nb_views)
+      const data = {
+        'user': this.showcase.user,
+        'nb_views': this.showcase.nb_views
+      }
+      this.updateNbViewsShowcase(data)
+    }
+    if (this.$cookie.get('lebertel_showcase_like_' + this.showcase.user)) {
+      this.likeChecked = true
+    }
     var elem = document.querySelector('.grid')
     /* eslint-disable no-new */
     new Masonry(elem, {
@@ -250,11 +295,30 @@ export default {
     ...Vuex.mapActions({
       getShowcase: 'getShowcase',
       getProductsByUser: 'getProductsByUser',
-      getImage: 'getImage'
+      getImage: 'getImage',
+      updateNbViewsShowcase: 'updateNbViewsShowcase',
+      updateNbLikesShowcase: 'updateNbLikesShowcase'
     }),
 
     zoomChanged: function (event) {
       this.zoom = event.target.getZoom()
+    },
+
+    likeAction: function (event) {
+      if (this.likeChecked) {
+        this.$cookie.set('lebertel_showcase_like_' + this.showcase.user, true, { expires: '5Y' })
+        this.showcase.nb_likes++
+        store.commit('SET_SHOWCASE_NB_LIKES', this.showcase.nb_likes)
+      } else {
+        this.$cookie.delete('lebertel_showcase_like_' + this.showcase.user)
+        this.showcase.nb_likes--
+        store.commit('SET_SHOWCASE_NB_LIKES', this.showcase.nb_likes)
+      }
+      const data = {
+        'user': this.showcase.user,
+        'nb_likes': this.showcase.nb_likes
+      }
+      this.updateNbLikesShowcase(data)
     }
   }
 }

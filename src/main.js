@@ -19,6 +19,7 @@ import VueQuillEditor from 'vue-quill-editor'
 import VueAgile from 'vue-agile'
 import VueImg from 'v-img'
 import VueAnalytics from 'vue-analytics'
+import VueCookie from 'vue-cookie'
 import SocialSharing from 'vue-social-sharing'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
@@ -56,6 +57,7 @@ Vue.use(VueResource)
 Vue.use(VueQuillEditor)
 Vue.use(VueAgile)
 Vue.use(VueImg)
+Vue.use(VueCookie)
 Vue.use(SocialSharing)
 
 Vue.component('v-map', Vue2Leaflet.Map)

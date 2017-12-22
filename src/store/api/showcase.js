@@ -18,6 +18,15 @@ export default {
   updateShowcase (showcase) {
     return api.patch('user/showcase/', showcase)
   },
+  updateShowcaseById (id, showcase) {
+    return api.patch('showcases/' + id + '/', showcase)
+  },
+  updateShowcaseNbViews (id, showcase) {
+    return api.put('showcases/' + id + '/updateNbViews/', showcase)
+  },
+  updateShowcaseNbLikes (id, showcase) {
+    return api.put('showcases/' + id + '/updateNbLikes/', showcase)
+  },
   getShowcaseImages (id) {
     return api.get('showcases/' + id + '/images/')
   },

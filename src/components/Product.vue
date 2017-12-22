@@ -34,6 +34,14 @@
                 <label class="label">Taille</label>
                 {{ product.size }}
               </div>
+              <div class="field" v-if="!!product.weight">
+                <label class="label">Poids</label>
+                {{ product.weight }}
+              </div>
+              <div class="field" v-if="!!product.volume">
+                <label class="label">Volume</label>
+                {{ product.volume }}
+              </div>
               <div class="field" v-if="!!product.colors">
                 <label class="label">Couleurs</label>
                 {{ product.colors }}

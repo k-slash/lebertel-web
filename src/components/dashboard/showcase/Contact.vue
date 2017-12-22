@@ -29,6 +29,9 @@
       <el-form-item label="Pinterest" prop="showcase.pinterest">
         <el-input v-model="user.showcase.pinterest" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item label="Instagram" prop="showcase.instagram">
+        <el-input v-model="user.showcase.instagram" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click.stop="saveShowcaseContact('form')" class="el-large-button" round>Mettre à jour</el-button>
       </el-form-item>
@@ -62,7 +65,8 @@ export default {
             'facebook': this.user.showcase.facebook,
             'linkedin': this.user.showcase.linkedin,
             'twitter': this.user.showcase.twitter,
-            'pinterest': this.user.showcase.pinterest
+            'pinterest': this.user.showcase.pinterest,
+            'instagram': this.user.showcase.instagram
           }
           this.updateShowcase(data)
         } else {

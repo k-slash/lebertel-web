@@ -69,7 +69,7 @@ export default new Router({
       }
     },
     {
-      path: '/vitrine/:id(\\d+)',
+      path: '/:id',
       name: 'showcase',
       meta: {
         title: 'lebertel.'

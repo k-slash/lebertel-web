@@ -20,7 +20,9 @@ const state = {
     city: null,
     postcode: null,
     location: null,
-    country: null
+    country: null,
+    nb_views: null,
+    nb_likes: null
   },
   showcaseImages: [],
   imageAdded: {
@@ -48,6 +50,12 @@ const mutations = {
   },
   SET_SHOWCASES_COUNT: function (state, data) {
     state.showcasesCount = data
+  },
+  SET_SHOWCASE_NB_VIEWS: function (state, data) {
+    state.showcase.nb_views = data
+  },
+  SET_SHOWCASE_NB_LIKES: function (state, data) {
+    state.showcase.nb_likes = data
   },
   SET_ALL_SHOWCASES: function (state, data) {
     state.allShowcases = data
@@ -115,7 +123,8 @@ const actions = {
     try {
       const s = await Showcase.get(id)
       await commit('SET_SHOWCASE', s.data)
-      const images = await Showcase.getShowcaseImages(id)
+      const images = await Showcase.getShowcaseImages(s.data.user)
+      // const images = await Showcase.getShowcaseImages(id)
       await commit('SET_SHOWCASE_IMAGES', images.data)
     } catch (e) {
       console.log(e)
@@ -140,6 +149,26 @@ const actions = {
         message: 'Oups ! Il y a eu un problème lors de la sauvegarde',
         type: 'is-danger'
       })
+    }
+  },
+
+  async updateNbViewsShowcase ({ commit, state }, data) {
+    try {
+      console.log(data['user'])
+      console.log(data['nb_views'])
+      await Showcase.updateShowcaseNbViews(data['user'], data)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  async updateNbLikesShowcase ({ commit, state }, data) {
+    try {
+      console.log(data['user'])
+      console.log(data['nb_likes'])
+      await Showcase.updateShowcaseNbLikes(data['user'], data)
+    } catch (e) {
+      console.log(e)
     }
   },
 
